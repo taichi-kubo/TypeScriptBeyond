@@ -7211,7 +7211,7 @@ namespace Parser {
         return withJSDoc(finishNode(factoryCreateIfStatement(expression, thenStatement, elseStatement), pos), hasJSDoc);
     }
 
-    function parseDoOrMonadoComprehension(): Statement {
+    function parseDoOrMonadComprehension(): Statement {
         const mon = tryParseMonadComprehension();
         if (mon) {
             return factory.createExpressionStatement(mon);
@@ -7732,7 +7732,7 @@ namespace Parser {
             case SyntaxKind.IfKeyword:
                 return parseIfStatement();
             case SyntaxKind.DoKeyword:
-                return parseDoOrMonadoComprehension();
+                return parseDoOrMonadComprehension();
             case SyntaxKind.WhileKeyword:
                 return parseWhileStatement();
             case SyntaxKind.ForKeyword:
