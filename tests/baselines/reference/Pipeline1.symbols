@@ -1,0 +1,24 @@
+//// [tests/cases/compiler/Pipeline1.ts] ////
+
+=== Pipeline1.ts ===
+const f = (x: number) => x * 2;
+>f : Symbol(f, Decl(Pipeline1.ts, 0, 5))
+>x : Symbol(x, Decl(Pipeline1.ts, 0, 11))
+>x : Symbol(x, Decl(Pipeline1.ts, 0, 11))
+
+const g = (x: number) => x + 1;
+>g : Symbol(g, Decl(Pipeline1.ts, 1, 5))
+>x : Symbol(x, Decl(Pipeline1.ts, 1, 11))
+>x : Symbol(x, Decl(Pipeline1.ts, 1, 11))
+
+const r = 1 + 1 |> f |> g;
+>r : Symbol(r, Decl(Pipeline1.ts, 2, 5))
+>g : Symbol(g, Decl(Pipeline1.ts, 1, 5))
+>f : Symbol(f, Decl(Pipeline1.ts, 0, 5))
+
+console.log(r);
+>console.log : Symbol(Console.log, Decl(lib.dom.d.ts, --, --))
+>console : Symbol(console, Decl(lib.dom.d.ts, --, --))
+>log : Symbol(Console.log, Decl(lib.dom.d.ts, --, --))
+>r : Symbol(r, Decl(Pipeline1.ts, 2, 5))
+

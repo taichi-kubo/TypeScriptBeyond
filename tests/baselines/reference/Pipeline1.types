@@ -1,0 +1,61 @@
+//// [tests/cases/compiler/Pipeline1.ts] ////
+
+=== Pipeline1.ts ===
+const f = (x: number) => x * 2;
+>f : (x: number) => number
+>  : ^ ^^      ^^^^^^^^^^^
+>(x: number) => x * 2 : (x: number) => number
+>                     : ^ ^^      ^^^^^^^^^^^
+>x : number
+>  : ^^^^^^
+>x * 2 : number
+>      : ^^^^^^
+>x : number
+>  : ^^^^^^
+>2 : 2
+>  : ^
+
+const g = (x: number) => x + 1;
+>g : (x: number) => number
+>  : ^ ^^      ^^^^^^^^^^^
+>(x: number) => x + 1 : (x: number) => number
+>                     : ^ ^^      ^^^^^^^^^^^
+>x : number
+>  : ^^^^^^
+>x + 1 : number
+>      : ^^^^^^
+>x : number
+>  : ^^^^^^
+>1 : 1
+>  : ^
+
+const r = 1 + 1 |> f |> g;
+>r : number
+>  : ^^^^^^
+>1 + 1 |> f |> g : number
+>                : ^^^^^^
+>g : (x: number) => number
+>  : ^ ^^      ^^^^^^^^^^^
+>1 + 1 |> f : number
+>           : ^^^^^^
+>f : (x: number) => number
+>  : ^ ^^      ^^^^^^^^^^^
+>1 + 1 : number
+>      : ^^^^^^
+>1 : 1
+>  : ^
+>1 : 1
+>  : ^
+
+console.log(r);
+>console.log(r) : void
+>               : ^^^^
+>console.log : (...data: any[]) => void
+>            : ^^^^    ^^     ^^^^^    
+>console : Console
+>        : ^^^^^^^
+>log : (...data: any[]) => void
+>    : ^^^^    ^^     ^^^^^    
+>r : number
+>  : ^^^^^^
+

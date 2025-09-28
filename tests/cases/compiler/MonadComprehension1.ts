@@ -4,12 +4,10 @@ type Option<A> = Readonly<{
 }>;
 
 const of = <A>(a: A | null): Option<A> => {
-  const self: Option<A> = {
-    value: a,
-    flatMap: <B>(f: (a: A) => Option<B>) =>
-      self.value === null ? of<B>(null) : f(self.value),
-  };
-  return self;
+  const value = a;
+  const flatMap = <B>(f: (a: A) => Option<B>) =>
+      value === null ? of<B>(null) : f(value);
+  return { value, flatMap };
 };
 
 const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>

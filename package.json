@@ -1,8 +1,8 @@
 {
     "name": "typescript-beyond",
-    "author": "Microsoft Corp.",
-    "homepage": "https://www.typescriptlang.org/",
-    "version": "6.0.0",
+    "author": "Taichi Kubo",
+    "homepage": "https://github.com/taichi-kubo/TypeScriptBeyond.git",
+    "version": "0.0.1",
     "license": "Apache-2.0",
     "description": "TypeScript is a language for application scale JavaScript development",
     "keywords": [
@@ -13,11 +13,11 @@
         "javascript"
     ],
     "bugs": {
-        "url": "https://github.com/microsoft/TypeScript/issues"
+        "url": "https://github.com/taichi-kubo/TypeScriptBeyond/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/microsoft/TypeScript.git"
+        "url": "https://github.com/taichi-kubo/TypeScriptBeyond.git"
     },
     "main": "./lib/typescript.js",
     "typings": "./lib/typescript.d.ts",
