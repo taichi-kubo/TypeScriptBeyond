@@ -5678,6 +5678,9 @@ export const enum OperatorPrecedence {
     //     `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `>>>=` `&=` `^=` `|=` `**=`
     Assignment,
 
+    // |>
+    Pipeline,
+
     // NOTE: `Conditional` is considered higher than `Assignment` here, but in reality they have
     //       the same precedence.
     // AssignmentExpression: ConditionalExpression
@@ -5947,6 +5950,8 @@ export function getBinaryOperatorPrecedence(kind: SyntaxKind): OperatorPrecedenc
             return OperatorPrecedence.LogicalAND;
         case SyntaxKind.BarToken:
             return OperatorPrecedence.BitwiseOR;
+        case SyntaxKind.BarGreaterThanToken:
+            return OperatorPrecedence.Pipeline;
         case SyntaxKind.CaretToken:
             return OperatorPrecedence.BitwiseXOR;
         case SyntaxKind.AmpersandToken:

@@ -5099,6 +5099,11 @@ namespace Parser {
             return arrowExpression;
         }
 
+        const monadComprehension = tryParseMonadComprehension();
+        if (monadComprehension) {
+            return monadComprehension;
+        }
+
         // Now try to see if we're in production '1', '2' or '3'.  A conditional expression can
         // start with a LogicalOrExpression, while the assignment productions can only start with
         // LeftHandSideExpressions.
@@ -5571,6 +5576,309 @@ namespace Parser {
         return node;
     }
 
+
+    function tryParseMonadComprehension(): Expression | undefined {
+        return tryParse(() => parseMonadComprehension());
+    }
+
+    function parseMonadComprehension(): Expression | undefined {
+        // do
+        if (token() !== SyntaxKind.DoKeyword) {
+            return undefined;
+        }
+
+        nextToken();
+
+        let flatMap: Expression | undefined;
+        let isMemberFlatMap = false;
+        if (token() === SyntaxKind.OpenBraceToken) {
+            isMemberFlatMap = true;
+            // define arrow function
+            // (self, callback) => self.flatMap(callback)
+            flatMap = finishNode(
+                factory.createArrowFunction(
+                    /*modifiers*/ undefined,
+                    /*typeParameters*/ undefined,
+                    [
+                        finishNode(
+                            factory.createParameterDeclaration(
+                                /*modifiers*/ undefined,
+                                /*dotDotDotToken*/ undefined,
+                                factory.createIdentifier(
+                                    '__monadComprehension__self__',
+                                ),
+                                /*questionToken*/ undefined,
+                                /*type*/ undefined,
+                                /*initializer*/ undefined,
+                            ),
+                            getNodePos(),
+                        ),
+                        finishNode(
+                            factory.createParameterDeclaration(
+                                /*modifiers*/ undefined,
+                                /*dotDotDotToken*/ undefined,
+                                factory.createIdentifier(
+                                    '__monadComprehension__callback__',
+                                ),
+                                /*questionToken*/ undefined,
+                                /*type*/ undefined,
+                                /*initializer*/ undefined,
+                            ),
+                            getNodePos(),
+                        ),
+                    ],
+                    /*type*/ undefined,
+                    /*equalsGreaterThanToken*/ finishNode(
+                        factory.createToken(SyntaxKind.EqualsGreaterThanToken),
+                        getNodePos(),
+                    ),
+                    finishNode(
+                        factory.createCallExpression(
+                            finishNode(
+                                factory.createElementAccessExpression(
+                                    factory.createIdentifier(
+                                        '__monadComprehension__self__',
+                                    ),
+                                    factory.createStringLiteral(
+                                        '__monadComprehension__flatMap__string__',
+                                    ),
+                                ),
+                                getNodePos(),
+                            ),
+                            /*typeArguments*/ undefined,
+                            [
+                                finishNode(
+                                    factory.createIdentifier(
+                                        '__monadComprehension__callback__',
+                                    ),
+                                    getNodePos(),
+                                ),
+                            ],
+                        ),
+                        getNodePos(),
+                    ),
+                ),
+                getNodePos(),
+            );
+        } else if (token() === SyntaxKind.OpenParenToken) {
+            nextToken();
+
+            flatMap = tryParse(() => parseExpression());
+
+            if (token() !== SyntaxKind.CloseParenToken) {
+                return undefined;
+            }
+
+            nextToken();
+
+            if (token() !== SyntaxKind.OpenBraceToken) {
+                return undefined;
+            }
+        } else {
+            return undefined;
+        }
+
+        const flatMapId = finishNode(
+            factory.createIdentifier('__monadComprehension__flatMap__'),
+            getNodePos(),
+        );
+
+        const decFlatMap = finishNode(
+            factory.createVariableDeclaration(
+                flatMapId,
+                /*exclamationToken*/ undefined,
+                /*type*/ undefined,
+                isMemberFlatMap
+                    ? flatMap
+                    : finishNode(
+                          factory.createConditionalExpression(
+                              finishNode(
+                                  factory.createBinaryExpression(
+                                      factory.createStringLiteral(
+                                          '__monadComprehension__flatMap__string__',
+                                      ),
+                                      factory.createToken(SyntaxKind.InKeyword),
+                                      flatMap,
+                                  ),
+                                  getNodePos(),
+                              ),
+                              finishNode(
+                                  factory.createToken(SyntaxKind.QuestionToken),
+                                  getNodePos(),
+                              ),
+                              finishNode(
+                                  factory.createElementAccessExpression(
+                                      flatMap,
+                                      factory.createStringLiteral(
+                                          '__monadComprehension__flatMap__string__',
+                                      ),
+                                  ),
+                                  getNodePos(),
+                              ),
+                              finishNode(
+                                  factory.createToken(SyntaxKind.ColonToken),
+                                  getNodePos(),
+                              ),
+                              flatMap,
+                          ),
+                          getNodePos(),
+                      ),
+            ),
+            getNodePos(),
+        );
+
+        const stmtFlatMap = finishNode(
+            factory.createVariableStatement(
+                /*modifiers*/ undefined,
+                factory.createVariableDeclarationList(
+                    [decFlatMap],
+                    NodeFlags.Const,
+                ),
+            ),
+            getNodePos(),
+        );
+
+        nextToken();
+
+        const body = parseMonadComprehensionRest(flatMapId);
+
+        if (!body) {
+            return undefined;
+        }
+
+        if (token() === SyntaxKind.WhileKeyword) {
+            return undefined;
+        }
+
+        const iife = finishNode(
+            factory.createCallExpression(
+                finishNode(
+                    factory.createParenthesizedExpression(
+                        finishNode(
+                            factory.createArrowFunction(
+                                /*modifiers*/ undefined,
+                                /*typeParameters*/ undefined,
+                                /*parameters*/ [],
+                                /*type*/ undefined,
+                                /*equalsGreaterThanToken*/ finishNode(
+                                    factory.createToken(
+                                        SyntaxKind.EqualsGreaterThanToken,
+                                    ),
+                                    getNodePos(),
+                                ),
+                                finishNode(
+                                    factory.createBlock(
+                                        [
+                                            stmtFlatMap,
+                                            finishNode(
+                                                factory.createReturnStatement(
+                                                    body,
+                                                ),
+                                                getNodePos(),
+                                            ),
+                                        ],
+                                        /*multiLine*/ true,
+                                    ),
+                                    getNodePos(),
+                                ),
+                            ),
+                            getNodePos(),
+                        ),
+                    ),
+                    getNodePos(),
+                ),
+                /*typeArguments*/ undefined,
+                /*argumentsArray*/ [], // ()
+            ),
+            getNodePos(),
+        );
+
+        return iife;
+    }
+
+    function parseMonadComprehensionRest(
+        flatMapId: Identifier,
+    ): Expression | undefined {
+        const name = tryParse(() => {
+            const n = parseIdentifierOrPattern();
+
+            if (token() !== SyntaxKind.LessThanMinusToken) {
+                return undefined;
+            }
+
+            nextToken();
+
+            return n;
+        });
+
+        const expr = parseAssignmentExpressionOrHigher(
+            /*allowReturnTypeInArrowFunction*/ false,
+        );
+
+        if (token() === SyntaxKind.CommaToken) {
+            nextToken();
+
+            if (parseOptionalToken(SyntaxKind.CloseBraceToken)) {
+                return expr;
+            } else {
+                const rest = parseMonadComprehensionRest(flatMapId);
+
+                if (rest) {
+                    const callback = finishNode(
+                        factory.createArrowFunction(
+                            /*modifiers*/ undefined,
+                            /*typeParameters*/ undefined,
+                            /*parameters*/ name
+                                ? [
+                                      finishNode(
+                                          factory.createParameterDeclaration(
+                                              /*modifiers*/ undefined,
+                                              /*dotDotDotToken*/ undefined,
+                                              name,
+                                              /*questionToken*/ undefined,
+                                              /*type*/ undefined,
+                                              /*initializer*/ undefined,
+                                          ),
+                                          getNodePos(),
+                                      ),
+                                  ]
+                                : [],
+                            /*type*/ undefined,
+                            /*equalsGreaterThanToken*/ finishNode(
+                                factory.createToken(
+                                    SyntaxKind.EqualsGreaterThanToken,
+                                ),
+                                getNodePos(),
+                            ),
+                            rest,
+                        ),
+                        getNodePos(),
+                    );
+
+                    const flatMapCall = finishNode(
+                        factory.createCallExpression(
+                            flatMapId,
+                            /*typeArguments*/ undefined,
+                            [expr, callback],
+                        ),
+                        getNodePos(),
+                    );
+
+                    return flatMapCall;
+                } else {
+                    return undefined;
+                }
+            }
+        } else {
+            if (token() === SyntaxKind.CloseBraceToken) {
+                nextToken();
+                return expr;
+            } else {
+                return undefined;
+            }
+        }
+    }
+
     function parseConditionalExpressionRest(leftOperand: Expression, pos: number, allowReturnTypeInArrowFunction: boolean): Expression {
         // Note: we are passed in an expression which was produced from parseBinaryExpressionOrHigher.
         const questionToken = parseOptionalToken(SyntaxKind.QuestionToken);
@@ -5661,8 +5969,17 @@ namespace Parser {
                     leftOperand = keywordKind === SyntaxKind.SatisfiesKeyword ? makeSatisfiesExpression(leftOperand, parseType()) :
                         makeAsExpression(leftOperand, parseType());
                 }
-            }
-            else {
+            } else if (token() === SyntaxKind.BarGreaterThanToken) {
+                parseTokenNode(); // parse |> token
+                leftOperand = finishNode(
+                    factory.createCallExpression(
+                        parseBinaryExpressionOrHigher(newPrecedence),
+                        /*typeArguments*/ undefined,
+                        [leftOperand],
+                    ),
+                    pos,
+                );
+            } else {
                 leftOperand = makeBinaryExpression(leftOperand, parseTokenNode(), parseBinaryExpressionOrHigher(newPrecedence), pos);
             }
         }
@@ -6894,6 +7211,14 @@ namespace Parser {
         return withJSDoc(finishNode(factoryCreateIfStatement(expression, thenStatement, elseStatement), pos), hasJSDoc);
     }
 
+    function parseDoOrMonadoComprehension(): Statement {
+        const mon = tryParseMonadComprehension();
+        if (mon) {
+            return factory.createExpressionStatement(mon);
+        }
+        return parseDoStatement();
+    }
+
     function parseDoStatement(): DoStatement {
         const pos = getNodePos();
         const hasJSDoc = hasPrecedingJSDocComment();
@@ -7407,7 +7732,7 @@ namespace Parser {
             case SyntaxKind.IfKeyword:
                 return parseIfStatement();
             case SyntaxKind.DoKeyword:
-                return parseDoStatement();
+                return parseDoOrMonadoComprehension();
             case SyntaxKind.WhileKeyword:
                 return parseWhileStatement();
             case SyntaxKind.ForKeyword:

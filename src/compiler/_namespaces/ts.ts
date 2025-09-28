@@ -57,6 +57,7 @@ export * from "../transformers/module/esnextAnd2015.js";
 export * from "../transformers/module/impliedNodeFormatDependent.js";
 export * from "../transformers/declarations/diagnostics.js";
 export * from "../transformers/declarations.js";
+export * from '../transformers/monadComprehension.js';
 export * from "../transformer.js";
 export * from "../emitter.js";
 export * from "../watchUtilities.js";

@@ -2,18 +2,12 @@
 
 === dontShowCompilerGeneratedMembers.ts ===
 var f: {
->f : { (): any; x: number; }
->  : ^^^^^^^^^^^^^^      ^^^
+>f : { x: number; }
+>  : ^^^^^      ^^^
 
     x: number;
 >x : number
 >  : ^^^^^^
 
     <-
->- : number
->  : ^^^^^^
-
 };
-> : any
-> : ^^^
-

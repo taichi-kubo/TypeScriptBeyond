@@ -112,6 +112,8 @@ export const enum SyntaxKind {
     BacktickToken,
     /** Only the JSDoc scanner produces HashToken. The normal scanner produces PrivateIdentifier. */
     HashToken,
+    BarGreaterThanToken,
+    LessThanMinusToken,
     // Assignments
     EqualsToken,
     PlusEqualsToken,

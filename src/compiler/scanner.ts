@@ -284,6 +284,8 @@ const textToToken = new Map(Object.entries({
     "@": SyntaxKind.AtToken,
     "#": SyntaxKind.HashToken,
     "`": SyntaxKind.BacktickToken,
+    '|>': SyntaxKind.BarGreaterThanToken,
+    '<-': SyntaxKind.LessThanMinusToken,
 }));
 
 const charCodeToRegExpFlag = new Map<CharacterCodes, RegularExpressionFlags>([
@@ -2201,6 +2203,22 @@ export function createScanner(
                     if (charCodeUnchecked(pos + 1) === CharacterCodes.equals) {
                         return pos += 2, token = SyntaxKind.LessThanEqualsToken;
                     }
+                    if (charCodeUnchecked(pos + 1) === CharacterCodes.minus) {
+                        if (
+                            charCodeUnchecked(pos + 2) >= CharacterCodes._0 &&
+                            charCodeUnchecked(pos + 2) <= CharacterCodes._9
+                        ) {
+                            return (
+                                (pos += 1),
+                                (token = SyntaxKind.LessThanToken)
+                            );
+                        } else {
+                            return (
+                                (pos += 2),
+                                (token = SyntaxKind.LessThanMinusToken)
+                            );
+                        }
+                    }
                     if (
                         languageVariant === LanguageVariant.JSX &&
                         charCodeUnchecked(pos + 1) === CharacterCodes.slash &&
@@ -2291,6 +2309,9 @@ export function createScanner(
                     }
                     if (charCodeUnchecked(pos + 1) === CharacterCodes.equals) {
                         return pos += 2, token = SyntaxKind.BarEqualsToken;
+                    }
+                    if (charCodeUnchecked(pos + 1) === CharacterCodes.greaterThan) {
+                        return pos += 2, token = SyntaxKind.BarGreaterThanToken;
                     }
                     pos++;
                     return token = SyntaxKind.BarToken;

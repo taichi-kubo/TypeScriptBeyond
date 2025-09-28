@@ -8,5 +8,4 @@ var f: {
 
 //// [dontShowCompilerGeneratedMembers.js]
 var f;
--;
 ;
