@@ -1,0 +1,53 @@
+//// [tests/cases/compiler/MonadComprehension2.ts] ////
+
+=== MonadComprehension2.ts ===
+class Maybe<A> {
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>A : Symbol(A, Decl(MonadComprehension2.ts, 0, 12))
+
+  constructor(public readonly value: A | null) {}
+>value : Symbol(Maybe.value, Decl(MonadComprehension2.ts, 1, 14))
+>A : Symbol(A, Decl(MonadComprehension2.ts, 0, 12))
+
+  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
+>flatMap : Symbol(Maybe.flatMap, Decl(MonadComprehension2.ts, 1, 49))
+>B : Symbol(B, Decl(MonadComprehension2.ts, 2, 10))
+>f : Symbol(f, Decl(MonadComprehension2.ts, 2, 13))
+>a : Symbol(a, Decl(MonadComprehension2.ts, 2, 17))
+>A : Symbol(A, Decl(MonadComprehension2.ts, 0, 12))
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>B : Symbol(B, Decl(MonadComprehension2.ts, 2, 10))
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>B : Symbol(B, Decl(MonadComprehension2.ts, 2, 10))
+
+    return this.value === null ? new Maybe<B>(null) : f(this.value);
+>this.value : Symbol(Maybe.value, Decl(MonadComprehension2.ts, 1, 14))
+>this : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>value : Symbol(Maybe.value, Decl(MonadComprehension2.ts, 1, 14))
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>B : Symbol(B, Decl(MonadComprehension2.ts, 2, 10))
+>f : Symbol(f, Decl(MonadComprehension2.ts, 2, 13))
+>this.value : Symbol(Maybe.value, Decl(MonadComprehension2.ts, 1, 14))
+>this : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>value : Symbol(Maybe.value, Decl(MonadComprehension2.ts, 1, 14))
+  }
+}
+
+const a = do {
+>a : Symbol(a, Decl(MonadComprehension2.ts, 7, 5))
+
+  x <- new Maybe(1),
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>x : Symbol(x, Decl(MonadComprehension2.ts, 11, 1))
+
+  y <- new Maybe(2),
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>y : Symbol(y, Decl(MonadComprehension2.ts, 11, 1))
+
+  new Maybe(x + y),
+>Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
+>x : Symbol(x, Decl(MonadComprehension2.ts, 11, 1))
+>y : Symbol(y, Decl(MonadComprehension2.ts, 11, 1))
+
+};
+

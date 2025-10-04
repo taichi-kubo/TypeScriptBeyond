@@ -8,7 +8,6 @@ dontShowCompilerGeneratedMembers.ts(4,1): error TS1128: Declaration or statement
         <-
         ~~
 !!! error TS1131: Property or signature expected.
-
     };
     ~
 !!! error TS1128: Declaration or statement expected.

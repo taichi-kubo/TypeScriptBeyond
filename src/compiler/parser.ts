@@ -5590,80 +5590,16 @@ namespace Parser {
         nextToken();
 
         let flatMap: Expression | undefined;
-        let isMemberFlatMap = false;
+
         if (token() === SyntaxKind.OpenBraceToken) {
-            isMemberFlatMap = true;
-            // define arrow function
-            // (self, callback) => self.flatMap(callback)
-            flatMap = finishNode(
-                factory.createArrowFunction(
-                    /*modifiers*/ undefined,
-                    /*typeParameters*/ undefined,
-                    [
-                        finishNode(
-                            factory.createParameterDeclaration(
-                                /*modifiers*/ undefined,
-                                /*dotDotDotToken*/ undefined,
-                                factory.createIdentifier(
-                                    '__monadComprehension__self__',
-                                ),
-                                /*questionToken*/ undefined,
-                                /*type*/ undefined,
-                                /*initializer*/ undefined,
-                            ),
-                            getNodePos(),
-                        ),
-                        finishNode(
-                            factory.createParameterDeclaration(
-                                /*modifiers*/ undefined,
-                                /*dotDotDotToken*/ undefined,
-                                factory.createIdentifier(
-                                    '__monadComprehension__callback__',
-                                ),
-                                /*questionToken*/ undefined,
-                                /*type*/ undefined,
-                                /*initializer*/ undefined,
-                            ),
-                            getNodePos(),
-                        ),
-                    ],
-                    /*type*/ undefined,
-                    /*equalsGreaterThanToken*/ finishNode(
-                        factory.createToken(SyntaxKind.EqualsGreaterThanToken),
-                        getNodePos(),
-                    ),
-                    finishNode(
-                        factory.createCallExpression(
-                            finishNode(
-                                factory.createElementAccessExpression(
-                                    factory.createIdentifier(
-                                        '__monadComprehension__self__',
-                                    ),
-                                    factory.createStringLiteral(
-                                        '__monadComprehension__flatMap__string__',
-                                    ),
-                                ),
-                                getNodePos(),
-                            ),
-                            /*typeArguments*/ undefined,
-                            [
-                                finishNode(
-                                    factory.createIdentifier(
-                                        '__monadComprehension__callback__',
-                                    ),
-                                    getNodePos(),
-                                ),
-                            ],
-                        ),
-                        getNodePos(),
-                    ),
-                ),
-                getNodePos(),
-            );
+            flatMap = undefined;
         } else if (token() === SyntaxKind.OpenParenToken) {
             nextToken();
 
-            flatMap = tryParse(() => parseExpression());
+            // do (flatMap) { ... }
+            //     ^^^^^^^
+            const flatMapExpr = tryParse(() => parseExpression());
+            flatMap = flatMapExpr === undefined ? undefined : factory.createParenthesizedExpression(flatMapExpr);
 
             if (token() !== SyntaxKind.CloseParenToken) {
                 return undefined;
@@ -5674,73 +5610,16 @@ namespace Parser {
             if (token() !== SyntaxKind.OpenBraceToken) {
                 return undefined;
             }
+            
         } else {
             return undefined;
         }
 
-        const flatMapId = finishNode(
-            factory.createIdentifier('__monadComprehension__flatMap__'),
-            getNodePos(),
-        );
-
-        const decFlatMap = finishNode(
-            factory.createVariableDeclaration(
-                flatMapId,
-                /*exclamationToken*/ undefined,
-                /*type*/ undefined,
-                isMemberFlatMap
-                    ? flatMap
-                    : finishNode(
-                          factory.createConditionalExpression(
-                              finishNode(
-                                  factory.createBinaryExpression(
-                                      factory.createStringLiteral(
-                                          '__monadComprehension__flatMap__string__',
-                                      ),
-                                      factory.createToken(SyntaxKind.InKeyword),
-                                      flatMap,
-                                  ),
-                                  getNodePos(),
-                              ),
-                              finishNode(
-                                  factory.createToken(SyntaxKind.QuestionToken),
-                                  getNodePos(),
-                              ),
-                              finishNode(
-                                  factory.createElementAccessExpression(
-                                      flatMap,
-                                      factory.createStringLiteral(
-                                          '__monadComprehension__flatMap__string__',
-                                      ),
-                                  ),
-                                  getNodePos(),
-                              ),
-                              finishNode(
-                                  factory.createToken(SyntaxKind.ColonToken),
-                                  getNodePos(),
-                              ),
-                              flatMap,
-                          ),
-                          getNodePos(),
-                      ),
-            ),
-            getNodePos(),
-        );
-
-        const stmtFlatMap = finishNode(
-            factory.createVariableStatement(
-                /*modifiers*/ undefined,
-                factory.createVariableDeclarationList(
-                    [decFlatMap],
-                    NodeFlags.Const,
-                ),
-            ),
-            getNodePos(),
-        );
-
         nextToken();
 
-        const body = parseMonadComprehensionRest(flatMapId);
+        // do (flatmap) { ... }
+        //              ^^^^^^^
+        const body = parseMonadComprehensionRest(flatMap);
 
         if (!body) {
             return undefined;
@@ -5750,55 +5629,12 @@ namespace Parser {
             return undefined;
         }
 
-        const iife = finishNode(
-            factory.createCallExpression(
-                finishNode(
-                    factory.createParenthesizedExpression(
-                        finishNode(
-                            factory.createArrowFunction(
-                                /*modifiers*/ undefined,
-                                /*typeParameters*/ undefined,
-                                /*parameters*/ [],
-                                /*type*/ undefined,
-                                /*equalsGreaterThanToken*/ finishNode(
-                                    factory.createToken(
-                                        SyntaxKind.EqualsGreaterThanToken,
-                                    ),
-                                    getNodePos(),
-                                ),
-                                finishNode(
-                                    factory.createBlock(
-                                        [
-                                            stmtFlatMap,
-                                            finishNode(
-                                                factory.createReturnStatement(
-                                                    body,
-                                                ),
-                                                getNodePos(),
-                                            ),
-                                        ],
-                                        /*multiLine*/ true,
-                                    ),
-                                    getNodePos(),
-                                ),
-                            ),
-                            getNodePos(),
-                        ),
-                    ),
-                    getNodePos(),
-                ),
-                /*typeArguments*/ undefined,
-                /*argumentsArray*/ [], // ()
-            ),
-            getNodePos(),
-        );
-
-        return iife;
+        return body;
     }
 
-    function parseMonadComprehensionRest(
-        flatMapId: Identifier,
-    ): Expression | undefined {
+    function parseMonadComprehensionRest(flatMap: Expression | undefined): Expression | undefined {
+        // parse: `name <- expr`
+        //         ^^^^^^^
         const name = tryParse(() => {
             const n = parseIdentifierOrPattern();
 
@@ -5811,6 +5647,8 @@ namespace Parser {
             return n;
         });
 
+        // parse: `name <- expr,`
+        //                 ^^^^
         const expr = parseAssignmentExpressionOrHigher(
             /*allowReturnTypeInArrowFunction*/ false,
         );
@@ -5821,9 +5659,13 @@ namespace Parser {
             if (parseOptionalToken(SyntaxKind.CloseBraceToken)) {
                 return expr;
             } else {
-                const rest = parseMonadComprehensionRest(flatMapId);
+                // flatMap(expr, name => rest)
+                //                       ^^^^
+                const rest = parseMonadComprehensionRest(flatMap);
 
                 if (rest) {
+                    // flatMap(expr, name => rest)
+                    //               ^^^^^^^^^^^^
                     const callback = finishNode(
                         factory.createArrowFunction(
                             /*modifiers*/ undefined,
@@ -5855,14 +5697,33 @@ namespace Parser {
                         getNodePos(),
                     );
 
-                    const flatMapCall = finishNode(
-                        factory.createCallExpression(
-                            flatMapId,
-                            /*typeArguments*/ undefined,
-                            [expr, callback],
-                        ),
-                        getNodePos(),
-                    );
+                    // flatMap(expr, name => rest)
+                    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    let flatMapCall: CallExpression;
+                    const flatMapLiteral = factory.createStringLiteral('flatMap');
+                    (flatMapLiteral as any).flags |= NodeFlags.Synthesized;
+                    if (flatMap === undefined) {
+                        flatMapCall = finishNode(
+                            factory.createCallExpression(
+                                factory.createElementAccessExpression(
+                                    factory.createParenthesizedExpression(expr),
+                                    flatMapLiteral,
+                                ),
+                                /*typeArguments*/ undefined,
+                                [callback],
+                            ),
+                            getNodePos(),
+                        );
+                    } else {
+                        flatMapCall = finishNode(
+                            factory.createCallExpression(
+                                flatMap,
+                                /*typeArguments*/ undefined,
+                                [expr, callback],
+                            ),
+                            getNodePos(),
+                        );
+                    }
 
                     return flatMapCall;
                 } else {

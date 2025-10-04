@@ -1,15 +1,13 @@
 import {
     Bundle,
-    Debug,
     forEachChild,
-    getTextOfNode,
-    idText,
-    isIdentifier,
+    isElementAccessExpression,
     isSourceFile,
     isStringLiteral,
     Node,
     NodeArray,
     NodeFactory,
+    NodeFlags,
     NodesVisitor,
     NodeVisitor,
     setTextRange,
@@ -43,11 +41,6 @@ const noAssertNodeVisitor: NodeVisitor = (
     test: any,
     lift: any,
 ) => {
-    // console.log(
-    //     `################ noAssertNodeVisitor: ${Debug.formatSyntaxKind(
-    //         self.kind
-    //     )}, ${node}`
-    // );
     return visitNode(
         node,
         visitor,
@@ -79,12 +72,6 @@ const visitAllDescendants = (
     while (stack.length > 0) {
         const e = stack.pop()!;
         if (e.state === 'enter') {
-            // console.log(
-            //     `################ visitAllDescendants: ${Debug.formatSyntaxKind(
-            //         e.node.kind
-            //     )}, ${getTextOfNode(e.node)}, ${(e.node as any).type}`
-            // );
-
             switch (e.node.kind) {
                 case SyntaxKind.InterfaceDeclaration:
                 case SyntaxKind.TypeLiteral:
@@ -147,7 +134,6 @@ const visitAllDescendants = (
                             state: 'enter',
                             node: child,
                             parent: e.node,
-                            // hasChildren: hasChildren(child),
                         });
                     });
                 }
@@ -173,29 +159,11 @@ const visitFlatMapId =
     (f: NodeFactory) =>
     (node: Node): Node => {
         if (
-            isIdentifier(node) &&
-            idText(node) === '__monadComprehension__flatMap__'
-        ) {
-            return setTextRange(f.createIdentifier('__flatMap__'), node);
-        }
-
-        if (
-            isIdentifier(node) &&
-            idText(node) === '__monadComprehension__self__'
-        ) {
-            return setTextRange(f.createIdentifier('self'), node);
-        }
-
-        if (
-            isIdentifier(node) &&
-            idText(node) === '__monadComprehension__callback__'
-        ) {
-            return setTextRange(f.createIdentifier('callback'), node);
-        }
-
-        if (
             isStringLiteral(node) &&
-            node.text === '__monadComprehension__flatMap__string__'
+            node.flags & NodeFlags.Synthesized &&
+            node.parent &&
+            isElementAccessExpression(node.parent) &&
+            node.text === 'flatMap'
         ) {
             return setTextRange(f.createStringLiteral('flatMap'), node);
         }

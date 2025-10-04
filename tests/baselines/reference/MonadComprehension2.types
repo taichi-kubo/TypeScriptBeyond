@@ -1,0 +1,159 @@
+//// [tests/cases/compiler/MonadComprehension2.ts] ////
+
+=== MonadComprehension2.ts ===
+class Maybe<A> {
+>Maybe : Maybe<A>
+>      : ^^^^^^^^
+
+  constructor(public readonly value: A | null) {}
+>value : A
+>      : ^
+
+  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
+>flatMap : <B>(f: (a: A) => Maybe<B>) => Maybe<B>
+>        : ^ ^^ ^^                  ^^^^^        
+>f : (a: A) => Maybe<B>
+>  : ^ ^^ ^^^^^        
+>a : A
+>  : ^
+
+    return this.value === null ? new Maybe<B>(null) : f(this.value);
+>this.value === null ? new Maybe<B>(null) : f(this.value) : Maybe<B>
+>                                                         : ^^^^^^^^
+>this.value === null : boolean
+>                    : ^^^^^^^
+>this.value : A
+>           : ^
+>this : this
+>     : ^^^^
+>value : A
+>      : ^
+>new Maybe<B>(null) : Maybe<B>
+>                   : ^^^^^^^^
+>Maybe : typeof Maybe
+>      : ^^^^^^^^^^^^
+>f(this.value) : Maybe<B>
+>              : ^^^^^^^^
+>f : (a: A) => Maybe<B>
+>  : ^ ^^ ^^^^^        
+>this.value : A
+>           : ^
+>this : this
+>     : ^^^^
+>value : A
+>      : ^
+  }
+}
+
+const a = do {
+>a : Maybe<number>
+>  : ^^^^^^^^^^^^^
+
+  x <- new Maybe(1),
+  y <- new Maybe(2),
+  new Maybe(x + y),
+};
+> : Maybe<number>
+> : ^^^^^^^^^^^^^
+
+> : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
+> : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> : Maybe<number>
+> : ^^^^^^^^^^^^^
+
+  constructor(public readonly value: A | null) {}
+  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
+    return this.value === null ? new Maybe<B>(null) : f(this.value);
+  }
+}
+
+const a = do {
+  x <- new Maybe(1),
+>new Maybe(1) : Maybe<number>
+>             : ^^^^^^^^^^^^^
+>Maybe : typeof Maybe
+>      : ^^^^^^^^^^^^
+>1 : 1
+>  : ^
+
+
+> : error
+
+  constructor(public readonly value: A | null) {}
+  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
+    return this.value === null ? new Maybe<B>(null) : f(this.value);
+  }
+}
+
+const a = do {
+  x <- new Maybe(1),
+  y <- new Maybe(2),
+  new Maybe(x + y),
+};
+> : (x: number) => Maybe<number>
+> : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+>x : number
+>  : ^^^^^^
+
+  y <- new Maybe(2),
+  new Maybe(x + y),
+};
+> : Maybe<number>
+> : ^^^^^^^^^^^^^
+
+> : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
+> : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> : Maybe<number>
+> : ^^^^^^^^^^^^^
+
+  constructor(public readonly value: A | null) {}
+  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
+    return this.value === null ? new Maybe<B>(null) : f(this.value);
+  }
+}
+
+const a = do {
+  x <- new Maybe(1),
+  y <- new Maybe(2),
+>new Maybe(2) : Maybe<number>
+>             : ^^^^^^^^^^^^^
+>Maybe : typeof Maybe
+>      : ^^^^^^^^^^^^
+>2 : 2
+>  : ^
+
+
+> : error
+
+  constructor(public readonly value: A | null) {}
+  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
+    return this.value === null ? new Maybe<B>(null) : f(this.value);
+  }
+}
+
+const a = do {
+  x <- new Maybe(1),
+  y <- new Maybe(2),
+  new Maybe(x + y),
+};
+> : (y: number) => Maybe<number>
+> : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+>y : number
+>  : ^^^^^^
+
+  new Maybe(x + y),
+>new Maybe(x + y) : Maybe<number>
+>                 : ^^^^^^^^^^^^^
+>Maybe : typeof Maybe
+>      : ^^^^^^^^^^^^
+>x + y : number
+>      : ^^^^^^
+>x : number
+>  : ^^^^^^
+>y : number
+>  : ^^^^^^
+
+};
+
