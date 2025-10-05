@@ -1,50 +1,68 @@
+# TypeScript Beyond
 
-# TypeScript
+TypeScript Beyond builds on standard TypeScript and ships with two core language extensions.
 
-[![CI](https://github.com/microsoft/TypeScript/actions/workflows/ci.yml/badge.svg)](https://github.com/microsoft/TypeScript/actions/workflows/ci.yml)
-[![npm version](https://badge.fury.io/js/typescript.svg)](https://www.npmjs.com/package/typescript)
-[![Downloads](https://img.shields.io/npm/dm/typescript.svg)](https://www.npmjs.com/package/typescript)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/microsoft/TypeScript/badge)](https://securityscorecards.dev/viewer/?uri=github.com/microsoft/TypeScript)
+## Pipeline operator `|>` support
 
+Pass the result of an expression into the next function to flatten nested calls and improve readability.
 
-[TypeScript](https://www.typescriptlang.org/) is a language for application-scale JavaScript. TypeScript adds optional types to JavaScript that support tools for large-scale JavaScript applications for any browser, for any host, on any OS. TypeScript compiles to readable, standards-based JavaScript. Try it out at the [playground](https://www.typescriptlang.org/play/), and stay up to date via [our blog](https://blogs.msdn.microsoft.com/typescript) and [Twitter account](https://twitter.com/typescript).
+```ts
+const toUpper = (value: string) => value.toUpperCase();
+const exclaim = (value: string) => `${value}!`;
 
-Find others who are using TypeScript at [our community page](https://www.typescriptlang.org/community/).
-
-## Installing
-
-For the latest stable version:
-
-```bash
-npm install -D typescript
+const result =
+    "hello"
+        |> toUpper
+        |> exclaim;
+// => "HELLO!"
 ```
 
-For our nightly builds:
+## Monad comprehensions
 
-```bash
-npm install -D typescript@next
+Express a sequence of monadic computations with an intuitive comprehension syntax. The comprehension syntax works in two styles depending on whether the object exposes a `flatMap` method.
+
+### Objects that provide a `flatMap` method
+
+When the target object already has a `flatMap` method, you can author the comprehension directly.
+
+For example, if an `Option` type exposes a `flatMap` method, you can write the following:
+
+```ts
+const result = do {
+  x <- Option(1),
+  y <- Option(2),
+  Option(x + y),
+};
 ```
 
-## Contribute
+This code compiles down to ordinary JavaScript.
 
-There are many ways to [contribute](https://github.com/microsoft/TypeScript/blob/main/CONTRIBUTING.md) to TypeScript.
-* [Submit bugs](https://github.com/microsoft/TypeScript/issues) and help us verify fixes as they are checked in.
-* Review the [source code changes](https://github.com/microsoft/TypeScript/pulls).
-* Engage with other TypeScript users and developers on [StackOverflow](https://stackoverflow.com/questions/tagged/typescript).
-* Help each other in the [TypeScript Community Discord](https://discord.gg/typescript).
-* Join the [#typescript](https://twitter.com/search?q=%23TypeScript) discussion on Twitter.
-* [Contribute bug fixes](https://github.com/microsoft/TypeScript/blob/main/CONTRIBUTING.md).
+```js
+const result = Option(1).flatMap((x) =>
+  Option(2).flatMap((y) => Option(x + y))
+);
+```
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see
-the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com)
-with any additional questions or comments.
+### Supplying a standalone `flatMap` function
 
-## Documentation
+When an object does not expose `flatMap` as a method, you can define a standalone `flatMap` function and point the comprehension at it.
 
-*  [TypeScript in 5 minutes](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-*  [Programming handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-*  [Homepage](https://www.typescriptlang.org/)
+For instance, given an `Option` implementation without a `flatMap` method:
 
-## Roadmap
+```ts
+const flatMap = <A, B>(m: Option<A>, f: (a: A) => Option<B>): Option<B> => ...;
 
-For details on our planned features and future direction, please refer to our [roadmap](https://github.com/microsoft/TypeScript/wiki/Roadmap).
+const result = do (flatMap) {
+  x <- Option(1),
+  y <- Option(2),
+  Option(x + y),
+};
+```
+
+This expands to JavaScript that repeatedly calls the provided `flatMap` helper.
+
+```js
+const flatMap = (m, f) => ...
+
+const result = flatMap(Option(1), (x) => flatMap(Option(2), (y) => Option(x + y)));
+```
