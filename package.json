@@ -2,12 +2,12 @@
     "name": "typescript-beyond",
     "author": "Taichi Kubo",
     "homepage": "https://github.com/taichi-kubo/TypeScriptBeyond.git",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "Apache-2.0",
-    "description": "TypeScript is a language for application scale JavaScript development",
+    "description": "TypeScript Beyond builds on standard TypeScript and ships with two core language extensions.",
     "keywords": [
         "TypeScript",
-        "Microsoft",
+        "TypeScriptBeyond",
         "compiler",
         "language",
         "javascript"
