@@ -1,8 +1,21 @@
-# TypeScript Beyond
+# TypeScriptBeyond
 
-TypeScript Beyond は標準の TypeScript をベースに、以下の 2 つの主要な機能拡張を提供します。
+`TypeScriptBeyond` は `TypeScript` を拡張した言語です。以下の機能が追加されています。
 
-## パイプライン演算子 `|>` のサポート
+- パイプライン演算子 `|>`
+- モナド内包表記
+
+`tsc`や`tsserver`は`TypeScript`と同様に使用することができます。
+
+## インストール
+
+`TypeScriptBeyond`を`TypeScript`としてインストールします。
+
+```
+npm i -D typescript@npm:typescript-beyond
+```
+
+## パイプライン演算子 `|>`
 
 式の評価結果を次の関数に渡すことで、ネストを減らし読みやすさを向上させます。
 

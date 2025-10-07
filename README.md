@@ -1,10 +1,23 @@
-# TypeScript Beyond
+# TypeScriptBeyond
 
-TypeScript Beyond builds on standard TypeScript and ships with two core language extensions.
+`TypeScriptBeyond` is a language that extends `TypeScript`. It introduces the following features:
 
-## Pipeline operator `|>` support
+- Pipeline operator `|>`
+- Monad comprehensions
 
-Pass the result of an expression into the next function to flatten nested calls and improve readability.
+You can continue to use `tsc` and `tsserver` just like with standard `TypeScript`.
+
+## Installation
+
+Install `TypeScriptBeyond` under the `TypeScript` package name.
+
+```
+npm i -D typescript@npm:typescript-beyond
+```
+
+## Pipeline Operator `|>`
+
+Pass the result of each expression to the next function to reduce nesting and improve readability.
 
 ```ts
 const toUpper = (value: string) => value.toUpperCase();
@@ -17,15 +30,15 @@ const result =
 // => "HELLO!"
 ```
 
-## Monad comprehensions
+## Monad Comprehensions
 
-Express a sequence of monadic computations with an intuitive comprehension syntax. The comprehension syntax works in two styles depending on whether the object exposes a `flatMap` method.
+You can express multiple monadic computations using intuitive comprehension syntax. There are two forms depending on whether the object exposes a `flatMap` method.
 
-### Objects that provide a `flatMap` method
+### When the object has a `flatMap` method
 
-When the target object already has a `flatMap` method, you can author the comprehension directly.
+If the object provides a `flatMap` method, you can write comprehensions in a concise, intuitive way.
 
-For example, if an `Option` type exposes a `flatMap` method, you can write the following:
+For example, if you have an `Option` with a `flatMap` method, you can write:
 
 ```ts
 const result = do {
@@ -35,7 +48,7 @@ const result = do {
 };
 ```
 
-This code compiles down to ordinary JavaScript.
+This compiles down to the following JavaScript:
 
 ```js
 const result = Option(1).flatMap((x) =>
@@ -43,11 +56,11 @@ const result = Option(1).flatMap((x) =>
 );
 ```
 
-### Supplying a standalone `flatMap` function
+### When specifying a standalone `flatMap` function
 
-When an object does not expose `flatMap` as a method, you can define a standalone `flatMap` function and point the comprehension at it.
+Even if the object does not implement `flatMap` as a method, you can define a `flatMap` function for that object and use it within the comprehension.
 
-For instance, given an `Option` implementation without a `flatMap` method:
+For example, if you have an `Option` without a `flatMap` method:
 
 ```ts
 const flatMap = <A, B>(m: Option<A>, f: (a: A) => Option<B>): Option<B> => ...;
@@ -59,7 +72,7 @@ const result = do (flatMap) {
 };
 ```
 
-This expands to JavaScript that repeatedly calls the provided `flatMap` helper.
+This compiles down to:
 
 ```js
 const flatMap = (m, f) => ...
