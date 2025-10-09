@@ -79,3 +79,25 @@ const flatMap = (m, f) => ...
 
 const result = flatMap(Option(1), (x) => flatMap(Option(2), (y) => Option(x + y)));
 ```
+
+## Using with `fp-ts`
+
+You can use it as a replacement for `pipe` or `bind` in `fp-ts`.
+
+```ts
+import { option, number, readonlyArray } from 'fp-ts';
+
+const a = do (option.flatMap) {
+  x <- option.of(1),
+  y <- option.of(2),
+  option.of(x + y),
+};
+
+console.log(option.getShow(number.Show).show(a)); // Some(3)
+
+const xs = [1, 2, 3, 4, 5]
+  |> readonlyArray.filter((x: number) => x % 2 === 1)
+  |> readonlyArray.map((x: number) => x * 2);
+
+console.log(xs); // [2, 6, 10]
+```
