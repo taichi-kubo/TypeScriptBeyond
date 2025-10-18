@@ -1,3 +1,4 @@
+import { create } from "domain";
 import {
     AccessorDeclaration,
     addRange,
@@ -5599,7 +5600,9 @@ namespace Parser {
             // do (flatMap) { ... }
             //     ^^^^^^^
             const flatMapExpr = tryParse(() => parseExpression());
-            flatMap = flatMapExpr === undefined ? undefined : factory.createParenthesizedExpression(flatMapExpr);
+            flatMap = flatMapExpr === undefined 
+                ? undefined 
+                : finishNode(factory.createParenthesizedExpression(flatMapExpr), flatMapExpr.pos, flatMapExpr.end);
 
             if (token() !== SyntaxKind.CloseParenToken) {
                 return undefined;
@@ -5671,7 +5674,7 @@ namespace Parser {
                             /*modifiers*/ undefined,
                             /*typeParameters*/ undefined,
                             /*parameters*/ name
-                                ? [
+                                ? createNodeArray([
                                       finishNode(
                                           factory.createParameterDeclaration(
                                               /*modifiers*/ undefined,
@@ -5681,28 +5684,32 @@ namespace Parser {
                                               /*type*/ undefined,
                                               /*initializer*/ undefined,
                                           ),
-                                          getNodePos(),
+                                          name.pos,
+                                          name.end,
                                       ),
-                                  ]
-                                : [],
+                                  ], name.pos, name.end)
+                                : createNodeArray([], rest.pos, rest.pos),
                             /*type*/ undefined,
                             /*equalsGreaterThanToken*/ finishNode(
                                 factory.createToken(
                                     SyntaxKind.EqualsGreaterThanToken,
                                 ),
-                                getNodePos(),
+                                rest.pos,
+                                rest.pos,
                             ),
                             rest,
                         ),
-                        getNodePos(),
+                        name ? name.pos : rest.pos,
+                        rest.end,
                     );
 
-                    // flatMap(expr, name => rest)
-                    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    // name <- expr
                     let flatMapCall: CallExpression;
                     const flatMapLiteral = factory.createStringLiteral('flatMap');
                     (flatMapLiteral as any).flags |= NodeFlags.Synthesized;
                     if (flatMap === undefined) {
+                        // expr.flatMap(name => rest)
+                        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
                         flatMapCall = finishNode(
                             factory.createCallExpression(
                                 factory.createElementAccessExpression(
@@ -5710,18 +5717,26 @@ namespace Parser {
                                     flatMapLiteral,
                                 ),
                                 /*typeArguments*/ undefined,
-                                [callback],
+                                createNodeArray([callback], callback.pos, callback.end),
                             ),
-                            getNodePos(),
+                            name ? name.pos : expr.pos,
+                            rest.end,
                         );
                     } else {
+                        // flatMap(expr, name => rest)
+                        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
                         flatMapCall = finishNode(
                             factory.createCallExpression(
                                 flatMap,
                                 /*typeArguments*/ undefined,
-                                [expr, callback],
+                                createNodeArray(
+                                    [expr, callback], 
+                                    name ? name.pos : expr.pos, 
+                                    rest.end
+                                ),
                             ),
-                            getNodePos(),
+                            name ? name.pos : expr.pos,
+                            rest.end,
                         );
                     }
 
@@ -5836,7 +5851,7 @@ namespace Parser {
                     factory.createCallExpression(
                         parseBinaryExpressionOrHigher(newPrecedence),
                         /*typeArguments*/ undefined,
-                        [leftOperand],
+                        createNodeArray([leftOperand], leftOperand.pos, leftOperand.end),
                     ),
                     pos,
                 );
@@ -7073,9 +7088,10 @@ namespace Parser {
     }
 
     function parseDoOrMonadComprehension(): Statement {
+        const pos = getNodePos();
         const mon = tryParseMonadComprehension();
         if (mon) {
-            return factory.createExpressionStatement(mon);
+            return finishNode(factory.createExpressionStatement(mon), pos, getNodePos());
         }
         return parseDoStatement();
     }

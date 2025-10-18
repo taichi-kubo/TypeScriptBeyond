@@ -101,3 +101,12 @@ const xs = [1, 2, 3, 4, 5]
 
 console.log(xs); // [2, 6, 10]
 ```
+
+## VS Code の設定
+
+VS Code で`TypeScriptBeyond`の拡張構文に対応するには、VS Code で使用する`TypeScript`を`TypeScriptBeyond`に変更する必要があります。
+
+コマンドパレットで以下の設定を行ってください。
+
+1. TypeScript: Select TypeScript Version
+2. Use Workspace Version

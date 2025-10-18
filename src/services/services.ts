@@ -347,6 +347,10 @@ import {
     updateSourceFile,
     UserPreferences,
     VariableDeclaration,
+    CallExpression,
+    isCallExpression,
+    isArrowFunction,
+    isExpressionStatement,
 } from "./_namespaces/ts.js";
 import * as NavigateTo from "./_namespaces/ts.NavigateTo.js";
 import * as NavigationBar from "./_namespaces/ts.NavigationBar.js";
@@ -509,6 +513,7 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     scanner.setLanguageVariant(languageVariant);
     let pos = node.pos;
     const processNode = (child: Node) => {
+        // Debug.log(`--------------- child: (${child.pos})"""${child.getText()}"""`);
         addSyntheticNodes(children, pos, child.pos, node);
         children.push(child);
         pos = child.end;
@@ -525,18 +530,55 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     // Restoring the scanner position ensures that.
     pos = node.pos;
     node.forEachChild(processNode, processNodes);
+    // Debug.log(`--------------- child: (${node.pos})"""${node.getText()}"""`);
     addSyntheticNodes(children, pos, node.end, node);
     scanner.setText(undefined);
     scanner.setLanguageVariant(LanguageVariant.Standard);
     return children;
 }
 
+function isBindOrPipeExpression(parent: Node): boolean {
+    if (isCallExpression(parent)) {
+        if (parent.arguments.length === 1) {
+            // a |> f <=> f(a)
+            const pos = scanner.getTokenEnd();
+            const arg0 = parent.arguments[0]; // a
+            const arg0Pos = arg0.end;
+            scanner.resetTokenState(arg0Pos);
+            const token = scanner.scan();
+            scanner.resetTokenState(pos);
+            return token === SyntaxKind.BarGreaterThanToken;
+        } else if (parent.arguments.length === 2) {
+            const pos = scanner.getTokenEnd();
+            const arg1 = parent.arguments[1];
+            const arg1Pos = isArrowFunction(arg1) ? arg1.parameters.end : arg1.end;
+            scanner.resetTokenState(arg1Pos);
+            const token = scanner.scan();
+            scanner.resetTokenState(pos);
+            return token === SyntaxKind.LessThanMinusToken;
+        } else {
+            return false;
+        }
+    } else if (isExpressionStatement(parent)) {
+        // do (flatMap) { ... }
+        const pos = scanner.getTokenEnd();
+        scanner.resetTokenState(parent.pos);
+        const token = scanner.scan();
+        scanner.resetTokenState(pos);
+        return token === SyntaxKind.DoKeyword;
+    } else {
+        return false;
+    }
+}
+
 function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node): void {
     scanner.resetTokenState(pos);
+    // Debug.log(`  --------------- START addSyntheticNodes`);
     while (pos < end) {
         const token = scanner.scan();
         const textPos = scanner.getTokenEnd();
-        if (textPos <= end) {
+        // Debug.log(`  --- child pos: ${end} >= token: """${scanner.getTokenText()}"""(${textPos}), parent: (${pos}) (${Debug.formatSyntaxKind(parent.kind)}) """${parent.getText()}"""`);
+        if (!(isBindOrPipeExpression(parent) && textPos >= pos) && textPos <= end) {
             if (token === SyntaxKind.Identifier) {
                 if (hasTabstop(parent)) {
                     continue;

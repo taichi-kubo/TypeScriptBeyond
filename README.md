@@ -101,3 +101,12 @@ const xs = [1, 2, 3, 4, 5]
 
 console.log(xs); // [2, 6, 10]
 ```
+
+## VS Code Settings
+
+To make VS Code support TypeScriptBeyond’s extended syntax, you need to change the version of TypeScript used by VS Code to TypeScriptBeyond.
+
+Please follow these steps in the command palette:
+
+1. TypeScript: Select TypeScript Version
+2. Use Workspace Version
