@@ -5700,7 +5700,7 @@ namespace Parser {
                                 factory.createToken(
                                     SyntaxKind.EqualsGreaterThanToken,
                                 ),
-                                name ? name.end : rest.pos,
+                                rest.pos,
                                 rest.pos,
                             ),
                             rest,

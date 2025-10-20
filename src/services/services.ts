@@ -544,37 +544,6 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
 function isBindOrPipeExpression(parent: Node): boolean {
     return (parent.extendedFlags & ExtendedNodeFlags.IsInMonadComprehension) !== 0
         || (parent.extendedFlags & ExtendedNodeFlags.IsPipe) !== 0;
-    // if (isCallExpression(parent)) {
-    //     if (parent.arguments.length === 1) {
-    //         // a |> f <=> f(a)
-    //         const pos = scanner.getTokenEnd();
-    //         const arg0 = parent.arguments[0]; // a
-    //         const arg0Pos = arg0.end;
-    //         scanner.resetTokenState(arg0Pos);
-    //         const token = scanner.scan();
-    //         scanner.resetTokenState(pos);
-    //         return token === SyntaxKind.BarGreaterThanToken;
-    //     } else if (parent.arguments.length === 2) {
-    //         const pos = scanner.getTokenEnd();
-    //         const arg1 = parent.arguments[1];
-    //         const arg1Pos = isArrowFunction(arg1) ? arg1.parameters.end : arg1.end;
-    //         scanner.resetTokenState(arg1Pos);
-    //         const token = scanner.scan();
-    //         scanner.resetTokenState(pos);
-    //         return token === SyntaxKind.LessThanMinusToken;
-    //     } else {
-    //         return false;
-    //     }
-    // } else if (isExpressionStatement(parent)) {
-    //     // do (flatMap) { ... }
-    //     const pos = scanner.getTokenEnd();
-    //     scanner.resetTokenState(parent.pos);
-    //     const token = scanner.scan();
-    //     scanner.resetTokenState(pos);
-    //     return token === SyntaxKind.DoKeyword;
-    // } else {
-    //     return false;
-    // }
 }
 
 function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node): void {
