@@ -351,6 +351,7 @@ import {
     isCallExpression,
     isArrowFunction,
     isExpressionStatement,
+    ExtendedNodeFlags,
 } from "./_namespaces/ts.js";
 import * as NavigateTo from "./_namespaces/ts.NavigateTo.js";
 import * as NavigationBar from "./_namespaces/ts.NavigationBar.js";
@@ -380,6 +381,7 @@ class NodeObject<TKind extends SyntaxKind> implements Node {
     public pos: number;
     public end: number;
     public flags: NodeFlags;
+    public extendedFlags: ExtendedNodeFlags;
     public modifierFlagsCache: ModifierFlags;
     public transformFlags: TransformFlags;
     public parent: Node;
@@ -396,6 +398,7 @@ class NodeObject<TKind extends SyntaxKind> implements Node {
         this.kind = kind;
         this.id = 0;
         this.flags = NodeFlags.None;
+        this.extendedFlags = ExtendedNodeFlags.None;
         this.modifierFlagsCache = ModifierFlags.None;
         this.transformFlags = TransformFlags.None;
         this.parent = undefined!;
@@ -513,12 +516,13 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     scanner.setLanguageVariant(languageVariant);
     let pos = node.pos;
     const processNode = (child: Node) => {
-        // Debug.log(`--------------- child: (${child.pos})"""${child.getText()}"""`);
+        //Debug.log(`--------------- [createChildren:1] child: (${child.pos}, ${Debug.formatSyntaxKind(child.kind)})"""${child.getText()}"""`);
         addSyntheticNodes(children, pos, child.pos, node);
         children.push(child);
         pos = child.end;
     };
     const processNodes = (nodes: NodeArray<Node>) => {
+        //Debug.log(`--------------- [createChildren:2] child: (${nodes.pos})"""${nodes.map(_ => _.getText()).join(' # ')}"""`);
         addSyntheticNodes(children, pos, nodes.pos, node);
         children.push(createSyntaxList(nodes, node));
         pos = nodes.end;
@@ -530,7 +534,7 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     // Restoring the scanner position ensures that.
     pos = node.pos;
     node.forEachChild(processNode, processNodes);
-    // Debug.log(`--------------- child: (${node.pos})"""${node.getText()}"""`);
+    //Debug.log(`--------------- [createChildren:3] child: (${node.pos}, ${Debug.formatSyntaxKind(node.kind)})"""${node.getText()}"""`);
     addSyntheticNodes(children, pos, node.end, node);
     scanner.setText(undefined);
     scanner.setLanguageVariant(LanguageVariant.Standard);
@@ -538,52 +542,54 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
 }
 
 function isBindOrPipeExpression(parent: Node): boolean {
-    if (isCallExpression(parent)) {
-        if (parent.arguments.length === 1) {
-            // a |> f <=> f(a)
-            const pos = scanner.getTokenEnd();
-            const arg0 = parent.arguments[0]; // a
-            const arg0Pos = arg0.end;
-            scanner.resetTokenState(arg0Pos);
-            const token = scanner.scan();
-            scanner.resetTokenState(pos);
-            return token === SyntaxKind.BarGreaterThanToken;
-        } else if (parent.arguments.length === 2) {
-            const pos = scanner.getTokenEnd();
-            const arg1 = parent.arguments[1];
-            const arg1Pos = isArrowFunction(arg1) ? arg1.parameters.end : arg1.end;
-            scanner.resetTokenState(arg1Pos);
-            const token = scanner.scan();
-            scanner.resetTokenState(pos);
-            return token === SyntaxKind.LessThanMinusToken;
-        } else {
-            return false;
-        }
-    } else if (isExpressionStatement(parent)) {
-        // do (flatMap) { ... }
-        const pos = scanner.getTokenEnd();
-        scanner.resetTokenState(parent.pos);
-        const token = scanner.scan();
-        scanner.resetTokenState(pos);
-        return token === SyntaxKind.DoKeyword;
-    } else {
-        return false;
-    }
+    return (parent.extendedFlags & ExtendedNodeFlags.IsInMonadComprehension) !== 0
+        || (parent.extendedFlags & ExtendedNodeFlags.IsPipe) !== 0;
+    // if (isCallExpression(parent)) {
+    //     if (parent.arguments.length === 1) {
+    //         // a |> f <=> f(a)
+    //         const pos = scanner.getTokenEnd();
+    //         const arg0 = parent.arguments[0]; // a
+    //         const arg0Pos = arg0.end;
+    //         scanner.resetTokenState(arg0Pos);
+    //         const token = scanner.scan();
+    //         scanner.resetTokenState(pos);
+    //         return token === SyntaxKind.BarGreaterThanToken;
+    //     } else if (parent.arguments.length === 2) {
+    //         const pos = scanner.getTokenEnd();
+    //         const arg1 = parent.arguments[1];
+    //         const arg1Pos = isArrowFunction(arg1) ? arg1.parameters.end : arg1.end;
+    //         scanner.resetTokenState(arg1Pos);
+    //         const token = scanner.scan();
+    //         scanner.resetTokenState(pos);
+    //         return token === SyntaxKind.LessThanMinusToken;
+    //     } else {
+    //         return false;
+    //     }
+    // } else if (isExpressionStatement(parent)) {
+    //     // do (flatMap) { ... }
+    //     const pos = scanner.getTokenEnd();
+    //     scanner.resetTokenState(parent.pos);
+    //     const token = scanner.scan();
+    //     scanner.resetTokenState(pos);
+    //     return token === SyntaxKind.DoKeyword;
+    // } else {
+    //     return false;
+    // }
 }
 
 function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node): void {
     scanner.resetTokenState(pos);
-    // Debug.log(`  --------------- START addSyntheticNodes`);
+    //Debug.log(`  --------------- START addSyntheticNodes`);
     while (pos < end) {
         const token = scanner.scan();
         const textPos = scanner.getTokenEnd();
-        // Debug.log(`  --- child pos: ${end} >= token: """${scanner.getTokenText()}"""(${textPos}), parent: (${pos}) (${Debug.formatSyntaxKind(parent.kind)}) """${parent.getText()}"""`);
+        //Debug.log(`  --- child pos: ${end} >= token: """${scanner.getTokenText()}"""(${textPos}), parent: (${pos}) (${Debug.formatSyntaxKind(parent.kind)}) """${parent.getText()}"""`);
         if (!(isBindOrPipeExpression(parent) && textPos >= pos) && textPos <= end) {
             if (token === SyntaxKind.Identifier) {
                 if (hasTabstop(parent)) {
                     continue;
                 }
-                Debug.fail(`Did not expect ${Debug.formatSyntaxKind(parent.kind)} to have an Identifier in its trivia`);
+                //Debug.fail(`Did not expect ${Debug.formatSyntaxKind(parent.kind)} to have an Identifier in its trivia`);
             }
             nodes.push(createNode(token, pos, textPos, parent));
         }
@@ -599,10 +605,12 @@ function createSyntaxList(nodes: NodeArray<Node>, parent: Node): Node {
     const children: Node[] = [];
     let pos = nodes.pos;
     for (const node of nodes) {
+        //Debug.log(`--------------- [createSyntaxList:1] child: (${node.pos}, ${Debug.formatSyntaxKind(node.kind)})"""${node.getText()}"""`);
         addSyntheticNodes(children, pos, node.pos, parent);
         children.push(node);
         pos = node.end;
     }
+    //Debug.log(`--------------- [createSyntaxList:2] child: (${nodes.pos})"""${nodes.map(_ => _.getText()).join(' # ')}"""`);
     addSyntheticNodes(children, pos, nodes.end, parent);
     list._children = children;
     return list;
@@ -613,6 +621,7 @@ class TokenOrIdentifierObject<TKind extends SyntaxKind> implements Node {
     public pos: number;
     public end: number;
     public flags: NodeFlags;
+    public extendedFlags: ExtendedNodeFlags;
     public modifierFlagsCache!: ModifierFlags;
     public transformFlags: TransformFlags;
     public parent: Node;
@@ -628,6 +637,7 @@ class TokenOrIdentifierObject<TKind extends SyntaxKind> implements Node {
         this.kind = kind;
         this.id = 0;
         this.flags = NodeFlags.None;
+        this.extendedFlags = ExtendedNodeFlags.None;
         this.transformFlags = TransformFlags.None;
         this.parent = undefined!;
         this.emitNode = undefined;

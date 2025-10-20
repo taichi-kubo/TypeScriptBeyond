@@ -84,6 +84,7 @@ import {
     Expression,
     ExpressionStatement,
     ExpressionWithTypeArguments,
+    ExtendedNodeFlags,
     Extension,
     ExternalModuleReference,
     fileExtensionIs,
@@ -5583,6 +5584,7 @@ namespace Parser {
     }
 
     function parseMonadComprehension(): Expression | undefined {
+        const pos = getNodePos();
         // do
         if (token() !== SyntaxKind.DoKeyword) {
             return undefined;
@@ -5628,6 +5630,8 @@ namespace Parser {
             return undefined;
         }
 
+        setTextRangePosEnd(body, pos, getNodePos());
+
         if (token() === SyntaxKind.WhileKeyword) {
             return undefined;
         }
@@ -5656,6 +5660,8 @@ namespace Parser {
             /*allowReturnTypeInArrowFunction*/ false,
         );
 
+        // name <- expr,
+        //             ^
         if (token() === SyntaxKind.CommaToken) {
             nextToken();
 
@@ -5694,7 +5700,7 @@ namespace Parser {
                                 factory.createToken(
                                     SyntaxKind.EqualsGreaterThanToken,
                                 ),
-                                rest.pos,
+                                name ? name.end : rest.pos,
                                 rest.pos,
                             ),
                             rest,
@@ -5703,10 +5709,12 @@ namespace Parser {
                         rest.end,
                     );
 
+                    (callback as Mutable<ArrowFunction>).extendedFlags |= ExtendedNodeFlags.IsInMonadComprehension;
+
                     // name <- expr
                     let flatMapCall: CallExpression;
                     const flatMapLiteral = factory.createStringLiteral('flatMap');
-                    (flatMapLiteral as any).flags |= NodeFlags.Synthesized;
+                    (flatMapLiteral as Mutable<StringLiteral>).flags |= NodeFlags.Synthesized;
                     if (flatMap === undefined) {
                         // expr.flatMap(name => rest)
                         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -5740,12 +5748,16 @@ namespace Parser {
                         );
                     }
 
+                    (flatMapCall as Mutable<CallExpression>).extendedFlags |= ExtendedNodeFlags.IsInMonadComprehension;
+
                     return flatMapCall;
                 } else {
                     return undefined;
                 }
             }
         } else {
+            // do (flatMap) { ... }
+            //                    ^
             if (token() === SyntaxKind.CloseBraceToken) {
                 nextToken();
                 return expr;
@@ -5855,6 +5867,8 @@ namespace Parser {
                     ),
                     pos,
                 );
+
+                (leftOperand as Mutable<CallExpression>).extendedFlags |= ExtendedNodeFlags.IsPipe;
             } else {
                 leftOperand = makeBinaryExpression(leftOperand, parseTokenNode(), parseBinaryExpressionOrHigher(newPrecedence), pos);
             }
@@ -7091,7 +7105,9 @@ namespace Parser {
         const pos = getNodePos();
         const mon = tryParseMonadComprehension();
         if (mon) {
-            return finishNode(factory.createExpressionStatement(mon), pos, getNodePos());
+            const exprStmt = factory.createExpressionStatement(mon);
+            (exprStmt as Mutable<ExpressionStatement>).extendedFlags |= ExtendedNodeFlags.IsInMonadComprehension;
+            return finishNode(exprStmt, pos, getNodePos());
         }
         return parseDoStatement();
     }

@@ -940,9 +940,16 @@ export const enum PredicateSemantics {
 /** @internal */
 export type NodeId = number;
 
+export const enum ExtendedNodeFlags {
+    None = 0,
+    IsInMonadComprehension = 1 << 1,
+    IsPipe = 1 << 2,
+}
+
 export interface Node extends ReadonlyTextRange {
     readonly kind: SyntaxKind;
     readonly flags: NodeFlags;
+    readonly extendedFlags: ExtendedNodeFlags;
     /** @internal */ modifierFlagsCache: ModifierFlags;
     /** @internal */ readonly transformFlags: TransformFlags; // Flags for transforms
     /** @internal */ id?: NodeId; // Unique id (used to look up NodeLinks)
