@@ -48,13 +48,9 @@ class Maybe<A> {
 const a = do {
 >a : Maybe<number>
 >  : ^^^^^^^^^^^^^
+>do {  x <- new Maybe(1),  y <- new Maybe(2),  new Maybe(x + y),} : Maybe<number>
+>                                                                 : ^^^^^^^^^^^^^
 
-  x <- new Maybe(1),
-  y <- new Maybe(2),
-  new Maybe(x + y),
-};
-> : Maybe<number>
-> : ^^^^^^^^^^^^^
 
 > : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
 > : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -87,20 +83,15 @@ const a = do {
 
 const a = do {
   x <- new Maybe(1),
-  y <- new Maybe(2),
-  new Maybe(x + y),
-};
-> : (x: number) => Maybe<number>
-> : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+>x <- new Maybe(1),  y <- new Maybe(2),  new Maybe(x + y) : (x: number) => Maybe<number>
+>                                                         : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
 >x : number
 >  : ^^^^^^
 
   y <- new Maybe(2),
-  new Maybe(x + y),
-};
-> : Maybe<number>
-> : ^^^^^^^^^^^^^
+>y <- new Maybe(2),  new Maybe(x + y) : Maybe<number>
+>                                     : ^^^^^^^^^^^^^
+
 
 > : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
 > : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,11 +126,8 @@ const a = do {
 const a = do {
   x <- new Maybe(1),
   y <- new Maybe(2),
-  new Maybe(x + y),
-};
-> : (y: number) => Maybe<number>
-> : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+>y <- new Maybe(2),  new Maybe(x + y) : (y: number) => Maybe<number>
+>                                     : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
 >y : number
 >  : ^^^^^^
 

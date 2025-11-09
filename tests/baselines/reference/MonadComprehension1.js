@@ -28,6 +28,8 @@ var of = function (a) {
 var flatMap = function (self, f) {
     return self.value === null ? of(null) : f(self.value);
 };
-var a = (flatMap)(of(1), function (x) { return (flatMap)(of(2), function (y) {
-    return of(x + y);
-}); });
+var a = (flatMap)(of(1), function (x) {
+    return (flatMap)(of(2), function (y) {
+        return of(x + y);
+    });
+});

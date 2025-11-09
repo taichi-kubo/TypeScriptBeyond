@@ -61,7 +61,7 @@ const a = do (flatMap) {
 
   x <- of(1),
 >of : Symbol(of, Decl(MonadComprehension1.ts, 4, 5))
->x : Symbol(x, Decl(MonadComprehension1.ts, 16, 1))
+>x : Symbol(x, Decl(MonadComprehension1.ts, 12, 24))
 
 
 >flatMap : Symbol(flatMap, Decl(MonadComprehension1.ts, 9, 5))
@@ -69,12 +69,12 @@ const a = do (flatMap) {
   x <- of(1),
   y <- of(2),
 >of : Symbol(of, Decl(MonadComprehension1.ts, 4, 5))
->y : Symbol(y, Decl(MonadComprehension1.ts, 16, 1))
+>y : Symbol(y, Decl(MonadComprehension1.ts, 13, 13))
 
   of(x + y),
 >of : Symbol(of, Decl(MonadComprehension1.ts, 4, 5))
->x : Symbol(x, Decl(MonadComprehension1.ts, 16, 1))
->y : Symbol(y, Decl(MonadComprehension1.ts, 16, 1))
+>x : Symbol(x, Decl(MonadComprehension1.ts, 12, 24))
+>y : Symbol(y, Decl(MonadComprehension1.ts, 13, 13))
 
 };
 

@@ -25,6 +25,8 @@ var Maybe = /** @class */ (function () {
     };
     return Maybe;
 }());
-var a = (new Maybe(1))["flatMap"](function (x) { return (new Maybe(2))["flatMap"](function (y) {
-    return new Maybe(x + y);
-}); });
+var a = (new Maybe(1))["flatMap"](function (x) {
+    return (new Maybe(2))["flatMap"](function (y) {
+        return new Maybe(x + y);
+    });
+});
