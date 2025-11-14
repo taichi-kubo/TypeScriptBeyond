@@ -1,4 +1,3 @@
-import { create } from "domain";
 import {
     AccessorDeclaration,
     addRange,
@@ -5578,9 +5577,69 @@ namespace Parser {
         return node;
     }
 
-
     function tryParseMonadComprehension(): Expression | undefined {
         return tryParse(() => parseMonadComprehension());
+    }
+
+    function parseConstDeclInMonadComprehension(): VariableStatement | undefined {
+        const pos = getNodePos();
+
+        if (token() !== SyntaxKind.ConstKeyword) {
+            return;
+        }
+        
+        nextToken();
+
+        const iden = parseIdentifierOrPattern();
+
+        if (token() !== SyntaxKind.EqualsToken) {
+            return;
+        }
+
+        nextToken();
+        
+        const expr = parseAssignmentExpressionOrHigher(
+            /*allowReturnTypeInArrowFunction*/ false,
+        );
+
+        const endPos = getNodePos();
+
+        return finishNode(factory.createVariableStatement(
+            /*modifiers*/ undefined,
+            /*declarationList*/ finishNode(factory.createVariableDeclarationList(
+                [
+                    finishNode(factory.createVariableDeclaration(
+                        iden,
+                        /*exclamationToken*/ undefined,
+                        /*type*/ undefined,
+                        expr
+                    ), pos, endPos),
+                ],
+                NodeFlags.Const,
+            ), pos, endPos),
+        ), pos, endPos);
+    }
+
+    
+    function parseConstDeclsInMonadComprehension(): VariableStatement[] | undefined {
+        const constDecls: VariableStatement[] = [];
+        
+        while (true) {
+            const decl = tryParse(() => parseConstDeclInMonadComprehension());
+            if (decl === undefined) {
+                break;
+            }
+           
+            constDecls.push(decl);
+
+            if (token() !== SyntaxKind.CommaToken) {
+                return;
+            }
+
+            nextToken();
+        }
+
+        return constDecls;
     }
 
     function parseMonadComprehension(): Expression | undefined {
@@ -5622,21 +5681,51 @@ namespace Parser {
 
         nextToken();
 
-        // do (flatmap) { ... }
-        //              ^^^^^^^
+        // do (flatmap) { const ... , const ... , ... }
+        //                ^^^^^^^^^^^^^^^^^^^^^
+        const decls = parseConstDeclsInMonadComprehension();
+        if (decls === undefined) {
+            return undefined;
+        }
+
+        // do (flatmap) { const ... , const ... , ... }
+        //                                        ^^^
         const body = parseMonadComprehensionRest(flatMap);
 
         if (!body) {
             return undefined;
         }
 
-        setTextRangePosEnd(body, pos, getNodePos());
+        const endPos = getNodePos();
+        setTextRangePosEnd(body, pos, endPos);
+
+        const expr = finishNode(factory.createCallExpression(
+            /*expression*/ finishNode(factory.createParenthesizedExpression(
+                finishNode(factory.createArrowFunction(
+                /*modifiers*/ undefined,
+                /*typeParameters*/ undefined,
+                /*parameters*/ createNodeArray([],pos, pos),
+                /*type*/ undefined,
+                /*equalsGreaterThanToken*/ finishNode(
+                    factory.createToken(SyntaxKind.EqualsGreaterThanToken), 
+                    pos, 
+                    pos
+                ),
+                /*body*/ finishNode(factory.createBlock([
+                    ...decls,
+                    factory.createReturnStatement(body)
+                ]), pos, endPos)
+                ), pos, endPos)
+            ), pos, endPos),       
+            /*typeArguments*/ undefined,
+            /*argumentsArray*/ [],
+        ), pos, endPos);
 
         if (token() === SyntaxKind.WhileKeyword) {
             return undefined;
         }
 
-        return body;
+        return expr;
     }
 
     function parseMonadComprehensionRest(flatMap: Expression | undefined): Expression | undefined {
@@ -5665,9 +5754,18 @@ namespace Parser {
         if (token() === SyntaxKind.CommaToken) {
             nextToken();
 
+            // name <- expr }
+            //              ^
             if (parseOptionalToken(SyntaxKind.CloseBraceToken)) {
                 return expr;
             } else {
+
+                const posDecls = getNodePos();
+                const decls = parseConstDeclsInMonadComprehension();
+                if (decls === undefined) {
+                    return undefined;
+                }
+
                 // flatMap(expr, name => rest)
                 //                       ^^^^
                 const rest = parseMonadComprehensionRest(flatMap);
@@ -5703,7 +5801,10 @@ namespace Parser {
                                 rest.pos,
                                 rest.pos,
                             ),
-                            rest,
+                            /*body*/ finishNode(factory.createBlock([
+                                ...decls,
+                                factory.createReturnStatement(rest),
+                            ]), posDecls, rest.end),
                         ),
                         name ? name.pos : rest.pos,
                         rest.end,
@@ -5715,6 +5816,7 @@ namespace Parser {
                     let flatMapCall: CallExpression;
                     const flatMapLiteral = factory.createStringLiteral('flatMap');
                     (flatMapLiteral as Mutable<StringLiteral>).flags |= NodeFlags.Synthesized;
+                    (flatMapLiteral as Mutable<StringLiteral>).extendedFlags |= ExtendedNodeFlags.IsInMonadComprehension;
                     if (flatMap === undefined) {
                         // expr.flatMap(name => rest)
                         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^

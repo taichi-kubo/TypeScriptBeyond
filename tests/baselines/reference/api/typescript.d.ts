@@ -4301,9 +4301,15 @@ declare namespace ts {
         IntrinsicIndexedElement = 2,
         IntrinsicElement = 3,
     }
+    enum ExtendedNodeFlags {
+        None = 0,
+        IsInMonadComprehension = 2,
+        IsPipe = 4,
+    }
     interface Node extends ReadonlyTextRange {
         readonly kind: SyntaxKind;
         readonly flags: NodeFlags;
+        readonly extendedFlags: ExtendedNodeFlags;
         readonly parent: Node;
     }
     interface Node {

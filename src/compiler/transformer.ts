@@ -135,7 +135,7 @@ function getScriptTransformers(compilerOptions: CompilerOptions, customTransform
 
     addRange(transformers, customTransformers && map(customTransformers.before, wrapScriptTransformerFactory));
 
-    transformers.push(transformMonadComprehension);
+    //transformers.push(transformMonadComprehension);
     transformers.push(transformTypeScript);
 
     if (compilerOptions.experimentalDecorators) {

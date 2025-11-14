@@ -202,6 +202,7 @@ export function sourceFileToJSON(file: ts.Node): string {
                 case "identifierCount":
                 case "scriptSnapshot":
                 case "emitNode":
+                case "extendedFlags":
                     // Blocklist of items we never put in the baseline file.
                     break;
 

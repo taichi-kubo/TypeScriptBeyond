@@ -133,6 +133,7 @@ import {
     Expression,
     ExpressionStatement,
     ExpressionWithTypeArguments,
+    ExtendedNodeFlags,
     Extension,
     ExternalModuleReference,
     factory,
@@ -1981,7 +1982,7 @@ export function getLiteralText(node: LiteralLikeNode, sourceFile: SourceFile | u
 }
 
 function canUseOriginalText(node: LiteralLikeNode, flags: GetLiteralTextFlags): boolean {
-    if (nodeIsSynthesized(node) || !node.parent || (flags & GetLiteralTextFlags.TerminateUnterminatedLiterals && node.isUnterminated)) {
+    if (nodeIsSynthesized(node) || !node.parent || (flags & GetLiteralTextFlags.TerminateUnterminatedLiterals && node.isUnterminated) || (node.extendedFlags & ExtendedNodeFlags.IsInMonadComprehension) !== 0) {
         return false;
     }
 

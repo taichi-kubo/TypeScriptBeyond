@@ -91,6 +91,7 @@ import {
     Expression,
     ExpressionStatement,
     ExpressionWithTypeArguments,
+    ExtendedNodeFlags,
     Extension,
     ExternalModuleReference,
     factory,
@@ -5225,6 +5226,7 @@ export function createPrinter(printerOptions: PrinterOptions = {}, handlers: Pri
         if (isGeneratedIdentifier(node) || isGeneratedPrivateIdentifier(node)) {
             return generateName(node);
         }
+
         if (isStringLiteral(node) && node.textSourceNode) {
             return getTextOfNode(node.textSourceNode, includeTrivia);
         }

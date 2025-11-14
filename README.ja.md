@@ -80,6 +80,31 @@ const flatMap = (m, f) => ...
 const result = flatMap(Option(1), (x) => flatMap(Option(2), (y) => Option(x + y)));
 ```
 
+## `<-`の省略
+
+モナド内包表記で変数を定義する必要がない場合は、`<-`を省略することができます。
+
+```ts
+const a = do (option.flatMap) {
+  option.of(1),
+  option.of(2),
+};
+// a => option.of(2)
+```
+
+## `const`の使用
+
+モナド内包表記で`const`を使用して変数を定義することができます。
+
+```ts
+const a do (option.flatMap) {
+  const x = 1,
+  const y = 2,
+  option.of(x + y),
+};
+// a => option.of(3)
+```
+
 ## `fp-ts`で使用する
 
 `fp-ts`の`pipe`や`bind`の代わりに使用することができます。

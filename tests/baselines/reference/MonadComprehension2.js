@@ -9,8 +9,12 @@ class Maybe<A> {
 }
 
 const a = do {
+  const a = 1,
+  const b = 2,
   x <- new Maybe(1),
+  const c = 3,
   y <- new Maybe(2),
+  const d = 4,
   new Maybe(x + y),
 };
 
@@ -25,8 +29,14 @@ var Maybe = /** @class */ (function () {
     };
     return Maybe;
 }());
-var a = (new Maybe(1))["flatMap"](function (x) {
-    return (new Maybe(2))["flatMap"](function (y) {
-        return new Maybe(x + y);
+var a = (function () {
+    var a = 1;
+    var b = 2;
+    return (new Maybe(1))["flatMap"](function (x) {
+        var c = 3;
+        return (new Maybe(2))["flatMap"](function (y) {
+            var d = 4;
+            return new Maybe(x + y);
+        });
     });
-});
+})();

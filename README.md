@@ -80,6 +80,31 @@ const flatMap = (m, f) => ...
 const result = flatMap(Option(1), (x) => flatMap(Option(2), (y) => Option(x + y)));
 ```
 
+### Omitting `<-`
+
+If a step in the monad comprehension does not need to bind a variable, you can omit `<-`.
+
+```ts
+const a = do (option.flatMap) {
+  option.of(1),
+  option.of(2),
+};
+// a => option.of(2)
+```
+
+### Using `const`
+
+You can also declare variables with `const` inside the comprehension.
+
+```ts
+const a = do (option.flatMap) {
+  const x = 1,
+  const y = 2,
+  option.of(x + y),
+};
+// a => option.of(3)
+```
+
 ## Using with `fp-ts`
 
 You can use it as a replacement for `pipe` or `bind` in `fp-ts`.
