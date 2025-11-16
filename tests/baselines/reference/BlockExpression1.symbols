@@ -1,0 +1,38 @@
+//// [tests/cases/compiler/BlockExpression1.ts] ////
+
+=== BlockExpression1.ts ===
+const a = &{
+>a : Symbol(a, Decl(BlockExpression1.ts, 0, 5))
+
+  const x = 1;
+>x : Symbol(x, Decl(BlockExpression1.ts, 1, 7))
+
+  const y = 2;
+>y : Symbol(y, Decl(BlockExpression1.ts, 2, 7))
+
+  return x + y;
+>x : Symbol(x, Decl(BlockExpression1.ts, 1, 7))
+>y : Symbol(y, Decl(BlockExpression1.ts, 2, 7))
+
+};
+
+const b = async &{
+>b : Symbol(b, Decl(BlockExpression1.ts, 6, 5))
+
+  const x = await Promise.resolve(1);
+>x : Symbol(x, Decl(BlockExpression1.ts, 7, 7))
+>Promise.resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
+>Promise : Symbol(Promise, Decl(lib.es5.d.ts, --, --), Decl(lib.es2015.iterable.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.symbol.wellknown.d.ts, --, --), Decl(lib.es2018.promise.d.ts, --, --))
+>resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
+
+  const y = await Promise.resolve(2);
+>y : Symbol(y, Decl(BlockExpression1.ts, 8, 7))
+>Promise.resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
+>Promise : Symbol(Promise, Decl(lib.es5.d.ts, --, --), Decl(lib.es2015.iterable.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.symbol.wellknown.d.ts, --, --), Decl(lib.es2018.promise.d.ts, --, --))
+>resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
+
+  return x + y;
+>x : Symbol(x, Decl(BlockExpression1.ts, 7, 7))
+>y : Symbol(y, Decl(BlockExpression1.ts, 8, 7))
+}
+

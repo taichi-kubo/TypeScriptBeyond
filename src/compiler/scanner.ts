@@ -286,6 +286,7 @@ const textToToken = new Map(Object.entries({
     "`": SyntaxKind.BacktickToken,
     '|>': SyntaxKind.BarGreaterThanToken,
     '<-': SyntaxKind.LessThanMinusToken,
+    '&{': SyntaxKind.AmpersandOpenBraceToken,
 }));
 
 const charCodeToRegExpFlag = new Map<CharacterCodes, RegularExpressionFlags>([
@@ -1993,6 +1994,11 @@ export function createScanner(
                     }
                     if (charCodeUnchecked(pos + 1) === CharacterCodes.equals) {
                         return pos += 2, token = SyntaxKind.AmpersandEqualsToken;
+                    }
+                    // if the next character is '{', it's a block expression start.
+                    // But we just proceed a single position for the parseBlockExpression.
+                    if (charCodeUnchecked(pos + 1) === CharacterCodes.openBrace) {
+                        return pos += 1, token = SyntaxKind.AmpersandOpenBraceToken;
                     }
                     pos++;
                     return token = SyntaxKind.AmpersandToken;

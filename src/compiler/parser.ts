@@ -5105,6 +5105,11 @@ namespace Parser {
             return monadComprehension;
         }
 
+        const blockExpression = tryParseBlockExpression();
+        if (blockExpression) {
+            return blockExpression;
+        }
+
         // Now try to see if we're in production '1', '2' or '3'.  A conditional expression can
         // start with a LogicalOrExpression, while the assignment productions can only start with
         // LeftHandSideExpressions.
@@ -5577,6 +5582,56 @@ namespace Parser {
         return node;
     }
 
+    function tryParseBlockExpression(): Expression | undefined {
+        return tryParse(() => parseBlockExpression());
+    }
+
+    function parseBlockExpression(): Expression | undefined {
+        const pos = getNodePos();
+        let flags = SignatureFlags.None;
+        if (token() === SyntaxKind.AsyncKeyword) {
+            flags |= SignatureFlags.Await;
+            nextToken();
+        }
+
+        // &{ ... }
+        // ^^
+        if (token() !== SyntaxKind.AmpersandOpenBraceToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        //flags |= SignatureFlags.IgnoreMissingOpenBrace
+
+        // Do not proceed the position of scanner because parseFunctionBlock will consume the open brace
+        const body = parseFunctionBlock(flags);
+
+        const endPos = getNodePos();
+        
+        nextToken();
+        
+        return finishNode(factory.createCallExpression(
+            /*expression*/ finishNode(factory.createParenthesizedExpression(
+                finishNode(factory.createArrowFunction(
+                    /*modifiers*/ (flags & SignatureFlags.Await) !== 0 ? [factory.createModifier(SyntaxKind.AsyncKeyword)] : undefined,
+                    /*typeParameters*/ undefined,
+                    /*parameters*/ createNodeArray([], pos, pos),
+                    /*type*/ undefined,
+                    /*equalsGreaterThanToken*/ finishNode(
+                        factory.createToken(SyntaxKind.EqualsGreaterThanToken), 
+                        pos, 
+                        pos
+                    ),
+                    /*body*/ body,
+                ), pos, endPos)
+            ), pos, endPos),
+            /*typeArguments*/ undefined,
+            /*argumentsArray*/ [],
+        ), pos, endPos);
+
+    }
+
     function tryParseMonadComprehension(): Expression | undefined {
         return tryParse(() => parseMonadComprehension());
     }
@@ -5716,7 +5771,7 @@ namespace Parser {
                     factory.createReturnStatement(body)
                 ]), pos, endPos)
                 ), pos, endPos)
-            ), pos, endPos),       
+            ), pos, endPos),
             /*typeArguments*/ undefined,
             /*argumentsArray*/ [],
         ), pos, endPos);

@@ -114,6 +114,7 @@ export const enum SyntaxKind {
     HashToken,
     BarGreaterThanToken,
     LessThanMinusToken,
+    AmpersandOpenBraceToken,
     // Assignments
     EqualsToken,
     PlusEqualsToken,
@@ -944,6 +945,7 @@ export const enum ExtendedNodeFlags {
     None = 0,
     IsInMonadComprehension = 1 << 1,
     IsPipe = 1 << 2,
+    IsBlockExpression = 1 << 3,
 }
 
 export interface Node extends ReadonlyTextRange {

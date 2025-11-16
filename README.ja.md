@@ -3,7 +3,8 @@
 `TypeScriptBeyond` は `TypeScript` を拡張した言語です。以下の機能が追加されています。
 
 - パイプライン演算子 `|>`
-- モナド内包表記
+- モナド内包表記 `do`
+- ブロック式 `&{ ... }`
 
 `tsc`や`tsserver`は`TypeScript`と同様に使用することができます。
 
@@ -80,7 +81,7 @@ const flatMap = (m, f) => ...
 const result = flatMap(Option(1), (x) => flatMap(Option(2), (y) => Option(x + y)));
 ```
 
-## `<-`の省略
+### `<-`の省略
 
 モナド内包表記で変数を定義する必要がない場合は、`<-`を省略することができます。
 
@@ -92,7 +93,7 @@ const a = do (option.flatMap) {
 // a => option.of(2)
 ```
 
-## `const`の使用
+### `const`の使用
 
 モナド内包表記で`const`を使用して変数を定義することができます。
 
@@ -103,6 +104,28 @@ const a do (option.flatMap) {
   option.of(x + y),
 };
 // a => option.of(3)
+```
+
+## ブロック式
+
+ブロック式は、即時実行関数のシンタックスシュガーです。`&{ ... }` は、`(() => { ... })()`と同じ結果になります。
+
+```ts
+const a = &{
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+// => 3
+```
+
+```ts
+const a = async &{
+  const x = await Promise.resolve(1);
+  const y = await Promise.resolve(2);
+  return x + y;
+};
+// => Promise.resolve(3)
 ```
 
 ## `fp-ts`で使用する

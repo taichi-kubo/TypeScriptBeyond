@@ -1,0 +1,86 @@
+//// [tests/cases/compiler/BlockExpression1.ts] ////
+
+=== BlockExpression1.ts ===
+const a = &{
+>a : number
+>  : ^^^^^^
+>&{  const x = 1;  const y = 2;  return x + y;} : number
+>                                               : ^^^^^^
+>&{  const x = 1;  const y = 2;  return x + y;} : () => number
+>                                               : ^^^^^^^^^^^^
+>&{  const x = 1;  const y = 2;  return x + y;} : () => number
+>                                               : ^^^^^^^^^^^^
+
+  const x = 1;
+>x : 1
+>  : ^
+>1 : 1
+>  : ^
+
+  const y = 2;
+>y : 2
+>  : ^
+>2 : 2
+>  : ^
+
+  return x + y;
+>x + y : number
+>      : ^^^^^^
+>x : 1
+>  : ^
+>y : 2
+>  : ^
+
+};
+
+const b = async &{
+>b : Promise<number>
+>  : ^^^^^^^^^^^^^^^
+>async &{  const x = await Promise.resolve(1);  const y = await Promise.resolve(2);  return x + y;} : Promise<number>
+>                                                                                                   : ^^^^^^^^^^^^^^^
+>async &{  const x = await Promise.resolve(1);  const y = await Promise.resolve(2);  return x + y;} : () => Promise<number>
+>                                                                                                   : ^^^^^^^^^^^^^^^^^^^^^
+>async &{  const x = await Promise.resolve(1);  const y = await Promise.resolve(2);  return x + y;} : () => Promise<number>
+>                                                                                                   : ^^^^^^^^^^^^^^^^^^^^^
+
+  const x = await Promise.resolve(1);
+>x : number
+>  : ^^^^^^
+>await Promise.resolve(1) : number
+>                         : ^^^^^^
+>Promise.resolve(1) : Promise<number>
+>                   : ^^^^^^^^^^^^^^^
+>Promise.resolve : { (): Promise<void>; <T>(value: T): Promise<Awaited<T>>; <T>(value: T | PromiseLike<T>): Promise<Awaited<T>>; }
+>                : ^^^^^^             ^^^ ^^     ^^ ^^^                   ^^^ ^^     ^^                  ^^^                   ^^^
+>Promise : PromiseConstructor
+>        : ^^^^^^^^^^^^^^^^^^
+>resolve : { (): Promise<void>; <T>(value: T): Promise<Awaited<T>>; <T>(value: T | PromiseLike<T>): Promise<Awaited<T>>; }
+>        : ^^^^^^             ^^^ ^^     ^^ ^^^                   ^^^ ^^     ^^                  ^^^                   ^^^
+>1 : 1
+>  : ^
+
+  const y = await Promise.resolve(2);
+>y : number
+>  : ^^^^^^
+>await Promise.resolve(2) : number
+>                         : ^^^^^^
+>Promise.resolve(2) : Promise<number>
+>                   : ^^^^^^^^^^^^^^^
+>Promise.resolve : { (): Promise<void>; <T>(value: T): Promise<Awaited<T>>; <T>(value: T | PromiseLike<T>): Promise<Awaited<T>>; }
+>                : ^^^^^^             ^^^ ^^     ^^ ^^^                   ^^^ ^^     ^^                  ^^^                   ^^^
+>Promise : PromiseConstructor
+>        : ^^^^^^^^^^^^^^^^^^
+>resolve : { (): Promise<void>; <T>(value: T): Promise<Awaited<T>>; <T>(value: T | PromiseLike<T>): Promise<Awaited<T>>; }
+>        : ^^^^^^             ^^^ ^^     ^^ ^^^                   ^^^ ^^     ^^                  ^^^                   ^^^
+>2 : 2
+>  : ^
+
+  return x + y;
+>x + y : number
+>      : ^^^^^^
+>x : number
+>  : ^^^^^^
+>y : number
+>  : ^^^^^^
+}
+

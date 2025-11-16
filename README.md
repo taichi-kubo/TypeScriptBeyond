@@ -3,7 +3,8 @@
 `TypeScriptBeyond` is a language that extends `TypeScript`. It introduces the following features:
 
 - Pipeline operator `|>`
-- Monad comprehensions
+- Monad comprehensions `do`
+- Block expressions `&{ ... }`
 
 You can continue to use `tsc` and `tsserver` just like with standard `TypeScript`.
 
@@ -103,6 +104,28 @@ const a = do (option.flatMap) {
   option.of(x + y),
 };
 // a => option.of(3)
+```
+
+## Block Expressions
+
+Block expressions are syntactic sugar for immediately invoked function expressions. Writing `&{ ... }` is equivalent to `(() => { ... })()`.
+
+```ts
+const a = &{
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+// => 3
+```
+
+```ts
+const a = async &{
+  const x = await Promise.resolve(1);
+  const y = await Promise.resolve(2);
+  return x + y;
+};
+// => Promise.resolve(3)
 ```
 
 ## Using with `fp-ts`
