@@ -1,0 +1,1290 @@
+//// [tests/cases/compiler/SwitchExpression.ts] ////
+
+=== SwitchExpression.ts ===
+{
+  const a: boolean = true;
+>a : Symbol(a, Decl(SwitchExpression.ts, 1, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 2, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 2, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 1, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 2, 20))
+
+    true => "yes",
+>true => : Symbol(true =>, Decl(SwitchExpression.ts, 2, 24))
+
+    _ => "no",    
+>_ : Symbol(_, Decl(SwitchExpression.ts, 4, 4))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 2, 20))
+
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+>a : Symbol(a, Decl(SwitchExpression.ts, 9, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 10, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 10, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 9, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 10, 20))
+
+    0 => "zero",
+>0 => : Symbol(0 =>, Decl(SwitchExpression.ts, 10, 24))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 10, 20))
+
+    0 => "zero",
+    1 => "one",
+>1 => : Symbol(1 =>, Decl(SwitchExpression.ts, 11, 16))
+
+    _ => "many",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 13, 4))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 10, 20))
+
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+>a : Symbol(a, Decl(SwitchExpression.ts, 18, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 19, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 19, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 18, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 19, 20))
+
+    "fuga" => "string fuga",
+>"fuga" => : Symbol("fuga" =>, Decl(SwitchExpression.ts, 19, 24))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 19, 20))
+
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+>"hoge" => : Symbol("hoge" =>, Decl(SwitchExpression.ts, 20, 28))
+
+    _ => "string unknown",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 22, 4))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 19, 20))
+
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+>a : Symbol(a, Decl(SwitchExpression.ts, 27, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 28, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 28, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 27, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 28, 20))
+
+    null => "null",
+>null => : Symbol(null =>, Decl(SwitchExpression.ts, 28, 24))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 28, 20))
+
+    null => "null",
+    undefined => "undefined",
+>undefined => : Symbol(undefined =>, Decl(SwitchExpression.ts, 29, 19))
+
+    _ => "number",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 31, 4))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 28, 20))
+
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 36, 7))
+
+  const r = switch (elem) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 37, 7))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 36, 7))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+>[true] => : Symbol([true] =>, Decl(SwitchExpression.ts, 37, 27))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+>[1] => : Symbol([1] =>, Decl(SwitchExpression.ts, 38, 23))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+>["hoge"] => : Symbol(["hoge"] =>, Decl(SwitchExpression.ts, 39, 17))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+>[null] => : Symbol([null] =>, Decl(SwitchExpression.ts, 40, 25))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+>[undefined] => : Symbol([undefined] =>, Decl(SwitchExpression.ts, 41, 23))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+>[elem] => : Symbol([elem] =>, Decl(SwitchExpression.ts, 42, 33))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+>[...tail] => : Symbol([...tail] =>, Decl(SwitchExpression.ts, 43, 23))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+>[x,] => : Symbol([x,] =>, Decl(SwitchExpression.ts, 44, 29))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+>[x, 1] => : Symbol([x, 1] =>, Decl(SwitchExpression.ts, 45, 18))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+>[x, 2, ...tail] => : Symbol([x, 2, ...tail] =>, Decl(SwitchExpression.ts, 46, 23))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+>elem : Symbol(elem, Decl(SwitchExpression.ts, 37, 20))
+
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>[{x: 1, y}, [z], ...tail] => : Symbol([{x: 1, y}, [z], ...tail] =>, Decl(SwitchExpression.ts, 47, 41))
+
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 53, 7))
+>Record : Symbol(Record, Decl(lib.es5.d.ts, --, --))
+
+  const r = switch (obj) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 54, 7))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 53, 7))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+>{ x } => : Symbol({ x } =>, Decl(SwitchExpression.ts, 54, 26))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+>{ x: false } => : Symbol({ x: false } =>, Decl(SwitchExpression.ts, 55, 21))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+>{ x: 1 } => : Symbol({ x: 1 } =>, Decl(SwitchExpression.ts, 56, 35))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+>{ "x": 1 } => : Symbol({ "x": 1 } =>, Decl(SwitchExpression.ts, 57, 27))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+>a : Symbol(a, Decl(SwitchExpression.ts, 59, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+>{ "x": a } => : Symbol({ "x": a } =>, Decl(SwitchExpression.ts, 58, 31))
+
+    { ...tail } => "{ ...tail }",
+>tail : Symbol(tail, Decl(SwitchExpression.ts, 0, 0))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+>{ ...tail } => : Symbol({ ...tail } =>, Decl(SwitchExpression.ts, 59, 31))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>{ x: [1, 2], y: { a: "a", b } } => : Symbol({ x: [1, 2], y: { a: "a", b } } =>, Decl(SwitchExpression.ts, 60, 33))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>tail : Symbol(tail, Decl(SwitchExpression.ts, 0, 0))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+
+> : Symbol(Omit)
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>{ x: 1, y, ...tail } => : Symbol({ x: 1, y, ...tail } =>, Decl(SwitchExpression.ts, 61, 55))
+
+    _ if _.x === 1 => "_ if _.x === 1",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 63, 4))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 63, 4))
+>_ if _.x === 1 => : Symbol(_ if _.x === 1 =>, Decl(SwitchExpression.ts, 62, 51))
+
+    _ => "_",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 64, 4))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression.ts, 54, 20))
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+>a : Symbol(a, Decl(SwitchExpression.ts, 69, 7))
+>x : Symbol(x, Decl(SwitchExpression.ts, 69, 13))
+>y : Symbol(y, Decl(SwitchExpression.ts, 69, 19))
+>z : Symbol(z, Decl(SwitchExpression.ts, 69, 25))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression.ts, 70, 7))
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 69, 7))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+
+
+> : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>x : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+>y : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+>z : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+>{ x, y, z } if x + y + z > 10 => : Symbol({ x, y, z } if x + y + z > 10 =>, Decl(SwitchExpression.ts, 70, 24))
+>x : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+>y : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+>z : Symbol((Missing), Decl(SwitchExpression.ts, 0, 0))
+
+    _ => "10 or less",
+>_ : Symbol(_, Decl(SwitchExpression.ts, 72, 4))
+
+
+>a : Symbol(a, Decl(SwitchExpression.ts, 70, 20))
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+    _ => "10 or less",
+  };
+}

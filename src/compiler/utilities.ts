@@ -1982,7 +1982,11 @@ export function getLiteralText(node: LiteralLikeNode, sourceFile: SourceFile | u
 }
 
 function canUseOriginalText(node: LiteralLikeNode, flags: GetLiteralTextFlags): boolean {
-    if (nodeIsSynthesized(node) || !node.parent || (flags & GetLiteralTextFlags.TerminateUnterminatedLiterals && node.isUnterminated) || (node.extendedFlags & ExtendedNodeFlags.IsInMonadComprehension) !== 0) {
+    if (nodeIsSynthesized(node) || 
+        !node.parent || 
+        (flags & GetLiteralTextFlags.TerminateUnterminatedLiterals && node.isUnterminated) || 
+        node.extendedFlags & ExtendedNodeFlags.IsInMonadComprehension ||
+        node.extendedFlags & ExtendedNodeFlags.IsSwitchExpression) {
         return false;
     }
 

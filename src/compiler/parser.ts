@@ -5110,6 +5110,11 @@ namespace Parser {
             return blockExpression;
         }
 
+        const switchExpression = tryParseSwitchExpression();
+        if (switchExpression) {
+            return switchExpression;
+        }
+
         // Now try to see if we're in production '1', '2' or '3'.  A conditional expression can
         // start with a LogicalOrExpression, while the assignment productions can only start with
         // LeftHandSideExpressions.
@@ -5582,6 +5587,11 @@ namespace Parser {
         return node;
     }
 
+    function withExtendedFlag<T extends Node>(node: T, flag: ExtendedNodeFlags): T {
+        (node as Mutable<T>).extendedFlags |= flag;
+        return node;
+    }
+
     function tryParseBlockExpression(): Expression | undefined {
         return tryParse(() => parseBlockExpression());
     }
@@ -5922,6 +5932,1017 @@ namespace Parser {
                 return undefined;
             }
         }
+    }
+
+    interface PatternMatchingResult {
+        conds: Expression[],
+        decls: VariableStatement[]
+    };
+    function parsePatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const objPatt = parseObjectPatternMatching(input);
+        if (objPatt !== undefined) {
+            return objPatt;
+        }
+        const arr = parseArrayPatternMatching(input);
+        if (arr !== undefined) {
+            return arr;
+        }
+
+        const nullPatt = parseNullPatternMatching(input);
+        if (nullPatt !== undefined) {
+            return nullPatt;
+        }
+
+        const undefinedPatt = parseUndefinedPatternMatching(input);
+        if (undefinedPatt !== undefined) {
+            return undefinedPatt;
+        }
+
+        const boolPatt = parseBooleanPatternMatching(input);
+        if (boolPatt !== undefined) {
+            return boolPatt;
+        }
+        
+        const numPatt = parseNumberPatternMatching(input);
+        if (numPatt !== undefined) {
+            return numPatt;
+        }
+        
+        const strPatt = parseStringPatternMatching(input);
+        if (strPatt !== undefined) {
+            return strPatt;
+        }
+
+        const idenPatt = parseIdentifierPatternMatching(input);
+        if (idenPatt !== undefined) {
+            return idenPatt;
+        }
+
+        return undefined;
+    }
+
+    function parseObjectPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        // { x } :: 'x' in arg && 'y' in arg
+        // { x: 1 } :: 'x' in arg && arg.x === 1
+        // {x, ...xs} :: 'x' in arg
+        if (token() !== SyntaxKind.OpenBraceToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        let conds: Expression[] = [];
+        let decls: VariableStatement[] = [];
+        let isTail = false;
+        let count = 0;
+        const keys: StringLiteral[] = [];
+        while (true) {
+        
+            // { ...tail }
+            //      ^^^^
+            if (token() === SyntaxKind.DotDotDotToken) {
+
+                nextToken();
+
+                if (token() === SyntaxKind.Identifier) {
+
+                    // const tail = Object.assign({}, parent) as Omit<typeof parent, 'x' | 'y'>;
+                    const tail = finishNode(
+                        factory.createIdentifier(scanner.getTokenValue()),
+                        scanner.getTokenStart(),
+                        scanner.getTokenEnd()
+                    );
+                    const typeRef = keys.length === 0 
+                        ? factory.createTypeQueryNode(input) 
+                        : factory.createTypeReferenceNode(
+                            withExtendedFlag(
+                                factory.createIdentifier("Omit"), 
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                            [
+                                factory.createTypeQueryNode(input),
+                                factory.createUnionTypeNode(
+                                    factory.createNodeArray(
+                                        keys.map(key => factory.createLiteralTypeNode(key))
+                                    )
+                                ),
+                            ]
+                        );
+                    const callAssign = factory.createCallExpression(
+                        factory.createPropertyAccessExpression(
+                            withExtendedFlag(
+                                factory.createIdentifier("Object"),
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                            withExtendedFlag(
+                                factory.createIdentifier("assign"),
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                        ),
+                        /*typeArguments*/ undefined,
+                        [
+                            factory.createObjectLiteralExpression([]),
+                            input,
+                        ],
+                    );
+                    const decl = factory.createVariableDeclaration(
+                        tail,
+                        /*exclamationToken*/ undefined,
+                        /*type*/ undefined,
+                        /*initializer*/ factory.createAsExpression(callAssign, typeRef),
+                    );
+                    const stmt =factory.createVariableStatement(
+                        /*modifiers*/ undefined,
+                        factory.createVariableDeclarationList([decl], NodeFlags.Const)
+                    );
+                    decls.push(finishNode(stmt, tail.pos, tail.end));
+                    
+                    isTail = true;
+                    nextToken();
+                } else {
+                    return undefined;
+                }
+            } 
+            // { x: ... }
+            //   ^
+            else if (token() === SyntaxKind.Identifier || token() === SyntaxKind.StringLiteral) {                  
+                const posKey = scanner.getTokenStart();
+                const endKey = scanner.getTokenEnd();
+                const keyText: string = scanner.getTokenValue();
+                const keyLiteral = finishNode(
+                    withExtendedFlag(
+                        factory.createStringLiteral(keyText),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    ),
+                    posKey, 
+                    endKey
+                );
+                keys.push(keyLiteral);
+
+                // input['x']
+                const elementAccess = finishNode(
+                    factory.createElementAccessExpression(input, keyLiteral),
+                    posKey,
+                    endKey
+                );
+
+                // x in input
+                const cond = finishNode(
+                    factory.createBinaryExpression(
+                        keyLiteral,
+                        SyntaxKind.InKeyword,
+                        input,
+                    ), 
+                    posKey, 
+                    endKey
+                );
+                conds.push(cond);
+                count++;
+              
+                nextToken();
+
+                // { x: pattern, ... }
+                //    ^
+                if (token() === SyntaxKind.ColonToken) {
+                    nextToken();
+                    // { x: pattern, ... }
+                    //      ^^^^^^^
+                    const iden = withExtendedFlag(
+                        factory.createIdentifier(`__key_${keyText}__`),
+                        ExtendedNodeFlags.IsSwitchExpression,
+                    );
+                    const decl = finishNode(factory.createVariableStatement(
+                        /*modifiers*/ undefined,
+                        factory.createVariableDeclarationList(
+                            [
+                                factory.createVariableDeclaration(
+                                    iden,
+                                    /*exclamationToken*/ undefined,
+                                    /*type*/ undefined,
+                                    /*initializer*/ elementAccess
+                                ),
+                            ],
+                            NodeFlags.Const
+                        )),
+                        posKey,
+                        endKey
+                    );
+                    const pattern = parsePatternMatching(iden);
+                    if (pattern === undefined) {
+                        return undefined;
+                    }
+                    decls.push(decl);
+                    conds = conds.concat(pattern.conds);
+                    decls = decls.concat(pattern.decls);
+                }
+                // { x }
+                //   ^
+                else {
+                    // const x = parent['x'];
+                    const decl = finishNode(factory.createVariableStatement(
+                        /*modifiers*/ undefined,
+                        factory.createVariableDeclarationList(
+                            [
+                                factory.createVariableDeclaration(
+                                    withExtendedFlag(
+                                        factory.createIdentifier(keyText),
+                                        ExtendedNodeFlags.IsSwitchExpression
+                                    ),
+                                    /*exclamationToken*/ undefined,
+                                    /*type*/ undefined,
+                                    /*initializer*/ elementAccess
+                                ),
+                            ],
+                            NodeFlags.Const
+                        )),
+                        posKey,
+                        endKey
+                    );
+                    decls.push(decl);
+                } 
+            } else {
+                return undefined;
+            }
+
+            // { x: pattern, ... }
+            //             ^
+            if (token() !== SyntaxKind.CommaToken || isTail) {
+                break;
+            }
+
+            nextToken();
+        } // end of while
+
+        conds.push(factory.createBinaryExpression(
+            factory.createPropertyAccessExpression(
+                /*expression*/ factory.createCallExpression(
+                    factory.createPropertyAccessExpression(
+                        withExtendedFlag(
+                            factory.createIdentifier("Object"),
+                            ExtendedNodeFlags.IsSwitchExpression
+                        ),
+                        withExtendedFlag(
+                            factory.createIdentifier("keys"),
+                            ExtendedNodeFlags.IsSwitchExpression
+                        ),
+                    ),    
+                    /*typeArguments*/ undefined,
+                    [input]
+                ),
+                withExtendedFlag(
+                    factory.createIdentifier("length"),
+                    ExtendedNodeFlags.IsSwitchExpression
+                )
+            ),
+            isTail 
+              ? factory.createToken(SyntaxKind.GreaterThanEqualsToken)
+              : factory.createToken(SyntaxKind.EqualsEqualsEqualsToken),
+            withExtendedFlag(
+                factory.createNumericLiteral(count),
+                ExtendedNodeFlags.IsSwitchExpression
+            )
+        ));
+
+        if (token() !== SyntaxKind.CloseBraceToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        return { conds, decls };
+    }
+
+    function parseArrayPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        // [x] :: arg.length === 1
+        // [1] :: arg.length === 1 && arg[0] === 1
+        // [[x]]
+        // [{x: 1}]
+        // [...xs] :: arg.length >= 1
+        if (token() !== SyntaxKind.OpenBracketToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        let conds: Expression[] = [];
+        let decls: VariableStatement[] = [];
+        let index = 0;
+        let count = 0;
+        let isTail = false;
+        while (true) {
+            // input[index]
+            const elem = factory.createElementAccessExpression(
+                /*expression*/ input,
+                /*index*/ withExtendedFlag(
+                    factory.createNumericLiteral(index),
+                    ExtendedNodeFlags.IsSwitchExpression
+                )
+            );
+
+            // [x, ...]
+            //  ^
+            if (token() === SyntaxKind.Identifier) {
+                const iden = withExtendedFlag( 
+                    factory.createIdentifier(scanner.getTokenValue()),
+                    ExtendedNodeFlags.IsSwitchExpression
+                );
+                const decl = factory.createVariableStatement(
+                    /*modifiers*/ undefined,
+                    /*declarationList*/ factory.createVariableDeclarationList(
+                        /*declarations*/ [
+                            factory.createVariableDeclaration(
+                                /*name*/ iden,
+                                /*exclamationToken*/ undefined,
+                                /*type*/ undefined,
+                                /*initializer*/ elem,
+                            ),
+                        ],
+                        /*flags*/ NodeFlags.Const
+                    )
+                );
+
+                count++;
+                conds.push(factory.createTrue());
+                decls.push(decl);
+                nextToken();
+            } 
+            // [...xs]
+            //  ^^^^^
+            else if (token() === SyntaxKind.DotDotDotToken) {
+                nextToken();
+                // parent.slice(index)
+                const tail = factory.createCallExpression(
+                    /*expression*/ factory.createPropertyAccessExpression(
+                        /*expression*/ input,
+                        /*name*/ withExtendedFlag(
+                            factory.createIdentifier("slice"),
+                            ExtendedNodeFlags.IsSwitchExpression
+                        )
+                    ),
+                    /*typeArguments*/ undefined,
+                    /*argumentsArray*/ [withExtendedFlag(
+                        factory.createNumericLiteral(index),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    )]
+                );
+
+                // const tail = parent.slice(index);
+                const decl = factory.createVariableStatement(
+                    /*modifiers*/ undefined,
+                    /*declarationList*/ factory.createVariableDeclarationList(
+                        /*declarations*/ [
+                            factory.createVariableDeclaration(
+                                /*name*/ withExtendedFlag(
+                                    factory.createIdentifier(scanner.getTokenValue()),
+                                    ExtendedNodeFlags.IsSwitchExpression
+                                ),
+                                /*exclamationToken*/ undefined,
+                                /*type*/ undefined,
+                                /*initializer*/ tail,
+                            ),
+                        ],
+                        /*flags*/ NodeFlags.Const
+                    )
+                );
+
+                isTail = true;
+                conds.push(factory.createTrue());
+                decls.push(decl);
+                nextToken();
+            } 
+            // [1]
+            //  ^
+            else {
+                // const __temp{index}___ = input[index];
+                const temp = withExtendedFlag(
+                    factory.createIdentifier(`__temp${index}__`),
+                    ExtendedNodeFlags.IsSwitchExpression
+                );
+                const decl = factory.createVariableStatement(
+                    /*modifiers*/ undefined,
+                    /*declarationList*/ factory.createVariableDeclarationList(
+                        /*declarations*/ [
+                            factory.createVariableDeclaration(
+                                /*name*/ temp,
+                                /*exclamationToken*/ undefined,
+                                /*type*/ undefined,
+                                /*initializer*/ elem,
+                            ),
+                        ],
+                        /*flags*/ NodeFlags.Const
+                    )
+                );
+                decls.push(decl);
+
+                const pattern = parsePatternMatching(temp);
+                if (pattern === undefined) {
+                    break;
+                }
+                
+                count++;
+                conds = conds.concat(pattern.conds);
+                decls = decls.concat(pattern.decls);
+            }
+
+            index++;
+
+            // [x, ...]
+            //   ^
+            if (token() !== SyntaxKind.CommaToken || isTail) {
+                break;
+            }
+
+            nextToken();
+
+        } // end of while
+
+        if (token() !== SyntaxKind.CloseBracketToken) {
+            return undefined;
+        }
+
+        conds.push(factory.createBinaryExpression(
+            factory.createPropertyAccessExpression(
+                /*expression*/ input,
+                withExtendedFlag(
+                    factory.createIdentifier("length"),
+                    ExtendedNodeFlags.IsSwitchExpression
+                )
+            ),
+            index === count 
+              ? factory.createToken(SyntaxKind.EqualsEqualsEqualsToken)
+              : factory.createToken(SyntaxKind.GreaterThanEqualsToken),
+            withExtendedFlag(
+                factory.createNumericLiteral(count),
+                ExtendedNodeFlags.IsSwitchExpression
+            )
+        ));
+
+        nextToken();
+
+        return {conds, decls};
+    }
+
+    function parseNullPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        if (token() !== SyntaxKind.NullKeyword) {
+            return undefined;
+        }
+        
+        nextToken();
+
+        return {
+            conds: [
+                factory.createBinaryExpression(
+                    input,
+                    SyntaxKind.EqualsEqualsEqualsToken,
+                    factory.createNull()
+                )
+            ], 
+            decls: []
+        };
+    }
+
+    function parseUndefinedPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        if (token() !== SyntaxKind.UndefinedKeyword) {
+            return undefined;
+        }
+
+        nextToken();
+
+        return {
+            conds: [
+                factory.createBinaryExpression(
+                    input,
+                    SyntaxKind.EqualsEqualsEqualsToken,
+                    withExtendedFlag(
+                        factory.createIdentifier("undefined"),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    )
+                )
+            ], 
+            decls: []
+        };
+    }
+
+    function parseBooleanPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const start = scanner.getTokenStart();
+        const end = scanner.getTokenEnd();
+        if (token() === SyntaxKind.TrueKeyword) {
+            nextToken();
+            return {
+                conds: [
+                    finishNode(
+                        factory.createBinaryExpression(
+                            input,
+                            finishNode(factory.createToken(SyntaxKind.EqualsEqualsEqualsToken), start, start),
+                            finishNode(factory.createTrue(), start, end),
+                        ),
+                        start,
+                        end,
+                    ),
+                ], 
+                decls: []
+            };
+        }
+        if (token() === SyntaxKind.FalseKeyword) {            
+            nextToken();
+            return {
+                conds: [
+                    finishNode(
+                        factory.createBinaryExpression(
+                            input,
+                            finishNode(factory.createToken(SyntaxKind.EqualsEqualsEqualsToken), start, start),
+                            finishNode(factory.createFalse(), start, end),
+                        ),
+                        start,
+                        end,
+                    ),
+                ], 
+                decls: []
+            };
+        }
+        return undefined;
+    }
+
+    function parseNumberPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        if (token() !== SyntaxKind.NumericLiteral) {
+            return undefined;
+        }
+        nextToken();
+        return {
+            conds: [
+                factory.createBinaryExpression(
+                    input,
+                    SyntaxKind.EqualsEqualsEqualsToken,
+                    withExtendedFlag(
+                        factory.createNumericLiteral(scanner.getTokenValue()),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    )
+                )
+            ], 
+            decls: []
+        };
+    }
+
+    function parseStringPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        if (token() !== SyntaxKind.StringLiteral) {
+            return undefined;
+        }
+        nextToken();
+        return {
+            conds: [
+                factory.createBinaryExpression(
+                    input,
+                    SyntaxKind.EqualsEqualsEqualsToken,
+                    withExtendedFlag(
+                        factory.createStringLiteral(scanner.getTokenValue()),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    )
+                )
+            ], 
+            decls: []
+        };
+    }
+
+    function parseIdentifierPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        if (token() !== SyntaxKind.Identifier) {
+            return undefined;
+        }
+
+        const start = scanner.getTokenStart();
+        const end = scanner.getTokenEnd();
+        const iden = finishNode(
+            withExtendedFlag(
+                factory.createIdentifier(scanner.getTokenValue()),
+                ExtendedNodeFlags.IsSwitchExpression
+            ),
+            start,
+            end,
+        );
+        const stmt = finishNode(
+            factory.createVariableStatement(
+                /*modifiers*/ undefined,
+                finishNode(
+                    factory.createVariableDeclarationList(
+                        [
+                            finishNode(
+                                factory.createVariableDeclaration(
+                                    iden,
+                                    /*exclamationToken*/ undefined,
+                                    /*type*/ undefined,
+                                    /*initializer*/ input
+                                ),
+                                start,
+                                end,
+                            )
+                        ],
+                        NodeFlags.Const
+                    ),
+                    start,
+                    end,
+                )
+            ),
+            start,
+            end,
+        );
+
+        nextToken();
+
+        return {
+            conds: [],
+            decls: [stmt]
+        };
+    }
+
+    function parseSwitchExpression(): Expression | undefined {
+        const start = getNodePos();
+
+        // switch (...) {
+        // ^^^^^^
+        if (token() !== SyntaxKind.SwitchKeyword) {
+            return undefined;
+        }
+
+        nextToken();
+
+        // switch (...) {
+        //        ^
+        if (token() !== SyntaxKind.OpenParenToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        // switch (...) {
+        //         ^^^
+        const input = tryParse(() => parseExpression());
+        if (input === undefined) {
+            return undefined;
+        }
+        
+        const inputIden = finishNode(
+            withExtendedFlag(
+                factory.createIdentifier("input"),
+                ExtendedNodeFlags.IsSwitchExpression
+            ),
+            input.pos,
+            input.end,
+        );
+
+        // switch (...) {
+        //            ^
+        if (token() !== SyntaxKind.CloseParenToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        // switch (...) {
+        //              ^
+        if (token() !== SyntaxKind.OpenBraceToken) {
+            return undefined;
+        }
+
+        nextToken();
+
+        const cases: Block[] = [];
+        while (true) {
+            const pattStart = getNodePos();
+
+            // switch (...) { pattern if guard => ..., }
+            //                ^^^^^^^
+            const patt = parsePatternMatching(inputIden);
+            if (patt === undefined) {
+                break;
+            }
+
+            // switch (...) { pattern if guard => ..., }
+            //                        ^^
+            let guard: Expression | undefined;
+            if (token() === SyntaxKind.IfKeyword) {
+                nextToken();
+
+                // switch (...) { pattern if guard => ..., }
+                //                           ^^^^^
+                guard = parseExpression();
+            }
+
+            // switch (...) { pattern if guard => ..., }
+            //                                 ^^
+            if (token() !== SyntaxKind.EqualsGreaterThanToken) {
+                return undefined;
+            }
+
+            const pattEnd = scanner.getTokenEnd();
+
+            nextToken();
+
+            // switch (...) { pattern if guard => ..., }
+            //                                    ^^^
+            const expr = parseAssignmentExpressionOrHigher(/*allowReturnTypeInArrowFunction*/ true);
+
+            const isAlwaysTrue = patt.conds.length === 0 && guard === undefined;
+            if (isAlwaysTrue) {
+                /* 
+                  {
+                    const ...;
+                    return expr;
+                  }
+                */
+               const block = finishNode(
+                factory.createBlock(
+                        [
+                            ...patt.decls,
+                            finishNode(
+                                factory.createReturnStatement(expr),
+                                expr.pos,
+                                expr.end,
+                            ),
+                        ],
+                        /*multiLine*/ true
+                    ),
+                    pattStart,
+                    expr.end,
+                );
+                cases.push(block);
+            } else {
+                /*
+                  {
+                    const destructed = ...;
+                    if (conditions) {
+                        return expr;
+                    }
+                  }
+                */
+
+                // >>>>>>>>>> if (conditions) {
+                //                ^^^^^^^^^^
+                // [cond1, cond2, ..., guard].every(_ => _ === true)
+                // ^^^^^^^^^^^^^^^^^^^^^^^^^^
+                const conds = finishNode(
+                    factory.createArrayLiteralExpression(
+                        [
+                            ...patt.conds.filter(_ => _ !== undefined), 
+                            ...guard === undefined ? [] : [guard]
+                        ],
+                        /*multiLine*/ true
+                    ),
+                    pattStart,
+                    pattEnd,
+                );
+                // [cond1, cond2, ..., guard].every(_ => _ === true)
+                // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                const every = finishNode(
+                    factory.createPropertyAccessExpression(
+                        conds, 
+                        finishNode(
+                            withExtendedFlag(
+                                factory.createIdentifier("every"),
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                            pattStart,
+                            pattStart,
+                        )
+                    ),
+                    pattStart,
+                    pattStart,
+                );
+                
+                // [cond1, cond2, ..., guard].every(_ => _ === true)
+                //                                  ^^^^^^^^^^^^^^^
+                const callbackEvery = finishNode(
+                    factory.createArrowFunction(
+                        /*modifiers*/ undefined,
+                        /*typeParameters*/ undefined,
+                        /*parameters*/ [
+                            finishNode(
+                                factory.createParameterDeclaration(
+                                    /*modifiers*/ undefined,
+                                    /*dotDotDotToken*/ undefined,
+                                    /*name*/ finishNode(
+                                        withExtendedFlag(
+                                            factory.createIdentifier("__cond__"), 
+                                            ExtendedNodeFlags.IsSwitchExpression
+                                        ),
+                                        pattStart,
+                                        pattEnd
+                                    ),
+                                    /*questionToken*/ undefined,
+                                    /*type*/ undefined,
+                                    /*initializer*/ undefined
+                                ),
+                                pattStart,
+                                pattStart,
+                            ),
+                        ],
+                        /*type*/ undefined,
+                        finishNode(factory.createToken(SyntaxKind.EqualsGreaterThanToken), pattStart, pattStart),
+                        finishNode(
+                            factory.createBinaryExpression(
+                                withExtendedFlag(
+                                    factory.createIdentifier("__cond__"),
+                                    ExtendedNodeFlags.IsSwitchExpression
+                                ),
+                                factory.createToken(SyntaxKind.EqualsEqualsEqualsToken),
+                                factory.createTrue()
+                            ),
+                            pattStart,
+                            pattEnd
+                        )
+                    ),
+                    pattStart,
+                    pattEnd,
+                );
+                // [cond1, cond2, ..., guard].every(_ => _ === true)
+                // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                const callEvery = finishNode(
+                    factory.createCallExpression(
+                        every,
+                        /*typeArguments*/ undefined,
+                        [callbackEvery]
+                    ),
+                    pattStart,
+                    pattEnd,
+                );
+                // if (conditions) <<<<<<<<<<
+                //     ^^^^^^^^^^
+
+                // return expr;
+                const returnExpr = finishNode(
+                    factory.createBlock(
+                        [finishNode(
+                            factory.createReturnStatement(expr),
+                            expr.pos,
+                            expr.end,
+                        )],
+                        /*multiLine*/ true
+                    ),
+                    expr.pos,
+                    expr.end,
+                );
+
+                // >>>>>>>>>> if (conditions) { ... } else { ... }
+                const testPattern = finishNode(
+                    factory.createIfStatement(
+                        /*expression*/ callEvery,
+                        // /*thenStatement*/ returnTrue,
+                        // /*elseStatement*/ returnFalse
+                        returnExpr,
+                    ),
+                    pattStart,
+                    expr.end,
+                );
+                // if (conditions) { ... } else { ... } <<<<<<<<<<
+
+                // A block that contains everything
+                const block = finishNode(
+                    factory.createBlock(
+                        /*statements*/ [
+                            // matchedStmt,
+                            // ifMatched
+                            ...patt.decls,
+                            testPattern,
+                        ],
+                        /*multiLine*/ true
+                    ),
+                    pattStart,
+                    expr.end,
+                );
+
+                cases.push(block);
+            }
+
+            if (token() !== SyntaxKind.CommaToken) {
+                break;
+            }
+            
+            nextToken();
+            
+        } // end of while (true)
+
+        if (cases.length === 0) {
+            return undefined;
+        }
+
+        // switch (...) { pattern if guard => ... }
+        //                                        ^
+        if (token() !== SyntaxKind.CloseBraceToken) {
+            return undefined;
+        }
+
+        const end = scanner.getTokenEnd();
+
+        nextToken();
+
+        if (token() === SyntaxKind.SemicolonToken) {
+            nextToken();
+        }
+        
+        // const input = ...;
+        const inputStmt = finishNode(
+            factory.createVariableStatement(
+                /*modifiers*/ undefined,
+                factory.createVariableDeclarationList(
+                    [
+                        finishNode(
+                            factory.createVariableDeclaration(
+                                inputIden,
+                                /*exclamationToken*/ undefined,
+                                /*type*/ undefined,
+                                input
+                            ),
+                            input.pos,
+                            input.end,
+                        ),
+                    ],
+                    NodeFlags.Const
+                )
+            ),
+            input.pos,
+            input.end,
+        );
+
+        // throw Error("...");
+        const throwError = finishNode(
+            factory.createThrowStatement(
+                finishNode(
+                    factory.createNewExpression(
+                        finishNode(
+                            withExtendedFlag(
+                                factory.createIdentifier("Error"),
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                            end, 
+                            end,
+                        ),
+                        /*typeArguments*/ undefined,
+                        factory.createNodeArray([
+                            finishNode(
+                                withExtendedFlag(
+                                    factory.createStringLiteral("Non-exhaustive pattern match"),
+                                    ExtendedNodeFlags.IsSwitchExpression
+                                ),
+                                end, 
+                                end,
+                            )
+                        ]),
+                    ),
+                    end,
+                    end,
+                ),
+            ),
+            end,
+            end,
+        )
+
+        // IIFE that wraps everything
+        const expr = finishNode(
+                factory.createCallExpression(
+                finishNode(
+                    factory.createParenthesizedExpression(
+                        finishNode(
+                            factory.createArrowFunction(
+                                /*modifiers*/ undefined,
+                                /*typeParameters*/ undefined,
+                                /*parameters*/ [],
+                                /*type*/ undefined,
+                                /*equalsGreaterThanToken*/ finishNode(
+                                    factory.createToken(SyntaxKind.EqualsGreaterThanToken),
+                                    start,
+                                    start,
+                                ),
+                                /*body*/ finishNode(
+                                    factory.createBlock(
+                                        [
+                                            inputStmt,
+                                            ...cases,
+                                            throwError,
+
+                                        ],
+                                        /*multiLine*/ true
+                                    ),
+                                    start,
+                                    end,
+                                )
+                            ),
+                            start,
+                            end,
+                        ),
+                    ),
+                    start,
+                    end,
+                ),
+                /*typeArguments*/ undefined,
+                /*argumentsArray*/ []
+            ),
+            start,
+            end,
+        );
+        
+        return expr;
+    }
+
+    function tryParseSwitchExpression(): Expression | undefined {
+        return tryParse(() => parseSwitchExpression());
     }
 
     function parseConditionalExpressionRest(leftOperand: Expression, pos: number, allowReturnTypeInArrowFunction: boolean): Expression {
@@ -7425,6 +8446,15 @@ namespace Parser {
         return withJSDoc(finishNode(factory.createSwitchStatement(expression, caseBlock), pos), hasJSDoc);
     }
 
+    function parseSwitchStatementOrExpression(): Statement {
+        const expr = tryParseSwitchExpression();
+        if (expr) {
+            const exprStmt = factory.createExpressionStatement(expr);
+            return exprStmt;
+        }
+        return parseSwitchStatement();
+    }
+
     function parseThrowStatement(): ThrowStatement {
         // ThrowStatement[Yield] :
         //      throw [no LineTerminator here]Expression[In, ?Yield];
@@ -7796,7 +8826,7 @@ namespace Parser {
             case SyntaxKind.WithKeyword:
                 return parseWithStatement();
             case SyntaxKind.SwitchKeyword:
-                return parseSwitchStatement();
+                return parseSwitchStatementOrExpression();
             case SyntaxKind.ThrowKeyword:
                 return parseThrowStatement();
             case SyntaxKind.TryKeyword:

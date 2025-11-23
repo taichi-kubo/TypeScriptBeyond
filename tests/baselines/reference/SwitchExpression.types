@@ -1,0 +1,8380 @@
+//// [tests/cases/compiler/SwitchExpression.ts] ////
+
+=== SwitchExpression.ts ===
+{
+  const a: boolean = true;
+>a : boolean
+>  : ^^^^^^^
+>true : true
+>     : ^^^^
+
+  const r = switch (a) {
+>r : "yes" | "no"
+>  : ^^^^^^^^^^^^
+>switch (a) {    true => "yes",    _ => "no",      } : "yes" | "no"
+>                                                    : ^^^^^^^^^^^^
+>switch (a) {    true => "yes",    _ => "no",      } : () => "yes" | "no"
+>                                                    : ^^^^^^^^^^^^^^^^^^
+>switch (a) {    true => "yes",    _ => "no",      } : () => "yes" | "no"
+>                                                    : ^^^^^^^^^^^^^^^^^^
+>a : true
+>  : ^^^^
+>a : true
+>  : ^^^^
+
+    true => "yes",
+>true => : boolean
+>        : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>true => : boolean[]
+>        : ^^^^^^^^^
+>true : boolean
+>     : ^^^^^^^
+
+
+>a : true
+>  : ^^^^
+
+    true => "yes",
+>true : true
+>     : ^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>true => : (__cond__: boolean) => boolean
+>        : ^        ^^^^^^^^^^^^^^^^^^^^^
+>true => : boolean
+>        : ^^^^^^^
+>true => : boolean
+>        : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+>"yes" : "yes"
+>      : ^^^^^
+
+    _ => "no",    
+>_ : true
+>  : ^^^^
+
+
+>a : true
+>  : ^^^^
+
+    true => "yes",
+    _ => "no",    
+>"no" : "no"
+>     : ^^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+
+{
+  const a: number = 1;
+>a : number
+>  : ^^^^^^
+>1 : 1
+>  : ^
+
+  const r = switch (a) {
+>r : "zero" | "one" | "many"
+>  : ^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    0 => "zero",    1 => "one",    _ => "many",  } : "zero" | "one" | "many"
+>                                                               : ^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    0 => "zero",    1 => "one",    _ => "many",  } : () => "zero" | "one" | "many"
+>                                                               : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    0 => "zero",    1 => "one",    _ => "many",  } : () => "zero" | "one" | "many"
+>                                                               : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>a : number
+>  : ^^^^^^
+>a : number
+>  : ^^^^^^
+
+    0 => "zero",
+>0 => : boolean
+>     : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>0 => : boolean[]
+>     : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+>a : number
+>  : ^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>0 => : (__cond__: boolean) => boolean
+>     : ^        ^^^^^^^^^^^^^^^^^^^^^
+>0 => : boolean
+>     : ^^^^^^^
+>0 => : boolean
+>     : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+>"zero" : "zero"
+>       : ^^^^^^
+
+    1 => "one",
+>1 => : boolean
+>     : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>1 => : boolean[]
+>     : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+>a : number
+>  : ^^^^^^
+
+
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>1 => : (__cond__: boolean) => boolean
+>     : ^        ^^^^^^^^^^^^^^^^^^^^^
+>1 => : boolean
+>     : ^^^^^^^
+>1 => : boolean
+>     : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+>"one" : "one"
+>      : ^^^^^
+
+    _ => "many",
+>_ : number
+>  : ^^^^^^
+
+
+>a : number
+>  : ^^^^^^
+
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+>"many" : "many"
+>       : ^^^^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+
+{
+  const a: string = "hoge";
+>a : string
+>  : ^^^^^^
+>"hoge" : "hoge"
+>       : ^^^^^^
+
+  const r = switch (a) {
+>r : "string fuga" | "string hoge" | "string unknown"
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    "fuga" => "string fuga",    "hoge" => "string hoge",    _ => "string unknown",  } : "string fuga" | "string hoge" | "string unknown"
+>                                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    "fuga" => "string fuga",    "hoge" => "string hoge",    _ => "string unknown",  } : () => "string fuga" | "string hoge" | "string unknown"
+>                                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    "fuga" => "string fuga",    "hoge" => "string hoge",    _ => "string unknown",  } : () => "string fuga" | "string hoge" | "string unknown"
+>                                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>a : string
+>  : ^^^^^^
+>a : string
+>  : ^^^^^^
+
+    "fuga" => "string fuga",
+>"fuga" => : boolean
+>          : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>"fuga" => : boolean[]
+>          : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+>a : string
+>  : ^^^^^^
+
+
+> : "fuga"
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>"fuga" => : (__cond__: boolean) => boolean
+>          : ^        ^^^^^^^^^^^^^^^^^^^^^
+>"fuga" => : boolean
+>          : ^^^^^^^
+>"fuga" => : boolean
+>          : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+>"string fuga" : "string fuga"
+>              : ^^^^^^^^^^^^^
+
+    "hoge" => "string hoge",
+>"hoge" => : boolean
+>          : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>"hoge" => : boolean[]
+>          : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+>a : string
+>  : ^^^^^^
+
+
+> : "hoge"
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>"hoge" => : (__cond__: boolean) => boolean
+>          : ^        ^^^^^^^^^^^^^^^^^^^^^
+>"hoge" => : boolean
+>          : ^^^^^^^
+>"hoge" => : boolean
+>          : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+>"string hoge" : "string hoge"
+>              : ^^^^^^^^^^^^^
+
+    _ => "string unknown",
+>_ : string
+>  : ^^^^^^
+
+
+>a : string
+>  : ^^^^^^
+
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+>"string unknown" : "string unknown"
+>                 : ^^^^^^^^^^^^^^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+
+{
+  const a: number | null | undefined = 1;
+>a : number
+>  : ^^^^^^
+>1 : 1
+>  : ^
+
+  const r = switch (a) {
+>r : "null" | "undefined" | "number"
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    null => "null",    undefined => "undefined",    _ => "number",  } : "number" | "undefined" | "null"
+>                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    null => "null",    undefined => "undefined",    _ => "number",  } : () => "null" | "undefined" | "number"
+>                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    null => "null",    undefined => "undefined",    _ => "number",  } : () => "null" | "undefined" | "number"
+>                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>a : number
+>  : ^^^^^^
+>a : number
+>  : ^^^^^^
+
+    null => "null",
+>null => : boolean
+>        : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>null => : boolean[]
+>        : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+>a : number
+>  : ^^^^^^
+
+    null => "null",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>null => : (__cond__: boolean) => boolean
+>        : ^        ^^^^^^^^^^^^^^^^^^^^^
+>null => : boolean
+>        : ^^^^^^^
+>null => : boolean
+>        : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+>"null" : "null"
+>       : ^^^^^^
+
+    undefined => "undefined",
+>undefined => : boolean
+>             : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>undefined => : boolean[]
+>             : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+>a : number
+>  : ^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>undefined => : (__cond__: boolean) => boolean
+>             : ^        ^^^^^^^^^^^^^^^^^^^^^
+>undefined => : boolean
+>             : ^^^^^^^
+>undefined => : boolean
+>             : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+>"undefined" : "undefined"
+>            : ^^^^^^^^^^^
+
+    _ => "number",
+>_ : number
+>  : ^^^^^^
+
+
+>a : number
+>  : ^^^^^^
+
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+>"number" : "number"
+>         : ^^^^^^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+
+{
+  const elem: unknown[] = [];
+>elem : unknown[]
+>     : ^^^^^^^^^
+>[] : undefined[]
+>   : ^^^^^^^^^^^
+
+  const r = switch (elem) {
+>r : "[true]" | "[1]" | "[hoge]" | "[null]" | "[undefined]" | "[elem]" | "[...tail]" | "[x," | "[x, 1]" | "[x, 2, ...tail]" | "[{x: 1, y}, [z], ...tail]"
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (elem) {    [true] => "[true]",    [1] => "[1]",    ["hoge"] => "[hoge]",    [null] => "[null]",    [undefined] => "[undefined]",    [elem] => "[elem]",    [...tail] => "[...tail]",    [x,] => "[x,",    [x, 1] => "[x, 1]",    [x, 2, ...tail] => "[x, 2, ...tail]",    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",  } : "[true]" | "[1]" | "[hoge]" | "[null]" | "[undefined]" | "[elem]" | "[...tail]" | "[x," | "[x, 1]" | "[x, 2, ...tail]" | "[{x: 1, y}, [z], ...tail]"
+>                                                                                                                                                                                                                                                                                                                                               : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (elem) {    [true] => "[true]",    [1] => "[1]",    ["hoge"] => "[hoge]",    [null] => "[null]",    [undefined] => "[undefined]",    [elem] => "[elem]",    [...tail] => "[...tail]",    [x,] => "[x,",    [x, 1] => "[x, 1]",    [x, 2, ...tail] => "[x, 2, ...tail]",    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",  } : () => "[true]" | "[1]" | "[hoge]" | "[null]" | "[undefined]" | "[elem]" | "[...tail]" | "[x," | "[x, 1]" | "[x, 2, ...tail]" | "[{x: 1, y}, [z], ...tail]"
+>                                                                                                                                                                                                                                                                                                                                               : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (elem) {    [true] => "[true]",    [1] => "[1]",    ["hoge"] => "[hoge]",    [null] => "[null]",    [undefined] => "[undefined]",    [elem] => "[elem]",    [...tail] => "[...tail]",    [x,] => "[x,",    [x, 1] => "[x, 1]",    [x, 2, ...tail] => "[x, 2, ...tail]",    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",  } : () => "[true]" | "[1]" | "[hoge]" | "[null]" | "[undefined]" | "[elem]" | "[...tail]" | "[x," | "[x, 1]" | "[x, 2, ...tail]" | "[{x: 1, y}, [z], ...tail]"
+>                                                                                                                                                                                                                                                                                                                                               : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>elem : unknown[]
+>     : ^^^^^^^^^
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+>[true] => : boolean
+>          : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[true] => : boolean[]
+>          : ^^^^^^^^^
+>true : boolean
+>     : ^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+>true : true
+>     : ^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[true] => : (__cond__: boolean) => boolean
+>          : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[true] => : boolean
+>          : ^^^^^^^
+>[true] => : boolean
+>          : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+>"[true]" : "[true]"
+>         : ^^^^^^^^
+
+
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+>[1] => : boolean
+>       : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[1] => : boolean[]
+>       : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[1] => : (__cond__: boolean) => boolean
+>       : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[1] => : boolean
+>       : ^^^^^^^
+>[1] => : boolean
+>       : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+>"[1]" : "[1]"
+>      : ^^^^^
+
+
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+>["hoge"] => : boolean
+>            : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>["hoge"] => : boolean[]
+>            : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : "hoge"
+> : ^^^^^^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>["hoge"] => : (__cond__: boolean) => boolean
+>            : ^        ^^^^^^^^^^^^^^^^^^^^^
+>["hoge"] => : boolean
+>            : ^^^^^^^
+>["hoge"] => : boolean
+>            : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+>"[hoge]" : "[hoge]"
+>         : ^^^^^^^^
+
+
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+>[null] => : boolean
+>          : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[null] => : boolean[]
+>          : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[null] => : (__cond__: boolean) => boolean
+>          : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[null] => : boolean
+>          : ^^^^^^^
+>[null] => : boolean
+>          : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+>"[null]" : "[null]"
+>         : ^^^^^^^^
+
+
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+>[undefined] => : boolean
+>               : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[undefined] => : boolean[]
+>               : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : error
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[undefined] => : (__cond__: boolean) => boolean
+>               : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[undefined] => : boolean
+>               : ^^^^^^^
+>[undefined] => : boolean
+>               : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+>"[undefined]" : "[undefined]"
+>              : ^^^^^^^^^^^^^
+
+
+> : unknown
+> : ^^^^^^^
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+>[elem] => : boolean
+>          : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[elem] => : boolean[]
+>          : ^^^^^^^^^
+
+
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[elem] => : (__cond__: boolean) => boolean
+>          : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[elem] => : boolean
+>          : ^^^^^^^
+>[elem] => : boolean
+>          : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+>"[elem]" : "[elem]"
+>         : ^^^^^^^^
+
+
+> : unknown[]
+> : ^^^^^^^^^
+> : unknown[]
+> : ^^^^^^^^^
+> : (start?: number, end?: number) => unknown[]
+> : ^     ^^^      ^^   ^^^      ^^^^^^^^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : (start?: number, end?: number) => unknown[]
+> : ^     ^^^      ^^   ^^^      ^^^^^^^^^^^^^^
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+>[...tail] => : boolean
+>             : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[...tail] => : boolean[]
+>             : ^^^^^^^^^
+
+
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[...tail] => : (__cond__: boolean) => boolean
+>             : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[...tail] => : boolean
+>             : ^^^^^^^
+>[...tail] => : boolean
+>             : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+>"[...tail]" : "[...tail]"
+>            : ^^^^^^^^^^^
+
+
+> : unknown
+> : ^^^^^^^
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+> : unknown
+> : ^^^^^^^
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+>[x,] => : boolean
+>        : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[x,] => : boolean[]
+>        : ^^^^^^^^^
+
+
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[x,] => : (__cond__: boolean) => boolean
+>        : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[x,] => : boolean
+>        : ^^^^^^^
+>[x,] => : boolean
+>        : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+>"[x," : "[x,"
+>      : ^^^^^
+
+
+> : unknown
+> : ^^^^^^^
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+>[x, 1] => : boolean
+>          : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[x, 1] => : boolean[]
+>          : ^^^^^^^^^
+
+
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[x, 1] => : (__cond__: boolean) => boolean
+>          : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[x, 1] => : boolean
+>          : ^^^^^^^
+>[x, 1] => : boolean
+>          : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+>"[x, 1]" : "[x, 1]"
+>         : ^^^^^^^^
+
+
+> : unknown
+> : ^^^^^^^
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 1
+> : ^
+> : unknown[]
+> : ^^^^^^^^^
+> : unknown[]
+> : ^^^^^^^^^
+> : (start?: number, end?: number) => unknown[]
+> : ^     ^^^      ^^   ^^^      ^^^^^^^^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : (start?: number, end?: number) => unknown[]
+> : ^     ^^^      ^^   ^^^      ^^^^^^^^^^^^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+>[x, 2, ...tail] => : boolean
+>                   : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[x, 2, ...tail] => : boolean[]
+>                   : ^^^^^^^^^
+
+
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : error
+> : 2
+> : ^
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[x, 2, ...tail] => : (__cond__: boolean) => boolean
+>                   : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[x, 2, ...tail] => : boolean
+>                   : ^^^^^^^
+>[x, 2, ...tail] => : boolean
+>                   : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+>"[x, 2, ...tail]" : "[x, 2, ...tail]"
+>                  : ^^^^^^^^^^^^^^^^^
+
+
+> : error
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 0
+> : ^
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>x : error
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>x : "x"
+>  : ^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>y : error
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>y : "y"
+>  : ^^^
+
+
+> : any
+> : ^^^
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : 1
+> : ^
+> : error
+> : error
+> : any
+> : ^^^
+> : 0
+> : ^
+> : unknown[]
+> : ^^^^^^^^^
+> : unknown[]
+> : ^^^^^^^^^
+> : (start?: number, end?: number) => unknown[]
+> : ^     ^^^      ^^   ^^^      ^^^^^^^^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : (start?: number, end?: number) => unknown[]
+> : ^     ^^^      ^^   ^^^      ^^^^^^^^^^^^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>[{x: 1, y}, [z], ...tail] => : boolean
+>                             : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[{x: 1, y}, [z], ...tail] => : boolean[]
+>                             : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+> : error
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>y : boolean
+>  : ^^^^^^^
+>y : "y"
+>  : ^^^
+
+
+> : error
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : 2
+> : ^
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+> : 1
+> : ^
+> : true
+> : ^^^^
+> : boolean
+> : ^^^^^^^
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+>elem : unknown[]
+>     : ^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>[{x: 1, y}, [z], ...tail] => : (__cond__: boolean) => boolean
+>                             : ^        ^^^^^^^^^^^^^^^^^^^^^
+>[{x: 1, y}, [z], ...tail] => : boolean
+>                             : ^^^^^^^
+>[{x: 1, y}, [z], ...tail] => : boolean
+>                             : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+>"[{x: 1, y}, [z], ...tail]" : "[{x: 1, y}, [z], ...tail]"
+>                            : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+
+{
+  const obj: Record<string, unknown> = {};
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+>{} : {}
+>   : ^^
+
+  const r = switch (obj) {
+>r : "{ x }" | "{ x: false }" | "{ x: 1 }" | "{ 'x': 1 }" | "{ 'x': a }" | "{ ...tail }" | "{ x: [1, 2] }" | "{ x: 1, y, ...tail }" | "_ if _.x === 1" | "_"
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (obj) {    { x } => "{ x }",    { x: false } => "{ x: false }",    { x: 1 } => "{ x: 1 }",    { "x": 1 } => "{ 'x': 1 }",    { "x": a } => "{ 'x': a }",    { ...tail } => "{ ...tail }",    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",    _ if _.x === 1 => "_ if _.x === 1",    _ => "_",  } : "{ x }" | "{ x: false }" | "{ x: 1 }" | "{ 'x': 1 }" | "{ 'x': a }" | "{ ...tail }" | "{ x: [1, 2] }" | "{ x: 1, y, ...tail }" | "_ if _.x === 1" | "_"
+>                                                                                                                                                                                                                                                                                                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (obj) {    { x } => "{ x }",    { x: false } => "{ x: false }",    { x: 1 } => "{ x: 1 }",    { "x": 1 } => "{ 'x': 1 }",    { "x": a } => "{ 'x': a }",    { ...tail } => "{ ...tail }",    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",    _ if _.x === 1 => "_ if _.x === 1",    _ => "_",  } : () => "{ x }" | "{ x: false }" | "{ x: 1 }" | "{ 'x': 1 }" | "{ 'x': a }" | "{ ...tail }" | "{ x: [1, 2] }" | "{ x: 1, y, ...tail }" | "_ if _.x === 1" | "_"
+>                                                                                                                                                                                                                                                                                                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (obj) {    { x } => "{ x }",    { x: false } => "{ x: false }",    { x: 1 } => "{ x: 1 }",    { "x": 1 } => "{ 'x': 1 }",    { "x": a } => "{ 'x': a }",    { ...tail } => "{ ...tail }",    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",    _ if _.x === 1 => "_ if _.x === 1",    _ => "_",  } : () => "{ x }" | "{ x: false }" | "{ x: 1 }" | "{ 'x': 1 }" | "{ 'x': a }" | "{ ...tail }" | "{ x: [1, 2] }" | "{ x: 1, y, ...tail }" | "_ if _.x === 1" | "_"
+>                                                                                                                                                                                                                                                                                                                                                                  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+>x : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+>x : "x"
+>  : ^^^
+>{ x } => : boolean
+>         : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x } => : boolean[]
+>         : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x } => : (__cond__: boolean) => boolean
+>         : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ x } => : boolean
+>         : ^^^^^^^
+>{ x } => : boolean
+>         : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+>"{ x }" : "{ x }"
+>        : ^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+>x : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+>x : "x"
+>  : ^^^
+>{ x: false } => : boolean
+>                : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: false } => : boolean[]
+>                : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+>false : boolean
+>      : ^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+>false : false
+>      : ^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: false } => : (__cond__: boolean) => boolean
+>                : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ x: false } => : boolean
+>                : ^^^^^^^
+>{ x: false } => : boolean
+>                : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+>"{ x: false }" : "{ x: false }"
+>               : ^^^^^^^^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+>x : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+>x : "x"
+>  : ^^^
+>{ x: 1 } => : boolean
+>            : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: 1 } => : boolean[]
+>            : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: 1 } => : (__cond__: boolean) => boolean
+>            : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ x: 1 } => : boolean
+>            : ^^^^^^^
+>{ x: 1 } => : boolean
+>            : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+>"{ x: 1 }" : "{ x: 1 }"
+>           : ^^^^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+>"x" : unknown
+>    : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+>"x" : "x"
+>    : ^^^
+>{ "x": 1 } => : boolean
+>              : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ "x": 1 } => : boolean[]
+>              : ^^^^^^^^^
+>"x" : boolean
+>    : ^^^^^^^
+>"x" : "x"
+>    : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ "x": 1 } => : (__cond__: boolean) => boolean
+>              : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ "x": 1 } => : boolean
+>              : ^^^^^^^
+>{ "x": 1 } => : boolean
+>              : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+>"{ 'x': 1 }" : "{ 'x': 1 }"
+>             : ^^^^^^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+>"x" : unknown
+>    : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+>"x" : "x"
+>    : ^^^
+>a : error
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+>{ "x": a } => : boolean
+>              : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ "x": a } => : boolean[]
+>              : ^^^^^^^^^
+>"x" : boolean
+>    : ^^^^^^^
+>"x" : "x"
+>    : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ "x": a } => : (__cond__: boolean) => boolean
+>              : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ "x": a } => : boolean
+>              : ^^^^^^^
+>{ "x": a } => : boolean
+>              : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+>"{ 'x': a }" : "{ 'x': a }"
+>             : ^^^^^^^^^^^^
+
+    { ...tail } => "{ ...tail }",
+>tail : Record<string, unknown>
+>     : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : Record<string, unknown>
+> : ^^^^^^^^^^^^^^^^^^^^^^^
+> : error
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+> : {}
+> : ^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+>{ ...tail } => : boolean
+>               : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ ...tail } => : boolean[]
+>               : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 0
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ ...tail } => : (__cond__: boolean) => boolean
+>               : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ ...tail } => : boolean
+>               : ^^^^^^^
+>{ ...tail } => : boolean
+>               : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+>"{ ...tail }" : "{ ...tail }"
+>              : ^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>x : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>x : "x"
+>  : ^^^
+
+
+> : error
+> : error
+> : any
+> : ^^^
+> : 0
+> : ^
+> : error
+> : error
+> : any
+> : ^^^
+> : 1
+> : ^
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>y : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>y : "y"
+>  : ^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>a : error
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>a : "a"
+>  : ^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>b : error
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>b : "b"
+>  : ^^^
+>{ x: [1, 2], y: { a: "a", b } } => : boolean
+>                                   : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: [1, 2], y: { a: "a", b } } => : boolean[]
+>                                   : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+> : boolean
+> : ^^^^^^^
+> : error
+> : 2
+> : ^
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>y : boolean
+>  : ^^^^^^^
+>y : "y"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>a : boolean
+>  : ^^^^^^^
+>a : "a"
+>  : ^^^
+
+
+> : error
+> : boolean
+> : ^^^^^^^
+> : error
+> : "a"
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>b : boolean
+>  : ^^^^^^^
+>b : "b"
+>  : ^^^
+
+
+> : error
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : 2
+> : ^
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: [1, 2], y: { a: "a", b } } => : (__cond__: boolean) => boolean
+>                                   : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ x: [1, 2], y: { a: "a", b } } => : boolean
+>                                   : ^^^^^^^
+>{ x: [1, 2], y: { a: "a", b } } => : boolean
+>                                   : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+>"{ x: [1, 2] }" : "{ x: [1, 2] }"
+>                : ^^^^^^^^^^^^^^^
+
+
+> : error
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>x : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>x : "x"
+>  : ^^^
+
+
+> : unknown
+> : ^^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>y : unknown
+>  : ^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>y : "y"
+>  : ^^^
+>tail : error
+
+
+> : error
+> : error
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+> : {}
+> : ^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>x : "x"
+>  : ^^^
+>y : "y"
+>  : ^^^
+>{ x: 1, y, ...tail } => : boolean
+>                        : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: 1, y, ...tail } => : boolean[]
+>                        : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : 1
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>y : boolean
+>  : ^^^^^^^
+>y : "y"
+>  : ^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 2
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x: 1, y, ...tail } => : (__cond__: boolean) => boolean
+>                        : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ x: 1, y, ...tail } => : boolean
+>                        : ^^^^^^^
+>{ x: 1, y, ...tail } => : boolean
+>                        : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+>"{ x: 1, y, ...tail }" : "{ x: 1, y, ...tail }"
+>                       : ^^^^^^^^^^^^^^^^^^^^^^
+
+    _ if _.x === 1 => "_ if _.x === 1",
+>_ : Record<string, unknown>
+>  : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+>_ if _.x === 1 => : boolean
+>                  : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>_ if _.x === 1 => : boolean[]
+>                  : ^^^^^^^^^
+>_.x === 1 : boolean
+>          : ^^^^^^^
+>_.x : unknown
+>    : ^^^^^^^
+>_ : Record<string, unknown>
+>  : ^^^^^^^^^^^^^^^^^^^^^^^
+>x : unknown
+>  : ^^^^^^^
+>1 : 1
+>  : ^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>_ if _.x === 1 => : (__cond__: boolean) => boolean
+>                  : ^        ^^^^^^^^^^^^^^^^^^^^^
+>_ if _.x === 1 => : boolean
+>                  : ^^^^^^^
+>_ if _.x === 1 => : boolean
+>                  : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+>"_ if _.x === 1" : "_ if _.x === 1"
+>                 : ^^^^^^^^^^^^^^^^
+
+    _ => "_",
+>_ : Record<string, unknown>
+>  : ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+>obj : Record<string, unknown>
+>    : ^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+>"_" : "_"
+>    : ^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>{ x: 1, y: 2, z: 3 } : { x: number; y: number; z: number; }
+>                     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>x : number
+>  : ^^^^^^
+>1 : 1
+>  : ^
+>y : number
+>  : ^^^^^^
+>2 : 2
+>  : ^
+>z : number
+>  : ^^^^^^
+>3 : 3
+>  : ^
+
+  const r = switch (a) {
+>r : number | "10 or less"
+>  : ^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    { x, y, z } if x + y + z > 10 => x * y * z,    _ => "10 or less",  } : number | "10 or less"
+>                                                                                     : ^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    { x, y, z } if x + y + z > 10 => x * y * z,    _ => "10 or less",  } : () => number | "10 or less"
+>                                                                                     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>switch (a) {    { x, y, z } if x + y + z > 10 => x * y * z,    _ => "10 or less",  } : () => number | "10 or less"
+>                                                                                     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>x : number
+>  : ^^^^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>x : "x"
+>  : ^^^
+
+
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>y : number
+>  : ^^^^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>y : "y"
+>  : ^^^
+
+
+> : number
+> : ^^^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>z : number
+>  : ^^^^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>z : "z"
+>  : ^^^
+>{ x, y, z } if x + y + z > 10 => : boolean
+>                                 : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x, y, z } if x + y + z > 10 => : boolean[]
+>                                 : ^^^^^^^^^
+>x : boolean
+>  : ^^^^^^^
+>x : "x"
+>  : ^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>y : boolean
+>  : ^^^^^^^
+>y : "y"
+>  : ^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>z : boolean
+>  : ^^^^^^^
+>z : "z"
+>  : ^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+> : error
+> : any
+> : ^^^
+> : error
+> : any
+> : ^^^
+> : any
+> : ^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+> : any
+> : ^^^
+> : 3
+> : ^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>x + y + z > 10 : boolean
+>               : ^^^^^^^
+>x + y + z : number
+>          : ^^^^^^
+>x + y : number
+>      : ^^^^^^
+>x : number
+>  : ^^^^^^
+>y : number
+>  : ^^^^^^
+>z : number
+>  : ^^^^^^
+>10 : 10
+>   : ^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>{ x, y, z } if x + y + z > 10 => : (__cond__: boolean) => boolean
+>                                 : ^        ^^^^^^^^^^^^^^^^^^^^^
+>{ x, y, z } if x + y + z > 10 => : boolean
+>                                 : ^^^^^^^
+>{ x, y, z } if x + y + z > 10 => : boolean
+>                                 : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const a: boolean = true;
+  const r = switch (a) {
+    true => "yes",
+    _ => "no",    
+  };
+}
+
+{
+  const a: number = 1;
+  const r = switch (a) {
+    0 => "zero",
+    1 => "one",
+    _ => "many",
+  };
+}
+
+{
+  const a: string = "hoge";
+  const r = switch (a) {
+    "fuga" => "string fuga",
+    "hoge" => "string hoge",
+    _ => "string unknown",
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+  const r = switch (a) {
+    null => "null",
+    undefined => "undefined",
+    _ => "number",
+  };
+}
+
+{
+  const elem: unknown[] = [];
+  const r = switch (elem) {
+    [true] => "[true]",
+    [1] => "[1]",
+    ["hoge"] => "[hoge]",
+    [null] => "[null]",
+    [undefined] => "[undefined]",
+    [elem] => "[elem]",
+    [...tail] => "[...tail]",
+    [x,] => "[x,",
+    [x, 1] => "[x, 1]",
+    [x, 2, ...tail] => "[x, 2, ...tail]",
+    [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]",
+  };
+}
+
+{
+  const obj: Record<string, unknown> = {};
+  const r = switch (obj) {
+    { x } => "{ x }",
+    { x: false } => "{ x: false }",
+    { x: 1 } => "{ x: 1 }",
+    { "x": 1 } => "{ 'x': 1 }",
+    { "x": a } => "{ 'x': a }",
+    { ...tail } => "{ ...tail }",
+    { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }",
+    { x: 1, y, ...tail } => "{ x: 1, y, ...tail }",
+    _ if _.x === 1 => "_ if _.x === 1",
+    _ => "_",
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+  const r = switch (a) {
+    { x, y, z } if x + y + z > 10 => x * y * z,
+>x * y * z : number
+>          : ^^^^^^
+>x * y : number
+>      : ^^^^^^
+>x : number
+>  : ^^^^^^
+>y : number
+>  : ^^^^^^
+>z : number
+>  : ^^^^^^
+
+    _ => "10 or less",
+>_ : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+>a : { x: number; y: number; z: number; }
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    { x, y, z } if x + y + z > 10 => x * y * z,
+    _ => "10 or less",
+>"10 or less" : "10 or less"
+>             : ^^^^^^^^^^^^
+
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}

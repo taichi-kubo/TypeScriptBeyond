@@ -5223,6 +5223,18 @@ export function createPrinter(printerOptions: PrinterOptions = {}, handlers: Pri
     }
 
     function getTextOfNode(node: Identifier | PrivateIdentifier | LiteralExpression | JsxNamespacedName, includeTrivia?: boolean): string {
+        if (isIdentifier(node) && node.extendedFlags & ExtendedNodeFlags.IsSwitchExpression) {
+            return idText(node);
+        }
+
+        if (isNumericLiteral(node) && node.extendedFlags & ExtendedNodeFlags.IsSwitchExpression) {
+            return node.text;
+        }
+
+        if (isStringLiteral(node) && node.extendedFlags & ExtendedNodeFlags.IsSwitchExpression) {
+            return node.text;
+        }
+
         if (isGeneratedIdentifier(node) || isGeneratedPrivateIdentifier(node)) {
             return generateName(node);
         }

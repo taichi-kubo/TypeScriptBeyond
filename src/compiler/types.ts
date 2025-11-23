@@ -946,6 +946,7 @@ export const enum ExtendedNodeFlags {
     IsInMonadComprehension = 1 << 1,
     IsPipe = 1 << 2,
     IsBlockExpression = 1 << 3,
+    IsSwitchExpression = 1 << 4,
 }
 
 export interface Node extends ReadonlyTextRange {

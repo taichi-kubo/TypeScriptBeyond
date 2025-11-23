@@ -4307,6 +4307,7 @@ declare namespace ts {
         IsInMonadComprehension = 2,
         IsPipe = 4,
         IsBlockExpression = 8,
+        IsSwitchExpression = 16,
     }
     interface Node extends ReadonlyTextRange {
         readonly kind: SyntaxKind;
