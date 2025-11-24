@@ -6553,6 +6553,15 @@ namespace Parser {
         };
     }
 
+    /*
+      ```
+      switch (input) {
+        case pattern1 if guard1 => expr1;
+        case pattern2 if guard2 => expr2;
+        ....
+      }
+      ```
+    */
     function parseSwitchExpression(): Expression | undefined {
         const start = getNodePos();
 
@@ -6608,26 +6617,34 @@ namespace Parser {
         while (true) {
             const pattStart = getNodePos();
 
-            // switch (...) { pattern if guard => ..., }
-            //                ^^^^^^^
+            // switch (...) { case pattern if guard => ...; }
+            //                ^^^^
+            if (token() !== SyntaxKind.CaseKeyword) {
+                break;
+            }
+            
+            nextToken();
+
+            // switch (...) { case pattern if guard => ...; }
+            //                     ^^^^^^^
             const patt = parsePatternMatching(inputIden);
             if (patt === undefined) {
                 break;
             }
 
-            // switch (...) { pattern if guard => ..., }
-            //                        ^^
+            // switch (...) { case pattern if guard => ...; }
+            //                             ^^^^^^^^
             let guard: Expression | undefined;
             if (token() === SyntaxKind.IfKeyword) {
                 nextToken();
 
-                // switch (...) { pattern if guard => ..., }
-                //                           ^^^^^
+                // switch (...) { case pattern if guard => ...; }
+                //                                ^^^^^
                 guard = parseExpression();
             }
 
-            // switch (...) { pattern if guard => ..., }
-            //                                 ^^
+            // switch (...) { case pattern if guard => ...; }
+            //                                      ^^
             if (token() !== SyntaxKind.EqualsGreaterThanToken) {
                 return undefined;
             }
@@ -6636,8 +6653,8 @@ namespace Parser {
 
             nextToken();
 
-            // switch (...) { pattern if guard => ..., }
-            //                                    ^^^
+            // switch (...) { case pattern if guard => ...; }
+            //                                         ^^^
             const expr = parseAssignmentExpressionOrHigher(/*allowReturnTypeInArrowFunction*/ true);
 
             const isAlwaysTrue = patt.conds.length === 0 && guard === undefined;
@@ -6811,11 +6828,7 @@ namespace Parser {
                 cases.push(block);
             }
 
-            if (token() !== SyntaxKind.CommaToken) {
-                break;
-            }
-            
-            nextToken();
+            parseOptional(SyntaxKind.SemicolonToken);
             
         } // end of while (true)
 
