@@ -5697,11 +5697,15 @@ namespace Parser {
            
             constDecls.push(decl);
 
-            if (token() !== SyntaxKind.CommaToken) {
-                return;
+            if (!parseOptional(SyntaxKind.SemicolonToken) && !scanner.hasPrecedingLineBreak()) {
+                return undefined;
             }
 
-            nextToken();
+            // if (token() !== SyntaxKind.CommaToken) {
+            //     return;
+            // }
+
+            // nextToken();
         }
 
         return constDecls;
@@ -5746,15 +5750,15 @@ namespace Parser {
 
         nextToken();
 
-        // do (flatmap) { const ... , const ... , ... }
+        // do (flatmap) { const ...; const ...; ... }
         //                ^^^^^^^^^^^^^^^^^^^^^
-        const decls = parseConstDeclsInMonadComprehension();
+        const decls = tryParse(() => parseConstDeclsInMonadComprehension());
         if (decls === undefined) {
             return undefined;
         }
 
-        // do (flatmap) { const ... , const ... , ... }
-        //                                        ^^^
+        // do (flatmap) { const ... , const ... , pattern <- expr, ... }
+        //                                        ^^^^^^^^^^^^^^^^^^^^
         const body = parseMonadComprehensionRest(flatMap);
 
         if (!body) {
@@ -5808,25 +5812,26 @@ namespace Parser {
             return n;
         });
 
-        // parse: `name <- expr,`
+        // parse: `name <- expr;`
         //                 ^^^^
         const expr = parseAssignmentExpressionOrHigher(
             /*allowReturnTypeInArrowFunction*/ false,
         );
+        if (nodeIsMissing(expr)) {
+            return undefined;
+        }
 
-        // name <- expr,
+        // name <- expr;
         //             ^
-        if (token() === SyntaxKind.CommaToken) {
-            nextToken();
+        if (parseOptional(SyntaxKind.SemicolonToken) || scanner.hasPrecedingLineBreak()) {
 
             // name <- expr }
             //              ^
-            if (parseOptionalToken(SyntaxKind.CloseBraceToken)) {
+            if (parseOptional(SyntaxKind.CloseBraceToken)) {
                 return expr;
             } else {
-
                 const posDecls = getNodePos();
-                const decls = parseConstDeclsInMonadComprehension();
+                const decls = tryParse(() => parseConstDeclsInMonadComprehension());
                 if (decls === undefined) {
                     return undefined;
                 }

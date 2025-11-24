@@ -1,29 +1,30 @@
 //// [tests/cases/compiler/BlockExpression1.ts] ////
 
 === BlockExpression1.ts ===
-const a = &{
->a : number
+{
+  const r = &{
+>r : number
 >  : ^^^^^^
->&{  const x = 1;  const y = 2;  return x + y;} : number
->                                               : ^^^^^^
->&{  const x = 1;  const y = 2;  return x + y;} : () => number
->                                               : ^^^^^^^^^^^^
->&{  const x = 1;  const y = 2;  return x + y;} : () => number
->                                               : ^^^^^^^^^^^^
+>&{    const x = 1;    const y = 2;    return x + y;  } : number
+>                                                       : ^^^^^^
+>&{    const x = 1;    const y = 2;    return x + y;  } : () => number
+>                                                       : ^^^^^^^^^^^^
+>&{    const x = 1;    const y = 2;    return x + y;  } : () => number
+>                                                       : ^^^^^^^^^^^^
 
-  const x = 1;
+    const x = 1;
 >x : 1
 >  : ^
 >1 : 1
 >  : ^
 
-  const y = 2;
+    const y = 2;
 >y : 2
 >  : ^
 >2 : 2
 >  : ^
 
-  return x + y;
+    return x + y;
 >x + y : number
 >      : ^^^^^^
 >x : 1
@@ -31,19 +32,21 @@ const a = &{
 >y : 2
 >  : ^
 
-};
+  };
+}
 
-const b = async &{
->b : Promise<number>
+{
+  const r = async &{
+>r : Promise<number>
 >  : ^^^^^^^^^^^^^^^
->async &{  const x = await Promise.resolve(1);  const y = await Promise.resolve(2);  return x + y;} : Promise<number>
->                                                                                                   : ^^^^^^^^^^^^^^^
->async &{  const x = await Promise.resolve(1);  const y = await Promise.resolve(2);  return x + y;} : () => Promise<number>
->                                                                                                   : ^^^^^^^^^^^^^^^^^^^^^
->async &{  const x = await Promise.resolve(1);  const y = await Promise.resolve(2);  return x + y;} : () => Promise<number>
->                                                                                                   : ^^^^^^^^^^^^^^^^^^^^^
+>async &{    const x = await Promise.resolve(1);    const y = await Promise.resolve(2);    return x + y;  } : Promise<number>
+>                                                                                                           : ^^^^^^^^^^^^^^^
+>async &{    const x = await Promise.resolve(1);    const y = await Promise.resolve(2);    return x + y;  } : () => Promise<number>
+>                                                                                                           : ^^^^^^^^^^^^^^^^^^^^^
+>async &{    const x = await Promise.resolve(1);    const y = await Promise.resolve(2);    return x + y;  } : () => Promise<number>
+>                                                                                                           : ^^^^^^^^^^^^^^^^^^^^^
 
-  const x = await Promise.resolve(1);
+    const x = await Promise.resolve(1);
 >x : number
 >  : ^^^^^^
 >await Promise.resolve(1) : number
@@ -59,7 +62,7 @@ const b = async &{
 >1 : 1
 >  : ^
 
-  const y = await Promise.resolve(2);
+    const y = await Promise.resolve(2);
 >y : number
 >  : ^^^^^^
 >await Promise.resolve(2) : number
@@ -75,12 +78,324 @@ const b = async &{
 >2 : 2
 >  : ^
 
-  return x + y;
+    return x + y;
 >x + y : number
 >      : ^^^^^^
 >x : number
 >  : ^^^^^^
 >y : number
 >  : ^^^^^^
+
+  };
 }
 
+{
+  const a: string = "";
+>a : string
+>  : ^^^^^^
+>"" : ""
+>   : ^^
+
+  const x = 1;
+>x : 1
+>  : ^
+>1 : 1
+>  : ^
+
+  const y = 2;
+>y : 2
+>  : ^
+>2 : 2
+>  : ^
+
+  const r = switch (a) {
+>r : number
+>  : ^^^^^^
+>switch (a) {    case "+" => &{      const z = x + y;      return z;    };    case "*" => &{      const z = x * y;      return z;    };    case _ => &{      return 0;    };  } : number
+>                                                                                                                                                                               : ^^^^^^
+>switch (a) {    case "+" => &{      const z = x + y;      return z;    };    case "*" => &{      const z = x * y;      return z;    };    case _ => &{      return 0;    };  } : () => number
+>                                                                                                                                                                               : ^^^^^^^^^^^^
+>switch (a) {    case "+" => &{      const z = x + y;      return z;    };    case "*" => &{      const z = x * y;      return z;    };    case _ => &{      return 0;    };  } : () => number
+>                                                                                                                                                                               : ^^^^^^^^^^^^
+>a : string
+>  : ^^^^^^
+>a : string
+>  : ^^^^^^
+
+    case "+" => &{
+>case "+" => : boolean
+>            : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>case "+" => : boolean[]
+>            : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const r = &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
+  const r = async &{
+    const x = await Promise.resolve(1);
+    const y = await Promise.resolve(2);
+    return x + y;
+  };
+}
+
+{
+  const a: string = "";
+  const x = 1;
+  const y = 2;
+  const r = switch (a) {
+>a : string
+>  : ^^^^^^
+
+
+> : "+"
+> : ^^^
+
+  const r = &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
+  const r = async &{
+    const x = await Promise.resolve(1);
+    const y = await Promise.resolve(2);
+    return x + y;
+  };
+}
+
+{
+  const a: string = "";
+  const x = 1;
+  const y = 2;
+  const r = switch (a) {
+    case "+" => &{
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>case "+" => : (__cond__: boolean) => boolean
+>            : ^        ^^^^^^^^^^^^^^^^^^^^^
+>case "+" => : boolean
+>            : ^^^^^^^
+>case "+" => : boolean
+>            : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const r = &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
+  const r = async &{
+    const x = await Promise.resolve(1);
+    const y = await Promise.resolve(2);
+    return x + y;
+  };
+}
+
+{
+  const a: string = "";
+  const x = 1;
+  const y = 2;
+  const r = switch (a) {
+    case "+" => &{
+>&{      const z = x + y;      return z;    } : number
+>                                             : ^^^^^^
+>&{      const z = x + y;      return z;    } : () => number
+>                                             : ^^^^^^^^^^^^
+>&{      const z = x + y;      return z;    } : () => number
+>                                             : ^^^^^^^^^^^^
+
+      const z = x + y;
+>z : number
+>  : ^^^^^^
+>x + y : number
+>      : ^^^^^^
+>x : 1
+>  : ^
+>y : 2
+>  : ^
+
+      return z;
+>z : number
+>  : ^^^^^^
+
+    };
+    case "*" => &{
+>case "*" => : boolean
+>            : ^^^^^^^
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>case "*" => : boolean[]
+>            : ^^^^^^^^^
+
+
+> : boolean
+> : ^^^^^^^
+
+  const r = &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
+  const r = async &{
+    const x = await Promise.resolve(1);
+    const y = await Promise.resolve(2);
+    return x + y;
+  };
+}
+
+{
+  const a: string = "";
+  const x = 1;
+  const y = 2;
+  const r = switch (a) {
+>a : string
+>  : ^^^^^^
+
+
+> : "*"
+> : ^^^
+
+  const r = &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
+  const r = async &{
+    const x = await Promise.resolve(1);
+    const y = await Promise.resolve(2);
+    return x + y;
+  };
+}
+
+{
+  const a: string = "";
+  const x = 1;
+  const y = 2;
+  const r = switch (a) {
+    case "+" => &{
+      const z = x + y;
+      return z;
+    };
+    case "*" => &{
+> : { <S extends boolean>(predicate: (value: boolean, index: number, array: boolean[]) => value is S, thisArg?: any): this is S[]; (predicate: (value: boolean, index: number, array: boolean[]) => unknown, thisArg?: any): boolean; }
+> : ^^^ ^^^^^^^^^^^^^^^^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^       ^^^   ^^^        ^  ^^^         ^^^     ^^^^^^^^^^^     ^^      ^^     ^^^^^^^^^^^^^^^^       ^^       ^^^   ^^^       ^^^
+>case "*" => : (__cond__: boolean) => boolean
+>            : ^        ^^^^^^^^^^^^^^^^^^^^^
+>case "*" => : boolean
+>            : ^^^^^^^
+>case "*" => : boolean
+>            : ^^^^^^^
+
+
+> : error
+> : true
+> : ^^^^
+
+  const r = &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
+  const r = async &{
+    const x = await Promise.resolve(1);
+    const y = await Promise.resolve(2);
+    return x + y;
+  };
+}
+
+{
+  const a: string = "";
+  const x = 1;
+  const y = 2;
+  const r = switch (a) {
+    case "+" => &{
+      const z = x + y;
+      return z;
+    };
+    case "*" => &{
+>&{      const z = x * y;      return z;    } : number
+>                                             : ^^^^^^
+>&{      const z = x * y;      return z;    } : () => number
+>                                             : ^^^^^^^^^^^^
+>&{      const z = x * y;      return z;    } : () => number
+>                                             : ^^^^^^^^^^^^
+
+      const z = x * y;
+>z : number
+>  : ^^^^^^
+>x * y : number
+>      : ^^^^^^
+>x : 1
+>  : ^
+>y : 2
+>  : ^
+
+      return z;
+>z : number
+>  : ^^^^^^
+
+    };
+    case _ => &{
+>_ : string
+>  : ^^^^^^
+
+
+>a : string
+>  : ^^^^^^
+
+    case "+" => &{
+      const z = x + y;
+      return z;
+    };
+    case "*" => &{
+      const z = x * y;
+      return z;
+    };
+    case _ => &{
+>&{      return 0;    } : number
+>                       : ^^^^^^
+>&{      return 0;    } : () => number
+>                       : ^^^^^^^^^^^^
+>&{      return 0;    } : () => number
+>                       : ^^^^^^^^^^^^
+
+      return 0;
+>0 : 0
+>  : ^
+
+    };
+  };
+> : error
+> : error
+> : "Non-exhaustive pattern match"
+> : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}

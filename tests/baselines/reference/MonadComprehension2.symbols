@@ -33,33 +33,35 @@ class Maybe<A> {
   }
 }
 
-const a = do {
->a : Symbol(a, Decl(MonadComprehension2.ts, 7, 5))
+{
+  const r = do {
+>r : Symbol(r, Decl(MonadComprehension2.ts, 8, 7))
 
-  const a = 1,
->a : Symbol(a, Decl(MonadComprehension2.ts, 7, 14))
+    const a = 1;
+>a : Symbol(a, Decl(MonadComprehension2.ts, 8, 16))
 
-  const b = 2,
->b : Symbol(b, Decl(MonadComprehension2.ts, 8, 14))
+    const b = 2;
+>b : Symbol(b, Decl(MonadComprehension2.ts, 9, 16))
 
-  x <- new Maybe(1),
+    x <- new Maybe(1);
 >Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
->x : Symbol(x, Decl(MonadComprehension2.ts, 9, 14))
+>x : Symbol(x, Decl(MonadComprehension2.ts, 10, 16))
 
-  const c = 3,
->c : Symbol(c, Decl(MonadComprehension2.ts, 10, 20))
+    const c = 3;
+>c : Symbol(c, Decl(MonadComprehension2.ts, 11, 22))
 
-  y <- new Maybe(2),
+    y <- new Maybe(2);
 >Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
->y : Symbol(y, Decl(MonadComprehension2.ts, 11, 14))
+>y : Symbol(y, Decl(MonadComprehension2.ts, 12, 16))
 
-  const d = 4,
->d : Symbol(d, Decl(MonadComprehension2.ts, 12, 20))
+    const d = 4;
+>d : Symbol(d, Decl(MonadComprehension2.ts, 13, 22))
 
-  new Maybe(x + y),
+    new Maybe(x + y);
 >Maybe : Symbol(Maybe, Decl(MonadComprehension2.ts, 0, 0))
->x : Symbol(x, Decl(MonadComprehension2.ts, 9, 14))
->y : Symbol(y, Decl(MonadComprehension2.ts, 11, 14))
+>x : Symbol(x, Decl(MonadComprehension2.ts, 10, 16))
+>y : Symbol(y, Decl(MonadComprehension2.ts, 12, 16))
 
-};
+  };
+}
 
