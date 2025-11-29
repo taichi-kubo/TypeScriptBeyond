@@ -1,3 +1,4 @@
+import { create } from "domain";
 import {
     AccessorDeclaration,
     addRange,
@@ -5637,7 +5638,7 @@ namespace Parser {
                 ), pos, endPos)
             ), pos, endPos),
             /*typeArguments*/ undefined,
-            /*argumentsArray*/ [],
+            /*argumentsArray*/ createNodeArray([], pos, endPos),
         ), pos, endPos);
 
     }
@@ -5943,6 +5944,12 @@ namespace Parser {
         conds: Expression[],
         decls: VariableStatement[]
     };
+    
+    let uniqueId = 0;
+    function getUniqueId(): number {
+        return uniqueId++;
+    }
+
     function parsePatternMatching(input: Identifier): PatternMatchingResult | undefined {
         const objPatt = parseObjectPatternMatching(input);
         if (objPatt !== undefined) {
@@ -5987,6 +5994,7 @@ namespace Parser {
     }
 
     function parseObjectPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const startPos = scanner.getTokenStart();
         // { x } :: 'x' in arg && 'y' in arg
         // { x: 1 } :: 'x' in arg && arg.x === 1
         // {x, ...xs} :: 'x' in arg
@@ -5998,9 +6006,13 @@ namespace Parser {
 
         let conds: Expression[] = [];
         let decls: VariableStatement[] = [];
-        let isTail = false;
+        let tail: Identifier | undefined;
         let count = 0;
-        const keys: StringLiteral[] = [];
+        type KeyPair = Readonly<{
+            name: Identifier;
+            alias?: Identifier;
+        }>;
+        const keys: KeyPair[] = [];
         while (true) {
         
             // { ...tail }
@@ -6011,58 +6023,11 @@ namespace Parser {
 
                 if (token() === SyntaxKind.Identifier) {
 
-                    // const tail = Object.assign({}, parent) as Omit<typeof parent, 'x' | 'y'>;
-                    const tail = finishNode(
+                    tail = finishNode(
                         factory.createIdentifier(scanner.getTokenValue()),
                         scanner.getTokenStart(),
                         scanner.getTokenEnd()
                     );
-                    const typeRef = keys.length === 0 
-                        ? factory.createTypeQueryNode(input) 
-                        : factory.createTypeReferenceNode(
-                            withExtendedFlag(
-                                factory.createIdentifier("Omit"), 
-                                ExtendedNodeFlags.IsSwitchExpression
-                            ),
-                            [
-                                factory.createTypeQueryNode(input),
-                                factory.createUnionTypeNode(
-                                    factory.createNodeArray(
-                                        keys.map(key => factory.createLiteralTypeNode(key))
-                                    )
-                                ),
-                            ]
-                        );
-                    const callAssign = factory.createCallExpression(
-                        factory.createPropertyAccessExpression(
-                            withExtendedFlag(
-                                factory.createIdentifier("Object"),
-                                ExtendedNodeFlags.IsSwitchExpression
-                            ),
-                            withExtendedFlag(
-                                factory.createIdentifier("assign"),
-                                ExtendedNodeFlags.IsSwitchExpression
-                            ),
-                        ),
-                        /*typeArguments*/ undefined,
-                        [
-                            factory.createObjectLiteralExpression([]),
-                            input,
-                        ],
-                    );
-                    const decl = factory.createVariableDeclaration(
-                        tail,
-                        /*exclamationToken*/ undefined,
-                        /*type*/ undefined,
-                        /*initializer*/ factory.createAsExpression(callAssign, typeRef),
-                    );
-                    const stmt =factory.createVariableStatement(
-                        /*modifiers*/ undefined,
-                        factory.createVariableDeclarationList([decl], NodeFlags.Const)
-                    );
-                    decls.push(finishNode(stmt, tail.pos, tail.end));
-                    
-                    isTail = true;
                     nextToken();
                 } else {
                     return undefined;
@@ -6070,24 +6035,24 @@ namespace Parser {
             } 
             // { x: ... }
             //   ^
-            else if (token() === SyntaxKind.Identifier || token() === SyntaxKind.StringLiteral) {                  
-                const posKey = scanner.getTokenStart();
+            else if (token() === SyntaxKind.Identifier || token() === SyntaxKind.StringLiteral) {
+                const startKey = scanner.getTokenStart();
                 const endKey = scanner.getTokenEnd();
-                const keyText: string = scanner.getTokenValue();
-                const keyLiteral = finishNode(
+                const keyName: string = scanner.getTokenValue();
+                const keyNameIden = finishNode(
                     withExtendedFlag(
-                        factory.createStringLiteral(keyText),
+                        factory.createIdentifier(keyName),
                         ExtendedNodeFlags.IsSwitchExpression
                     ),
-                    posKey, 
+                    startKey, 
                     endKey
                 );
-                keys.push(keyLiteral);
-
-                // input['x']
-                const elementAccess = finishNode(
-                    factory.createElementAccessExpression(input, keyLiteral),
-                    posKey,
+                const keyLiteral = finishNode(
+                    withExtendedFlag(
+                        factory.createStringLiteral(keyName),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    ),
+                    startKey, 
                     endKey
                 );
 
@@ -6098,7 +6063,7 @@ namespace Parser {
                         SyntaxKind.InKeyword,
                         input,
                     ), 
-                    posKey, 
+                    startKey, 
                     endKey
                 );
                 conds.push(cond);
@@ -6112,31 +6077,19 @@ namespace Parser {
                     nextToken();
                     // { x: pattern, ... }
                     //      ^^^^^^^
-                    const iden = withExtendedFlag(
-                        factory.createIdentifier(`__key_${keyText}__`),
-                        ExtendedNodeFlags.IsSwitchExpression,
+                    const alias = finishNode(
+                        withExtendedFlag(
+                            factory.createIdentifier(`__key_${keyName}_${getUniqueId()}__`),
+                            ExtendedNodeFlags.IsSwitchExpression
+                        ),
+                        startKey,
+                        endKey,
                     );
-                    const decl = finishNode(factory.createVariableStatement(
-                        /*modifiers*/ undefined,
-                        factory.createVariableDeclarationList(
-                            [
-                                factory.createVariableDeclaration(
-                                    iden,
-                                    /*exclamationToken*/ undefined,
-                                    /*type*/ undefined,
-                                    /*initializer*/ elementAccess
-                                ),
-                            ],
-                            NodeFlags.Const
-                        )),
-                        posKey,
-                        endKey
-                    );
-                    const pattern = parsePatternMatching(iden);
+                    keys.push({ name: keyNameIden, alias });
+                    const pattern = parsePatternMatching(alias);
                     if (pattern === undefined) {
                         return undefined;
                     }
-                    decls.push(decl);
                     conds = conds.concat(pattern.conds);
                     decls = decls.concat(pattern.decls);
                 }
@@ -6144,26 +6097,7 @@ namespace Parser {
                 //   ^
                 else {
                     // const x = parent['x'];
-                    const decl = finishNode(factory.createVariableStatement(
-                        /*modifiers*/ undefined,
-                        factory.createVariableDeclarationList(
-                            [
-                                factory.createVariableDeclaration(
-                                    withExtendedFlag(
-                                        factory.createIdentifier(keyText),
-                                        ExtendedNodeFlags.IsSwitchExpression
-                                    ),
-                                    /*exclamationToken*/ undefined,
-                                    /*type*/ undefined,
-                                    /*initializer*/ elementAccess
-                                ),
-                            ],
-                            NodeFlags.Const
-                        )),
-                        posKey,
-                        endKey
-                    );
-                    decls.push(decl);
+                    keys.push({ name: keyNameIden });
                 } 
             } else {
                 return undefined;
@@ -6171,46 +6105,155 @@ namespace Parser {
 
             // { x: pattern, ... }
             //             ^
-            if (token() !== SyntaxKind.CommaToken || isTail) {
+            if (token() !== SyntaxKind.CommaToken || tail !== undefined) {
                 break;
             }
 
             nextToken();
         } // end of while
 
-        conds.push(factory.createBinaryExpression(
-            factory.createPropertyAccessExpression(
-                /*expression*/ factory.createCallExpression(
-                    factory.createPropertyAccessExpression(
-                        withExtendedFlag(
-                            factory.createIdentifier("Object"),
-                            ExtendedNodeFlags.IsSwitchExpression
-                        ),
-                        withExtendedFlag(
-                            factory.createIdentifier("keys"),
-                            ExtendedNodeFlags.IsSwitchExpression
-                        ),
-                    ),    
-                    /*typeArguments*/ undefined,
-                    [input]
-                ),
-                withExtendedFlag(
-                    factory.createIdentifier("length"),
-                    ExtendedNodeFlags.IsSwitchExpression
-                )
-            ),
-            isTail 
-              ? factory.createToken(SyntaxKind.GreaterThanEqualsToken)
-              : factory.createToken(SyntaxKind.EqualsEqualsEqualsToken),
-            withExtendedFlag(
-                factory.createNumericLiteral(count),
-                ExtendedNodeFlags.IsSwitchExpression
-            )
-        ));
-
         if (token() !== SyntaxKind.CloseBraceToken) {
             return undefined;
         }
+
+        const endPos = scanner.getTokenEnd();
+
+        // const {x, y: _y, ...tail} = input;
+        const bindings = keys.map(key =>
+            key.alias === undefined 
+                ? finishNode(
+                    factory.createBindingElement(
+                        /*dotDotDotToken*/ undefined, 
+                        /*propertyName*/ undefined, 
+                        key.name
+                    ),
+                    key.name.pos,
+                    key.name.end,
+                )
+                : finishNode(
+                        factory.createBindingElement(
+                        /*dotDotDotToken*/ undefined, 
+                        key.name, 
+                        key.alias,
+                    ),
+                    key.name.pos,
+                    key.alias.end,
+                ),
+        );
+        if (tail !== undefined) {
+            bindings.push(
+                finishNode(
+                    factory.createBindingElement(
+                        factory.createToken(SyntaxKind.DotDotDotToken), 
+                        /*propertyName*/ undefined, 
+                        tail,
+                    ),       
+                    tail.pos,
+                    tail.end,
+                )
+            );
+        }
+        decls = [
+            finishNode(
+                factory.createVariableStatement(
+                    /*modifiers*/ undefined,
+                    finishNode(
+                        factory.createVariableDeclarationList(
+                            [finishNode(
+                                factory.createVariableDeclaration(
+                                    finishNode(
+                                        factory.createObjectBindingPattern(bindings),
+                                        startPos,
+                                        endPos
+                                    ),
+                                    /*exclamationToken*/ undefined,
+                                    /*type*/ undefined,
+                                    input,
+                                ),
+                                startPos,
+                                endPos
+                            )],
+                            NodeFlags.Const
+                        ),
+                        startPos,
+                        endPos
+                    ),
+                ),
+                startPos,
+                endPos,
+            ),
+            ...decls,
+        ];
+
+        // Object.keys(input).length === count
+        // Object.keys(input).length >= count
+        conds.push(
+            finishNode(
+                factory.createBinaryExpression(
+                    finishNode(
+                        factory.createPropertyAccessExpression(
+                            /*expression*/ finishNode(
+                                factory.createCallExpression(
+                                    finishNode(
+                                        factory.createPropertyAccessExpression(
+                                            finishNode(
+                                                withExtendedFlag(
+                                                    factory.createIdentifier("Object"),
+                                                    ExtendedNodeFlags.IsSwitchExpression
+                                                ),
+                                                startPos,
+                                                startPos,
+                                            ),
+                                            finishNode(
+                                                withExtendedFlag(
+                                                    factory.createIdentifier("keys"),
+                                                    ExtendedNodeFlags.IsSwitchExpression
+                                                ),
+                                                startPos,
+                                                startPos,
+                                            ),
+                                        ),  
+                                        startPos,
+                                        endPos
+                                    ),  
+                                    /*typeArguments*/ undefined,
+                                    [input]
+                                ),
+                                startPos,
+                                endPos
+                            ),
+                            finishNode(
+                                withExtendedFlag(
+                                    factory.createIdentifier("length"),
+                                    ExtendedNodeFlags.IsSwitchExpression
+                                ),
+                                endPos,
+                                endPos
+                            ),
+                        ),
+                        startPos,
+                        endPos
+                    ),
+                    finishNode(
+                        tail === undefined
+                        ? factory.createToken(SyntaxKind.EqualsEqualsEqualsToken)
+                        : factory.createToken(SyntaxKind.GreaterThanEqualsToken),
+                        endPos,
+                        endPos
+                    ),
+                    finishNode(
+                        withExtendedFlag(
+                            factory.createNumericLiteral(count),
+                            ExtendedNodeFlags.IsSwitchExpression
+                        ),
+                        endPos,
+                        endPos
+                    ),
+                ),
+                startPos,
+                endPos
+            )
+        );
 
         nextToken();
 
@@ -6218,6 +6261,7 @@ namespace Parser {
     }
 
     function parseArrayPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const startPos = scanner.getTokenStart();
         // [x] :: arg.length === 1
         // [1] :: arg.length === 1 && arg[0] === 1
         // [[x]]
@@ -6233,127 +6277,67 @@ namespace Parser {
         let decls: VariableStatement[] = [];
         let index = 0;
         let count = 0;
-        let isTail = false;
+        let tail: Identifier | undefined;
+        const elems: Identifier[] = [];
         while (true) {
-            // input[index]
-            const elem = factory.createElementAccessExpression(
-                /*expression*/ input,
-                /*index*/ withExtendedFlag(
-                    factory.createNumericLiteral(index),
-                    ExtendedNodeFlags.IsSwitchExpression
-                )
-            );
-
             // [x, ...]
             //  ^
             if (token() === SyntaxKind.Identifier) {
-                const iden = withExtendedFlag( 
-                    factory.createIdentifier(scanner.getTokenValue()),
-                    ExtendedNodeFlags.IsSwitchExpression
+                const iden = finishNode(
+                    withExtendedFlag( 
+                        factory.createIdentifier(scanner.getTokenValue()),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    ),
+                    scanner.getTokenStart(),
+                    scanner.getTokenEnd()
                 );
-                const decl = factory.createVariableStatement(
-                    /*modifiers*/ undefined,
-                    /*declarationList*/ factory.createVariableDeclarationList(
-                        /*declarations*/ [
-                            factory.createVariableDeclaration(
-                                /*name*/ iden,
-                                /*exclamationToken*/ undefined,
-                                /*type*/ undefined,
-                                /*initializer*/ elem,
-                            ),
-                        ],
-                        /*flags*/ NodeFlags.Const
-                    )
-                );
-
                 count++;
-                conds.push(factory.createTrue());
-                decls.push(decl);
+                elems.push(iden);
                 nextToken();
             } 
             // [...xs]
             //  ^^^^^
             else if (token() === SyntaxKind.DotDotDotToken) {
                 nextToken();
-                // parent.slice(index)
-                const tail = factory.createCallExpression(
-                    /*expression*/ factory.createPropertyAccessExpression(
-                        /*expression*/ input,
-                        /*name*/ withExtendedFlag(
-                            factory.createIdentifier("slice"),
-                            ExtendedNodeFlags.IsSwitchExpression
-                        )
-                    ),
-                    /*typeArguments*/ undefined,
-                    /*argumentsArray*/ [withExtendedFlag(
-                        factory.createNumericLiteral(index),
+                tail = finishNode(
+                    withExtendedFlag(
+                        factory.createIdentifier(scanner.getTokenValue()),
                         ExtendedNodeFlags.IsSwitchExpression
-                    )]
+                    ),
+                    scanner.getTokenStart(),
+                    scanner.getTokenEnd()
                 );
-
-                // const tail = parent.slice(index);
-                const decl = factory.createVariableStatement(
-                    /*modifiers*/ undefined,
-                    /*declarationList*/ factory.createVariableDeclarationList(
-                        /*declarations*/ [
-                            factory.createVariableDeclaration(
-                                /*name*/ withExtendedFlag(
-                                    factory.createIdentifier(scanner.getTokenValue()),
-                                    ExtendedNodeFlags.IsSwitchExpression
-                                ),
-                                /*exclamationToken*/ undefined,
-                                /*type*/ undefined,
-                                /*initializer*/ tail,
-                            ),
-                        ],
-                        /*flags*/ NodeFlags.Const
-                    )
-                );
-
-                isTail = true;
-                conds.push(factory.createTrue());
-                decls.push(decl);
                 nextToken();
             } 
             // [1]
             //  ^
             else {
                 // const __temp{index}___ = input[index];
-                const temp = withExtendedFlag(
-                    factory.createIdentifier(`__temp${index}__`),
-                    ExtendedNodeFlags.IsSwitchExpression
+                const temp = finishNode(
+                    withExtendedFlag(
+                        factory.createIdentifier(`__temp${index}_${getUniqueId()}__`),
+                        ExtendedNodeFlags.IsSwitchExpression
+                    ),
+                    scanner.getTokenStart(),
+                    scanner.getTokenEnd()
                 );
-                const decl = factory.createVariableStatement(
-                    /*modifiers*/ undefined,
-                    /*declarationList*/ factory.createVariableDeclarationList(
-                        /*declarations*/ [
-                            factory.createVariableDeclaration(
-                                /*name*/ temp,
-                                /*exclamationToken*/ undefined,
-                                /*type*/ undefined,
-                                /*initializer*/ elem,
-                            ),
-                        ],
-                        /*flags*/ NodeFlags.Const
-                    )
-                );
-                decls.push(decl);
-
                 const pattern = parsePatternMatching(temp);
                 if (pattern === undefined) {
                     break;
                 }
                 
                 count++;
+                elems.push(temp);
                 conds = conds.concat(pattern.conds);
                 decls = decls.concat(pattern.decls);
             }
+            
 
             index++;
 
             // [x, ...]
             //   ^
-            if (token() !== SyntaxKind.CommaToken || isTail) {
+            if (token() !== SyntaxKind.CommaToken || tail !== undefined) {
                 break;
             }
 
@@ -6365,22 +6349,109 @@ namespace Parser {
             return undefined;
         }
 
-        conds.push(factory.createBinaryExpression(
-            factory.createPropertyAccessExpression(
-                /*expression*/ input,
-                withExtendedFlag(
-                    factory.createIdentifier("length"),
-                    ExtendedNodeFlags.IsSwitchExpression
-                )
+        const endPos = scanner.getTokenEnd();
+
+        const bindings = elems.map(elem => finishNode(
+            factory.createBindingElement(
+                /*dotDotDotToken*/ undefined, 
+                /*propertyName*/ undefined, 
+                elem
             ),
-            index === count 
-              ? factory.createToken(SyntaxKind.EqualsEqualsEqualsToken)
-              : factory.createToken(SyntaxKind.GreaterThanEqualsToken),
-            withExtendedFlag(
-                factory.createNumericLiteral(count),
-                ExtendedNodeFlags.IsSwitchExpression
-            )
+            elem.pos,
+            elem.end,
         ));
+        if (tail !== undefined) {
+            bindings.push(finishNode(
+                factory.createBindingElement(
+                    /*dotDotDotToken*/ factory.createToken(SyntaxKind.DotDotDotToken), 
+                    /*propertyName*/ undefined, 
+                    tail
+                ),       
+                tail.pos,
+                tail.end,
+            ));
+        }
+        decls = [
+            finishNode(
+                factory.createVariableStatement(
+                    /*modifiers*/ undefined,
+                    finishNode(
+                        factory.createVariableDeclarationList(
+                            [
+                                finishNode(
+                                    factory.createVariableDeclaration(
+                                        finishNode(
+                                            factory.createArrayBindingPattern(bindings),
+                                            startPos,
+                                            endPos
+                                        ),
+                                        /*exclamationToken*/ undefined,
+                                        /*type*/ undefined,
+                                        input,
+                                    ),
+                                    startPos,
+                                    endPos
+                                ),
+                            ],
+                            NodeFlags.Const
+                        ),
+                        startPos,
+                        endPos
+                    )
+                ),
+                startPos,
+                endPos
+            ),
+            ...decls
+        ];
+
+        // input.length === count
+        // input.length >= count
+        const op = index === count 
+              ? finishNode(
+                factory.createToken(SyntaxKind.EqualsEqualsEqualsToken),
+                endPos,
+                endPos
+              )
+              : count === 0 
+              ? undefined
+              : finishNode(
+                factory.createToken(SyntaxKind.GreaterThanEqualsToken),
+                endPos,
+                endPos
+              );
+        if (op !== undefined) {
+            conds.push(finishNode(
+                factory.createBinaryExpression(
+                    finishNode(
+                        factory.createPropertyAccessExpression(
+                            /*expression*/ input,
+                            finishNode(
+                                withExtendedFlag(
+                                    factory.createIdentifier("length"),
+                                    ExtendedNodeFlags.IsSwitchExpression
+                                ),
+                                endPos,
+                                endPos
+                            ),
+                        ),
+                        endPos,
+                        endPos
+                    ),
+                    op,
+                    finishNode(
+                        withExtendedFlag(
+                            factory.createNumericLiteral(count),
+                            ExtendedNodeFlags.IsSwitchExpression
+                        ),
+                        endPos,
+                        endPos
+                    )
+                ),
+                endPos,
+                endPos
+            ));
+        }
 
         nextToken();
 
@@ -6388,6 +6459,8 @@ namespace Parser {
     }
 
     function parseNullPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const start = scanner.getTokenStart();
+        const end = scanner.getTokenEnd();
         if (token() !== SyntaxKind.NullKeyword) {
             return undefined;
         }
@@ -6396,10 +6469,18 @@ namespace Parser {
 
         return {
             conds: [
-                factory.createBinaryExpression(
-                    input,
-                    SyntaxKind.EqualsEqualsEqualsToken,
-                    factory.createNull()
+                finishNode(
+                    factory.createBinaryExpression(
+                        input,
+                        finishNode(factory.createToken(SyntaxKind.EqualsEqualsEqualsToken), start, start),
+                        finishNode(
+                            factory.createNull(),
+                            start,
+                            end,
+                        ),
+                    ),
+                    start,
+                    end,
                 )
             ], 
             decls: []
@@ -6407,6 +6488,8 @@ namespace Parser {
     }
 
     function parseUndefinedPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const start = scanner.getTokenStart();
+        const end = scanner.getTokenEnd();
         if (token() !== SyntaxKind.UndefinedKeyword) {
             return undefined;
         }
@@ -6415,13 +6498,21 @@ namespace Parser {
 
         return {
             conds: [
-                factory.createBinaryExpression(
-                    input,
-                    SyntaxKind.EqualsEqualsEqualsToken,
-                    withExtendedFlag(
-                        factory.createIdentifier("undefined"),
-                        ExtendedNodeFlags.IsSwitchExpression
-                    )
+                finishNode(
+                    factory.createBinaryExpression(
+                        input,
+                        finishNode(factory.createToken(SyntaxKind.EqualsEqualsEqualsToken), start, start),
+                        finishNode(
+                            withExtendedFlag(
+                                factory.createIdentifier("undefined"),
+                                ExtendedNodeFlags.IsSwitchExpression,
+                            ),
+                            start,
+                            end,
+                        ),
+                    ),
+                    start,
+                    end,
                 )
             ], 
             decls: []
@@ -6469,19 +6560,29 @@ namespace Parser {
     }
 
     function parseNumberPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const start = scanner.getTokenStart();
+        const end = scanner.getTokenEnd();
         if (token() !== SyntaxKind.NumericLiteral) {
             return undefined;
         }
         nextToken();
         return {
             conds: [
-                factory.createBinaryExpression(
-                    input,
-                    SyntaxKind.EqualsEqualsEqualsToken,
-                    withExtendedFlag(
-                        factory.createNumericLiteral(scanner.getTokenValue()),
-                        ExtendedNodeFlags.IsSwitchExpression
-                    )
+                finishNode(
+                    factory.createBinaryExpression(
+                        input,
+                        finishNode(factory.createToken(SyntaxKind.EqualsEqualsEqualsToken), start, start),
+                        finishNode(
+                            withExtendedFlag(
+                                factory.createNumericLiteral(scanner.getTokenValue()),
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                            start,
+                            end,
+                        ),
+                    ),
+                    start,
+                    end,
                 )
             ], 
             decls: []
@@ -6489,19 +6590,29 @@ namespace Parser {
     }
 
     function parseStringPatternMatching(input: Identifier): PatternMatchingResult | undefined {
+        const start = scanner.getTokenStart();
+        const end = scanner.getTokenEnd();
         if (token() !== SyntaxKind.StringLiteral) {
             return undefined;
         }
         nextToken();
         return {
             conds: [
-                factory.createBinaryExpression(
-                    input,
-                    SyntaxKind.EqualsEqualsEqualsToken,
-                    withExtendedFlag(
-                        factory.createStringLiteral(scanner.getTokenValue()),
-                        ExtendedNodeFlags.IsSwitchExpression
-                    )
+                finishNode(
+                    factory.createBinaryExpression(
+                        input,
+                        finishNode(factory.createToken(SyntaxKind.EqualsEqualsEqualsToken), start, start),
+                        finishNode(
+                            withExtendedFlag(
+                                factory.createStringLiteral(scanner.getTokenValue()),
+                                ExtendedNodeFlags.IsSwitchExpression
+                            ),
+                            start,
+                            end,
+                        )
+                    ),
+                    start,
+                    end,
                 )
             ], 
             decls: []
@@ -6528,7 +6639,7 @@ namespace Parser {
                 /*modifiers*/ undefined,
                 finishNode(
                     factory.createVariableDeclarationList(
-                        [
+                        createNodeArray([
                             finishNode(
                                 factory.createVariableDeclaration(
                                     iden,
@@ -6539,7 +6650,7 @@ namespace Parser {
                                 start,
                                 end,
                             )
-                        ],
+                        ], start, end),
                         NodeFlags.Const
                     ),
                     start,
@@ -6672,14 +6783,14 @@ namespace Parser {
                 */
                const block = finishNode(
                 factory.createBlock(
-                        [
+                        createNodeArray([
                             ...patt.decls,
                             finishNode(
                                 factory.createReturnStatement(expr),
                                 expr.pos,
                                 expr.end,
                             ),
-                        ],
+                        ], pattStart, expr.end),
                         /*multiLine*/ true
                     ),
                     pattStart,
@@ -6702,10 +6813,10 @@ namespace Parser {
                 // ^^^^^^^^^^^^^^^^^^^^^^^^^^
                 const conds = finishNode(
                     factory.createArrayLiteralExpression(
-                        [
+                        createNodeArray([
                             ...patt.conds.filter(_ => _ !== undefined), 
                             ...guard === undefined ? [] : [guard]
-                        ],
+                        ], pattStart, pattEnd),
                         /*multiLine*/ true
                     ),
                     pattStart,
@@ -6735,7 +6846,7 @@ namespace Parser {
                     factory.createArrowFunction(
                         /*modifiers*/ undefined,
                         /*typeParameters*/ undefined,
-                        /*parameters*/ [
+                        /*parameters*/ createNodeArray([
                             finishNode(
                                 factory.createParameterDeclaration(
                                     /*modifiers*/ undefined,
@@ -6755,7 +6866,7 @@ namespace Parser {
                                 pattStart,
                                 pattStart,
                             ),
-                        ],
+                        ], pattStart, pattEnd),
                         /*type*/ undefined,
                         finishNode(factory.createToken(SyntaxKind.EqualsGreaterThanToken), pattStart, pattStart),
                         finishNode(
@@ -6780,7 +6891,7 @@ namespace Parser {
                     factory.createCallExpression(
                         every,
                         /*typeArguments*/ undefined,
-                        [callbackEvery]
+                        createNodeArray([callbackEvery], pattStart, pattEnd)
                     ),
                     pattStart,
                     pattEnd,
@@ -6791,11 +6902,11 @@ namespace Parser {
                 // return expr;
                 const returnExpr = finishNode(
                     factory.createBlock(
-                        [finishNode(
+                        createNodeArray([finishNode(
                             factory.createReturnStatement(expr),
                             expr.pos,
                             expr.end,
-                        )],
+                        )], expr.pos, expr.end),
                         /*multiLine*/ true
                     ),
                     expr.pos,
@@ -6818,12 +6929,12 @@ namespace Parser {
                 // A block that contains everything
                 const block = finishNode(
                     factory.createBlock(
-                        /*statements*/ [
+                        /*statements*/ createNodeArray([
                             // matchedStmt,
                             // ifMatched
                             ...patt.decls,
                             testPattern,
-                        ],
+                        ], pattStart, expr.end),
                         /*multiLine*/ true
                     ),
                     pattStart,
@@ -6860,7 +6971,7 @@ namespace Parser {
             factory.createVariableStatement(
                 /*modifiers*/ undefined,
                 factory.createVariableDeclarationList(
-                    [
+                    createNodeArray([
                         finishNode(
                             factory.createVariableDeclaration(
                                 inputIden,
@@ -6871,7 +6982,7 @@ namespace Parser {
                             input.pos,
                             input.end,
                         ),
-                    ],
+                    ], input.pos, input.end),
                     NodeFlags.Const
                 )
             ),
@@ -6893,7 +7004,7 @@ namespace Parser {
                             end,
                         ),
                         /*typeArguments*/ undefined,
-                        factory.createNodeArray([
+                        createNodeArray([
                             finishNode(
                                 withExtendedFlag(
                                     factory.createStringLiteral("Non-exhaustive pattern match"),
@@ -6902,7 +7013,7 @@ namespace Parser {
                                 end, 
                                 end,
                             )
-                        ]),
+                        ], end, end),
                     ),
                     end,
                     end,
@@ -6921,7 +7032,7 @@ namespace Parser {
                             factory.createArrowFunction(
                                 /*modifiers*/ undefined,
                                 /*typeParameters*/ undefined,
-                                /*parameters*/ [],
+                                /*parameters*/ createNodeArray([], start, start),
                                 /*type*/ undefined,
                                 /*equalsGreaterThanToken*/ finishNode(
                                     factory.createToken(SyntaxKind.EqualsGreaterThanToken),
@@ -6930,12 +7041,12 @@ namespace Parser {
                                 ),
                                 /*body*/ finishNode(
                                     factory.createBlock(
-                                        [
+                                        createNodeArray([
                                             inputStmt,
                                             ...cases,
                                             throwError,
 
-                                        ],
+                                        ], start, end),
                                         /*multiLine*/ true
                                     ),
                                     start,
@@ -6950,7 +7061,7 @@ namespace Parser {
                     end,
                 ),
                 /*typeArguments*/ undefined,
-                /*argumentsArray*/ []
+                /*argumentsArray*/ createNodeArray([], start, end)
             ),
             start,
             end,

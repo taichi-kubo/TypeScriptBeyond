@@ -1,20 +1,63 @@
 # TypeScriptBeyond
 
-`TypeScriptBeyond` は `TypeScript` を拡張した言語です。以下の機能が追加されています。
+`TypeScriptBeyond` は `TypeScript` の構文を拡張した言語です。以下の機能が追加されています。
 
+- ブロック式 `&{ ... }`
+- `switch` 式 (パターンマッチ)
 - パイプライン演算子 `|>`
 - モナド内包表記 `do`
-- ブロック式 `&{ ... }`
 
-`tsc`や`tsserver`は`TypeScript`と同様に使用することができます。
+`TypeScript`の構文を拡張しただけなので、`tsc`や`tsserver`の使い方は`TypeScript`と同じです。
 
 ## インストール
 
-`TypeScriptBeyond`を`TypeScript`としてインストールします。
+`TypeScriptBeyond`を`TypeScript`としてインストールします。そうすることで既存の`TypeScript`を使用したプロジェクトや`LSP`との互換性を保つことができます。
 
 ```
 npm i -D typescript@npm:typescript-beyond
 ```
+
+## ブロック式
+
+ブロック式は、即時実行関数のシンタックスシュガーです。`&{ ... }` は、`(() => { ... })()`と同じ結果になります。
+
+```ts
+const a = &{
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+// => 3
+```
+
+```ts
+const a = async &{
+  const x = await Promise.resolve(1);
+  const y = await Promise.resolve(2);
+  return x + y;
+};
+// => Promise.resolve(3)
+```
+
+## `switch`式 (パターンマッチング)
+
+`TypeScript`の`switch`は文でしたが、`TypeScriptBeyond`では、式としても使用できます。また、パターンマッチもサポートしています。
+
+```ts
+const a = switch (foo) {
+  case 1 => 'one';
+  case '2' => 'two';
+  case [a, b] if a > 0 && b > 0 => `a + b = ${a + b}`;
+  case [a, b, ...tail] => `tail.length: ${tail.length}`;
+  case {a: 1, b: x, ...tail} => `x = ${x}`;
+}
+```
+
+`switch` 式では次のようなことができます:
+- 値の比較（例: `1`, `'2'`）
+- 配列/オブジェクトの構造パターンマッチ（配列の分割代入、rest 要素、オブジェクトのフィールド）
+- パターン内での値の束縛（`a`, `b`, `tail`, `x` など）
+- ガード（`if a > 0 && b > 0`）による追加条件
 
 ## パイプライン演算子 `|>`
 
@@ -43,13 +86,13 @@ const result =
 
 ```ts
 const result = do {
-  x <- Option(1),
-  y <- Option(2),
-  Option(x + y),
+  x <- Option(1);
+  y <- Option(2);
+  Option(x + y);
 };
 ```
 
-これは以下の `JavaScript` のコードに変換されます。
+これは以下の `TypeScript` のコードに同じです。
 
 ```js
 const result = Option(1).flatMap((x) =>
@@ -67,13 +110,13 @@ const result = Option(1).flatMap((x) =>
 const flatMap = <A, B>(m: Option<A>, f: (a: A) => Option<B>): Option<B> => ...;
 
 const result = do (flatMap) {
-  x <- Option(1),
-  y <- Option(2),
-  Option(x + y),
+  x <- Option(1);
+  y <- Option(2);
+  Option(x + y);
 };
 ```
 
-これは以下の `JavaScript` のコードに変換されます。
+これは以下の `TypeScript` のコードと同じです。
 
 ```js
 const flatMap = (m, f) => ...
@@ -87,8 +130,8 @@ const result = flatMap(Option(1), (x) => flatMap(Option(2), (y) => Option(x + y)
 
 ```ts
 const a = do (option.flatMap) {
-  option.of(1),
-  option.of(2),
+  option.of(1);
+  option.of(2);
 };
 // a => option.of(2)
 ```
@@ -99,33 +142,11 @@ const a = do (option.flatMap) {
 
 ```ts
 const a do (option.flatMap) {
-  const x = 1,
-  const y = 2,
-  option.of(x + y),
-};
-// a => option.of(3)
-```
-
-## ブロック式
-
-ブロック式は、即時実行関数のシンタックスシュガーです。`&{ ... }` は、`(() => { ... })()`と同じ結果になります。
-
-```ts
-const a = &{
   const x = 1;
   const y = 2;
-  return x + y;
+  option.of(x + y);
 };
-// => 3
-```
-
-```ts
-const a = async &{
-  const x = await Promise.resolve(1);
-  const y = await Promise.resolve(2);
-  return x + y;
-};
-// => Promise.resolve(3)
+// a => option.of(3)
 ```
 
 ## `fp-ts`で使用する
@@ -136,9 +157,9 @@ const a = async &{
 import {option, number, readonlyArray} from 'fp-ts';
 
 const a = do (option.flatMap) {
-  x <- option.of(1),
-  y <- option.of(2),
-  option.of(x + y),
+  x <- option.of(1);
+  y <- option.of(2);
+  option.of(x + y);
 };
 
 console.log(option.getShow(number.Show).show(a)); // Some(3)

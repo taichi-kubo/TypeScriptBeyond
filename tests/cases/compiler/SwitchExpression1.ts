@@ -58,6 +58,13 @@
 }
 
 {
+  const r = switch ([1, 2, 3, 4, 5]) {
+    case [] => 0;
+    case [x, y, ...tail] => tail.length;
+  }
+}
+
+{
   const obj: Record<string, unknown> = {};
   const r = switch (obj) {
     case { x } => "{ x }";
@@ -77,6 +84,7 @@
   const a = { x: 1, y: 2, z: 3 };
   const r = switch (a) {
     case { x, y, z } if x + y + z > 10 => x * y * z;
+    case { x, ...tail } => tail.y;
     case _ => "10 or less";
   };
 }

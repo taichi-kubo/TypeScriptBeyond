@@ -1,0 +1,744 @@
+//// [tests/cases/compiler/SwitchExpression1.ts] ////
+
+=== SwitchExpression1.ts ===
+{
+  const a: boolean = true;
+>a : Symbol(a, Decl(SwitchExpression1.ts, 1, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 2, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 2, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 1, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 2, 20))
+
+    case true => "yes";
+>case true => : Symbol(case true =>, Decl(SwitchExpression1.ts, 2, 24))
+
+    case _ => "no";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 4, 9))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 2, 20))
+
+    case true => "yes";
+    case _ => "no";
+  };
+}
+
+{
+  const a: boolean = true;
+>a : Symbol(a, Decl(SwitchExpression1.ts, 9, 7))
+
+  const r = switch (a) { case true => "yes" case _ => "no" };
+>r : Symbol(r, Decl(SwitchExpression1.ts, 10, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 10, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 9, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 10, 20))
+>case true => : Symbol(case true =>, Decl(SwitchExpression1.ts, 10, 24))
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 10, 49))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 10, 20))
+}
+
+{
+  const a: number = 1;
+>a : Symbol(a, Decl(SwitchExpression1.ts, 14, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 15, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 15, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 14, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 15, 20))
+
+    case 0 => "zero";
+>case 0 => : Symbol(case 0 =>, Decl(SwitchExpression1.ts, 15, 24))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 15, 20))
+
+    case 0 => "zero";
+    case 1 => "one";
+>case 1 => : Symbol(case 1 =>, Decl(SwitchExpression1.ts, 16, 21))
+
+    case _ => "many";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 18, 9))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 15, 20))
+
+    case 0 => "zero";
+    case 1 => "one";
+    case _ => "many";
+  };
+}
+
+{
+  const a: string = "hoge";
+>a : Symbol(a, Decl(SwitchExpression1.ts, 23, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 24, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 24, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 23, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 24, 20))
+
+    case "fuga" => "string fuga";
+>case "fuga" => : Symbol(case "fuga" =>, Decl(SwitchExpression1.ts, 24, 24))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 24, 20))
+
+    case "fuga" => "string fuga";
+    case "hoge" => "string hoge";
+>case "hoge" => : Symbol(case "hoge" =>, Decl(SwitchExpression1.ts, 25, 33))
+
+    case _ => "string unknown";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 27, 9))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 24, 20))
+
+    case "fuga" => "string fuga";
+    case "hoge" => "string hoge";
+    case _ => "string unknown";
+  };
+}
+
+{
+  const a: number | null | undefined = 1;
+>a : Symbol(a, Decl(SwitchExpression1.ts, 32, 7))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 33, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 33, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 32, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 33, 20))
+
+    case null => "null";
+>case null => : Symbol(case null =>, Decl(SwitchExpression1.ts, 33, 24))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 33, 20))
+
+    case null => "null";
+    case undefined => "undefined";
+>undefined : Symbol(undefined)
+>case undefined => : Symbol(case undefined =>, Decl(SwitchExpression1.ts, 34, 24))
+
+    case _ => "number";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 36, 9))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 33, 20))
+
+    case null => "null";
+    case undefined => "undefined";
+    case _ => "number";
+  };
+}
+
+{
+  const elem: unknown[] = [];
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 41, 7))
+
+  const r = switch (elem) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 42, 7))
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 41, 7))
+
+    case [true] => "[true]";
+>true : Symbol(true, Decl(SwitchExpression1.ts, 43, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+>true : Symbol(true, Decl(SwitchExpression1.ts, 43, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+>case [true] => : Symbol(case [true] =>, Decl(SwitchExpression1.ts, 42, 27))
+
+    case [1] => "[1]";
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 44, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 44, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+>case [1] => : Symbol(case [1] =>, Decl(SwitchExpression1.ts, 43, 28))
+
+    case ["hoge"] => "[hoge]";
+>"hoge" : Symbol("hoge", Decl(SwitchExpression1.ts, 45, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+>"hoge" : Symbol("hoge", Decl(SwitchExpression1.ts, 45, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+>case ["hoge"] => : Symbol(case ["hoge"] =>, Decl(SwitchExpression1.ts, 44, 22))
+
+    case [null] => "[null]";
+>null : Symbol(null, Decl(SwitchExpression1.ts, 46, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+>null : Symbol(null, Decl(SwitchExpression1.ts, 46, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+>case [null] => : Symbol(case [null] =>, Decl(SwitchExpression1.ts, 45, 30))
+
+    case [undefined] => "[undefined]";
+>undefined : Symbol(undefined, Decl(SwitchExpression1.ts, 47, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+>undefined : Symbol(undefined, Decl(SwitchExpression1.ts, 47, 10))
+>undefined : Symbol(undefined)
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+>case [undefined] => : Symbol(case [undefined] =>, Decl(SwitchExpression1.ts, 46, 28))
+
+    case [elem] => "[elem]";
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 48, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+>case [elem] => : Symbol(case [elem] =>, Decl(SwitchExpression1.ts, 47, 38))
+
+    case [...tail] => "[...tail]";
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 49, 13))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 50, 10))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+>case [x,] => : Symbol(case [x,] =>, Decl(SwitchExpression1.ts, 49, 34))
+
+    case [x, 1] => "[x, 1]";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 51, 10))
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 51, 13))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+    case [x, 1] => "[x, 1]";
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 51, 13))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+    case [x, 1] => "[x, 1]";
+>case [x, 1] => : Symbol(case [x, 1] =>, Decl(SwitchExpression1.ts, 50, 24))
+
+    case [x, 2, ...tail] => "[x, 2, ...tail]";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 52, 10))
+>2 : Symbol(2, Decl(SwitchExpression1.ts, 52, 13))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 52, 19))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+    case [x, 1] => "[x, 1]";
+    case [x, 2, ...tail] => "[x, 2, ...tail]";
+>2 : Symbol(2, Decl(SwitchExpression1.ts, 52, 13))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+    case [x, 1] => "[x, 1]";
+    case [x, 2, ...tail] => "[x, 2, ...tail]";
+>case [x, 2, ...tail] => : Symbol(case [x, 2, ...tail] =>, Decl(SwitchExpression1.ts, 51, 28))
+
+    case [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]";
+>{ : Symbol({, Decl(SwitchExpression1.ts, 53, 10))
+>[ : Symbol([, Decl(SwitchExpression1.ts, 53, 21))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 53, 29))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+    case [x, 1] => "[x, 1]";
+    case [x, 2, ...tail] => "[x, 2, ...tail]";
+    case [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 53, 11))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 53, 17))
+>{ : Symbol({, Decl(SwitchExpression1.ts, 53, 10))
+>z : Symbol(z, Decl(SwitchExpression1.ts, 53, 22))
+>[ : Symbol([, Decl(SwitchExpression1.ts, 53, 21))
+>{ : Symbol({, Decl(SwitchExpression1.ts, 53, 10))
+>x : Symbol(x, Decl(SwitchExpression1.ts, 53, 11))
+>{ : Symbol({, Decl(SwitchExpression1.ts, 53, 10))
+>{ : Symbol({, Decl(SwitchExpression1.ts, 53, 10))
+>[ : Symbol([, Decl(SwitchExpression1.ts, 53, 21))
+
+
+>elem : Symbol(elem, Decl(SwitchExpression1.ts, 42, 20))
+
+    case [true] => "[true]";
+    case [1] => "[1]";
+    case ["hoge"] => "[hoge]";
+    case [null] => "[null]";
+    case [undefined] => "[undefined]";
+    case [elem] => "[elem]";
+    case [...tail] => "[...tail]";
+    case [x,] => "[x,]";
+    case [x, 1] => "[x, 1]";
+    case [x, 2, ...tail] => "[x, 2, ...tail]";
+    case [{x: 1, y}, [z], ...tail] => "[{x: 1, y}, [z], ...tail]";
+>case [{x: 1, y}, [z], ...tail] => : Symbol(case [{x: 1, y}, [z], ...tail] =>, Decl(SwitchExpression1.ts, 52, 46))
+
+  };
+}
+
+{
+  const r = switch ([1, 2, 3, 4, 5]) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 58, 7))
+>[1, 2, 3, 4, 5] : Symbol([1, 2, 3, 4, 5], Decl(SwitchExpression1.ts, 58, 20))
+>[1, 2, 3, 4, 5] : Symbol([1, 2, 3, 4, 5], Decl(SwitchExpression1.ts, 58, 20))
+>[1, 2, 3, 4, 5] : Symbol([1, 2, 3, 4, 5], Decl(SwitchExpression1.ts, 58, 20))
+
+    case [] => 0;
+>case [] => : Symbol(case [] =>, Decl(SwitchExpression1.ts, 58, 38))
+
+    case [x, y, ...tail] => tail.length;
+>x : Symbol(x, Decl(SwitchExpression1.ts, 60, 10))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 60, 13))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 60, 19))
+
+>[1, 2, 3, 4, 5] : Symbol([1, 2, 3, 4, 5], Decl(SwitchExpression1.ts, 58, 20))
+>[1, 2, 3, 4, 5] : Symbol([1, 2, 3, 4, 5], Decl(SwitchExpression1.ts, 58, 20))
+
+    case [] => 0;
+    case [x, y, ...tail] => tail.length;
+>case [x, y, ...tail] => : Symbol(case [x, y, ...tail] =>, Decl(SwitchExpression1.ts, 59, 17))
+>tail.length : Symbol(Array.length, Decl(lib.es5.d.ts, --, --))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 60, 19))
+>length : Symbol(Array.length, Decl(lib.es5.d.ts, --, --))
+  }
+}
+
+{
+  const obj: Record<string, unknown> = {};
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 65, 7))
+>Record : Symbol(Record, Decl(lib.es5.d.ts, --, --))
+
+  const r = switch (obj) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 66, 7))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 65, 7))
+
+    case { x } => "{ x }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 67, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+>case { x } => : Symbol(case { x } =>, Decl(SwitchExpression1.ts, 66, 26))
+
+    case { x: false } => "{ x: false }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 68, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 68, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+>case { x: false } => : Symbol(case { x: false } =>, Decl(SwitchExpression1.ts, 67, 26))
+
+    case { x: 1 } => "{ x: 1 }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 69, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 69, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+>case { x: 1 } => : Symbol(case { x: 1 } =>, Decl(SwitchExpression1.ts, 68, 40))
+
+    case { "x": 1 } => "{ 'x': 1 }";
+>"x" : Symbol("x", Decl(SwitchExpression1.ts, 70, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+>"x" : Symbol("x", Decl(SwitchExpression1.ts, 70, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+>case { "x": 1 } => : Symbol(case { "x": 1 } =>, Decl(SwitchExpression1.ts, 69, 32))
+
+    case { "x": a } => "{ 'x': a }";
+>"x" : Symbol("x", Decl(SwitchExpression1.ts, 71, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+>a : Symbol(a, Decl(SwitchExpression1.ts, 71, 16))
+>"x" : Symbol("x", Decl(SwitchExpression1.ts, 71, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+>case { "x": a } => : Symbol(case { "x": a } =>, Decl(SwitchExpression1.ts, 70, 36))
+
+    case { ...tail } => "{ ...tail }";
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 72, 14))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+>case { ...tail } => : Symbol(case { ...tail } =>, Decl(SwitchExpression1.ts, 71, 36))
+
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 73, 11))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 73, 22))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 73, 15))
+>2 : Symbol(2, Decl(SwitchExpression1.ts, 73, 18))
+>x : Symbol(x, Decl(SwitchExpression1.ts, 73, 11))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 73, 27))
+>b : Symbol(b, Decl(SwitchExpression1.ts, 73, 35))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 73, 22))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 73, 15))
+>2 : Symbol(2, Decl(SwitchExpression1.ts, 73, 18))
+>x : Symbol(x, Decl(SwitchExpression1.ts, 73, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+>y : Symbol(y, Decl(SwitchExpression1.ts, 73, 22))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 73, 27))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 73, 22))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 73, 22))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+>case { x: [1, 2], y: { a: "a", b } } => : Symbol(case { x: [1, 2], y: { a: "a", b } } =>, Decl(SwitchExpression1.ts, 72, 38))
+
+    case { x: 1, y, ...tail } => "{ x: 1, y, ...tail }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 74, 11))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 74, 17))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 74, 23))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+    case { x: 1, y, ...tail } => "{ x: 1, y, ...tail }";
+>x : Symbol(x, Decl(SwitchExpression1.ts, 74, 11))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+    case { x: 1, y, ...tail } => "{ x: 1, y, ...tail }";
+>case { x: 1, y, ...tail } => : Symbol(case { x: 1, y, ...tail } =>, Decl(SwitchExpression1.ts, 73, 60))
+
+    case _ if _.x === 1 => "_ if _.x === 1";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 75, 9))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+    case { x: 1, y, ...tail } => "{ x: 1, y, ...tail }";
+    case _ if _.x === 1 => "_ if _.x === 1";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 75, 9))
+>case _ if _.x === 1 => : Symbol(case _ if _.x === 1 =>, Decl(SwitchExpression1.ts, 74, 56))
+
+    case _ => "_";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 76, 9))
+
+
+>obj : Symbol(obj, Decl(SwitchExpression1.ts, 66, 20))
+
+    case { x } => "{ x }";
+    case { x: false } => "{ x: false }";
+    case { x: 1 } => "{ x: 1 }";
+    case { "x": 1 } => "{ 'x': 1 }";
+    case { "x": a } => "{ 'x': a }";
+    case { ...tail } => "{ ...tail }";
+    case { x: [1, 2], y: { a: "a", b } } => "{ x: [1, 2] }";
+    case { x: 1, y, ...tail } => "{ x: 1, y, ...tail }";
+    case _ if _.x === 1 => "_ if _.x === 1";
+    case _ => "_";
+  };
+}
+
+{
+  const a = { x: 1, y: 2, z: 3 };
+>a : Symbol(a, Decl(SwitchExpression1.ts, 81, 7))
+>x : Symbol(x, Decl(SwitchExpression1.ts, 81, 13))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 81, 19))
+>z : Symbol(z, Decl(SwitchExpression1.ts, 81, 25))
+
+  const r = switch (a) {
+>r : Symbol(r, Decl(SwitchExpression1.ts, 82, 7))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 81, 7))
+
+    case { x, y, z } if x + y + z > 10 => x * y * z;
+>x : Symbol(x, Decl(SwitchExpression1.ts, 83, 11))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 83, 14))
+>z : Symbol(z, Decl(SwitchExpression1.ts, 83, 17))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+
+    case { x, y, z } if x + y + z > 10 => x * y * z;
+>x : Symbol(x, Decl(SwitchExpression1.ts, 83, 11))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 83, 14))
+>z : Symbol(z, Decl(SwitchExpression1.ts, 83, 17))
+>case { x, y, z } if x + y + z > 10 => : Symbol(case { x, y, z } if x + y + z > 10 =>, Decl(SwitchExpression1.ts, 82, 24))
+>x : Symbol(x, Decl(SwitchExpression1.ts, 83, 11))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 83, 14))
+>z : Symbol(z, Decl(SwitchExpression1.ts, 83, 17))
+
+    case { x, ...tail } => tail.y;
+>x : Symbol(x, Decl(SwitchExpression1.ts, 84, 11))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 84, 17))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+
+    case { x, y, z } if x + y + z > 10 => x * y * z;
+    case { x, ...tail } => tail.y;
+>case { x, ...tail } => : Symbol(case { x, ...tail } =>, Decl(SwitchExpression1.ts, 83, 52))
+>tail.y : Symbol(y, Decl(SwitchExpression1.ts, 81, 19))
+>tail : Symbol(tail, Decl(SwitchExpression1.ts, 84, 17))
+>y : Symbol(y, Decl(SwitchExpression1.ts, 81, 19))
+
+    case _ => "10 or less";
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 85, 9))
+
+
+>a : Symbol(a, Decl(SwitchExpression1.ts, 82, 20))
+
+    case { x, y, z } if x + y + z > 10 => x * y * z;
+    case { x, ...tail } => tail.y;
+    case _ => "10 or less";
+  };
+}

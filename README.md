@@ -1,20 +1,66 @@
+[日本語](./README.ja.md)
+
 # TypeScriptBeyond
 
-`TypeScriptBeyond` is a language that extends `TypeScript`. It introduces the following features:
+`TypeScriptBeyond` is a language that extends the syntax of `TypeScript`. It introduces the following features:
 
+- Block expressions `&{ ... }`
+- `switch` expressions (pattern matching)
 - Pipeline operator `|>`
 - Monad comprehensions `do`
-- Block expressions `&{ ... }`
 
-You can continue to use `tsc` and `tsserver` just like with standard `TypeScript`.
+Because it only extends TypeScript’s syntax, you keep using `tsc` and `tsserver` the same way you do with standard TypeScript.
 
 ## Installation
 
-Install `TypeScriptBeyond` under the `TypeScript` package name.
+Install `TypeScriptBeyond` under the `TypeScript` package name. This preserves compatibility with existing TypeScript projects and LSP setups.
 
 ```
 npm i -D typescript@npm:typescript-beyond
 ```
+
+## Block Expressions
+
+Block expressions are syntactic sugar for immediately invoked function expressions. Writing `&{ ... }` is equivalent to `(() => { ... })()`.
+
+```ts
+const a = &{
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+// => 3
+```
+
+```ts
+const a = async &{
+  const x = await Promise.resolve(1);
+  const y = await Promise.resolve(2);
+  return x + y;
+};
+// => Promise.resolve(3)
+```
+
+## `switch` Expressions (Pattern Matching)
+
+`switch` can be used as an expression, and pattern matching is supported.
+
+```ts
+const a = switch (foo) {
+  case 1 => 'one';
+  case '2' => 'two';
+  case [a, b] if a > 0 && b > 0 => `a + b = ${a + b}`;
+  case [a, b, ...tail] => `tail.length: ${tail.length}`;
+  case {a: 1, b: x, ...tail} => `x = ${x}`;
+};
+```
+
+`switch` expressions support:
+
+- Value comparison (e.g. `1`, `'2'`)
+- Structural matching on arrays/objects (array destructuring, rest elements, object fields)
+- Binding values (`a`, `b`, `tail`, `x`) while matching
+- Guards (`if a > 0 && b > 0`) to refine a case before it matches
 
 ## Pipeline Operator `|>`
 
@@ -43,9 +89,9 @@ For example, if you have an `Option` with a `flatMap` method, you can write:
 
 ```ts
 const result = do {
-  x <- Option(1),
-  y <- Option(2),
-  Option(x + y),
+  x <- Option(1);
+  y <- Option(2);
+  Option(x + y);
 };
 ```
 
@@ -67,9 +113,9 @@ For example, if you have an `Option` without a `flatMap` method:
 const flatMap = <A, B>(m: Option<A>, f: (a: A) => Option<B>): Option<B> => ...;
 
 const result = do (flatMap) {
-  x <- Option(1),
-  y <- Option(2),
-  Option(x + y),
+  x <- Option(1);
+  y <- Option(2);
+  Option(x + y);
 };
 ```
 
@@ -87,8 +133,8 @@ If a step in the monad comprehension does not need to bind a variable, you can o
 
 ```ts
 const a = do (option.flatMap) {
-  option.of(1),
-  option.of(2),
+  option.of(1);
+  option.of(2);
 };
 // a => option.of(2)
 ```
@@ -99,33 +145,11 @@ You can also declare variables with `const` inside the comprehension.
 
 ```ts
 const a = do (option.flatMap) {
-  const x = 1,
-  const y = 2,
-  option.of(x + y),
-};
-// a => option.of(3)
-```
-
-## Block Expressions
-
-Block expressions are syntactic sugar for immediately invoked function expressions. Writing `&{ ... }` is equivalent to `(() => { ... })()`.
-
-```ts
-const a = &{
   const x = 1;
   const y = 2;
-  return x + y;
+  option.of(x + y);
 };
-// => 3
-```
-
-```ts
-const a = async &{
-  const x = await Promise.resolve(1);
-  const y = await Promise.resolve(2);
-  return x + y;
-};
-// => Promise.resolve(3)
+// a => option.of(3)
 ```
 
 ## Using with `fp-ts`
@@ -136,9 +160,9 @@ You can use it as a replacement for `pipe` or `bind` in `fp-ts`.
 import { option, number, readonlyArray } from 'fp-ts';
 
 const a = do (option.flatMap) {
-  x <- option.of(1),
-  y <- option.of(2),
-  option.of(x + y),
+  x <- option.of(1);
+  y <- option.of(2);
+  option.of(x + y);
 };
 
 console.log(option.getShow(number.Show).show(a)); // Some(3)

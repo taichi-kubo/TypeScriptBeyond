@@ -558,7 +558,7 @@ function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node
                 if (hasTabstop(parent)) {
                     continue;
                 }
-                //Debug.fail(`Did not expect ${Debug.formatSyntaxKind(parent.kind)} to have an Identifier in its trivia`);
+                // Debug.fail(`Did not expect ${Debug.formatSyntaxKind(parent.kind)} to have an Identifier in its trivia`);
             }
             nodes.push(createNode(token, pos, textPos, parent));
         }
