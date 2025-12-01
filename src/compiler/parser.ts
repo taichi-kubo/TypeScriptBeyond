@@ -5673,14 +5673,14 @@ namespace Parser {
         return finishNode(factory.createVariableStatement(
             /*modifiers*/ undefined,
             /*declarationList*/ finishNode(factory.createVariableDeclarationList(
-                [
+                createNodeArray([
                     finishNode(factory.createVariableDeclaration(
                         iden,
                         /*exclamationToken*/ undefined,
                         /*type*/ undefined,
                         expr
                     ), pos, endPos),
-                ],
+                ], pos, endPos),
                 NodeFlags.Const,
             ), pos, endPos),
         ), pos, endPos);
@@ -5781,14 +5781,14 @@ namespace Parser {
                     pos, 
                     pos
                 ),
-                /*body*/ finishNode(factory.createBlock([
+                /*body*/ finishNode(factory.createBlock(createNodeArray([
                     ...decls,
                     factory.createReturnStatement(body)
-                ]), pos, endPos)
+                ], pos, endPos)), pos, endPos)
                 ), pos, endPos)
             ), pos, endPos),
             /*typeArguments*/ undefined,
-            /*argumentsArray*/ [],
+            /*argumentsArray*/ createNodeArray([], pos, endPos),
         ), pos, endPos);
 
         if (token() === SyntaxKind.WhileKeyword) {
@@ -5872,10 +5872,10 @@ namespace Parser {
                                 rest.pos,
                                 rest.pos,
                             ),
-                            /*body*/ finishNode(factory.createBlock([
+                            /*body*/ finishNode(factory.createBlock(createNodeArray([
                                 ...decls,
                                 factory.createReturnStatement(rest),
-                            ]), posDecls, rest.end),
+                            ], posDecls, rest.end)), posDecls, rest.end),
                         ),
                         name ? name.pos : rest.pos,
                         rest.end,
