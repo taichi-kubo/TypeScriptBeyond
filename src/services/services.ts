@@ -516,13 +516,11 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     scanner.setLanguageVariant(languageVariant);
     let pos = node.pos;
     const processNode = (child: Node) => {
-        //Debug.log(`--------------- [createChildren:1] child: (${child.pos}, ${Debug.formatSyntaxKind(child.kind)})"""${child.getText()}"""`);
         addSyntheticNodes(children, pos, child.pos, node);
         children.push(child);
         pos = child.end;
     };
     const processNodes = (nodes: NodeArray<Node>) => {
-        //Debug.log(`--------------- [createChildren:2] child: (${nodes.pos})"""${nodes.map(_ => _.getText()).join(' # ')}"""`);
         addSyntheticNodes(children, pos, nodes.pos, node);
         children.push(createSyntaxList(nodes, node));
         pos = nodes.end;
@@ -534,7 +532,6 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     // Restoring the scanner position ensures that.
     pos = node.pos;
     node.forEachChild(processNode, processNodes);
-    //Debug.log(`--------------- [createChildren:3] child: (${node.pos}, ${Debug.formatSyntaxKind(node.kind)})"""${node.getText()}"""`);
     addSyntheticNodes(children, pos, node.end, node);
     scanner.setText(undefined);
     scanner.setLanguageVariant(LanguageVariant.Standard);
@@ -548,11 +545,9 @@ function isBindOrPipeExpression(parent: Node): boolean {
 
 function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node): void {
     scanner.resetTokenState(pos);
-    //Debug.log(`  --------------- START addSyntheticNodes`);
     while (pos < end) {
         const token = scanner.scan();
         const textPos = scanner.getTokenEnd();
-        //Debug.log(`  --- child pos: ${end} >= token: """${scanner.getTokenText()}"""(${textPos}), parent: (${pos}) (${Debug.formatSyntaxKind(parent.kind)}) """${parent.getText()}"""`);
         if (!(isBindOrPipeExpression(parent) && textPos >= pos) && textPos <= end) {
             if (token === SyntaxKind.Identifier) {
                 if (hasTabstop(parent)) {
@@ -574,12 +569,10 @@ function createSyntaxList(nodes: NodeArray<Node>, parent: Node): Node {
     const children: Node[] = [];
     let pos = nodes.pos;
     for (const node of nodes) {
-        //Debug.log(`--------------- [createSyntaxList:1] child: (${node.pos}, ${Debug.formatSyntaxKind(node.kind)})"""${node.getText()}"""`);
         addSyntheticNodes(children, pos, node.pos, parent);
         children.push(node);
         pos = node.end;
     }
-    //Debug.log(`--------------- [createSyntaxList:2] child: (${nodes.pos})"""${nodes.map(_ => _.getText()).join(' # ')}"""`);
     addSyntheticNodes(children, pos, nodes.end, parent);
     list._children = children;
     return list;
