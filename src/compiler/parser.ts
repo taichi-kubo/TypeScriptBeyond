@@ -5783,7 +5783,7 @@ namespace Parser {
                 ),
                 /*body*/ finishNode(factory.createBlock(createNodeArray([
                     ...decls,
-                    factory.createReturnStatement(body)
+                    finishNode(factory.createReturnStatement(body), body.pos, body.end)
                 ], pos, endPos)), pos, endPos)
                 ), pos, endPos)
             ), pos, endPos),
