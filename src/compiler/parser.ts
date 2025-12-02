@@ -5774,7 +5774,7 @@ namespace Parser {
                 finishNode(factory.createArrowFunction(
                 /*modifiers*/ undefined,
                 /*typeParameters*/ undefined,
-                /*parameters*/ createNodeArray([],pos, pos),
+                /*parameters*/ createNodeArray([], pos, pos),
                 /*type*/ undefined,
                 /*equalsGreaterThanToken*/ finishNode(
                     factory.createToken(SyntaxKind.EqualsGreaterThanToken), 
