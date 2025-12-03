@@ -90,27 +90,13 @@ const flatMap = (self, f) => self.value === null ? of(null) : f(self.value);
     })();
 }
 {
-    const r = (() => {
-        return (flatMap)(of(1), x => {
-            return (flatMap)(of(2), y => {
-                return of(x + y);
-            });
-        });
-    })();
+    const r = (() => { return (flatMap)(of(1), x => { return (flatMap)(of(2), y => { return of(x + y); }); }); })();
 }
 {
-    const r = (() => {
-        return (flatMap)(of(1), x => {
-            return (flatMap)(of(2), y => {
-                return of(x + y);
-            });
-        });
-    })();
+    const r = (() => { return (flatMap)(of(1), x => { return (flatMap)(of(2), y => { return of(x + y); }); }); })();
 }
 {
-    const r = (() => {
-        return of(1);
-    })();
+    const r = (() => { return of(1); })();
 }
 {
     const r = ;

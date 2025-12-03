@@ -5733,7 +5733,11 @@ namespace Parser {
             const flatMapExpr = tryParse(() => parseExpression());
             flatMap = flatMapExpr === undefined 
                 ? undefined 
-                : finishNode(factory.createParenthesizedExpression(flatMapExpr), flatMapExpr.pos, flatMapExpr.end);
+                : finishNode(
+                    factory.createParenthesizedExpression(flatMapExpr), 
+                    flatMapExpr.pos, 
+                    flatMapExpr.end
+                );
 
             if (token() !== SyntaxKind.CloseParenToken) {
                 return undefined;
@@ -5874,7 +5878,7 @@ namespace Parser {
                             ),
                             /*body*/ finishNode(factory.createBlock(createNodeArray([
                                 ...decls,
-                                factory.createReturnStatement(rest),
+                                finishNode(factory.createReturnStatement(rest), rest.pos, rest.end),
                             ], posDecls, rest.end)), posDecls, rest.end),
                         ),
                         name ? name.pos : rest.pos,
