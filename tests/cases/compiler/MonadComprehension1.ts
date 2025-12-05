@@ -15,7 +15,8 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 {
   const r = do (flatMap) {
     const a = 1;
-    const b = 2;
+    const b: number = 2;
+    const f = (x: number) => x + 10;
     x <- of(1);
     const c = 3;
     y <- of(2);
@@ -25,15 +26,7 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 }
 
 {
-  const r = do (flatMap) {
-    const a = 1
-    const b = 2
-    x <- of(1)
-    const c = 3
-    y <- of(2)
-    const d = 4
-    of(x + y)
-  };
+  const f = () => do (flatMap) { of(1) };
 }
 
 {

@@ -5551,6 +5551,11 @@ namespace Parser {
             return parseFunctionBlock(isAsync ? SignatureFlags.Await : SignatureFlags.None);
         }
 
+        const monadComprehension = tryParseMonadComprehension();
+        if (monadComprehension) {
+            return monadComprehension;            
+        }
+
         if (
             token() !== SyntaxKind.SemicolonToken &&
             token() !== SyntaxKind.FunctionKeyword &&
@@ -5660,22 +5665,34 @@ namespace Parser {
     function parseConstDeclInMonadComprehension(): VariableStatement | undefined {
         const constStart = scanner.getTokenStart();
 
+        // const name: T = expr;
+        // ^^^^^
         if (token() !== SyntaxKind.ConstKeyword) {
             return;
         }
         
         nextToken();
 
+        // const name: T = expr;
+        //       ^^^^
         const iden = parseIdentifierOrPattern();
 
+        // const name: T = expr;
+        //           ^^^
+        const type = parseTypeAnnotation();
+
+        // const name: T = expr;
+        //               ^
         if (token() !== SyntaxKind.EqualsToken) {
             return;
         }
 
         nextToken();
         
+        // const name: T = expr;
+        //                 ^^^^
         const expr = parseAssignmentExpressionOrHigher(
-            /*allowReturnTypeInArrowFunction*/ false,
+            /*allowReturnTypeInArrowFunction*/ true,
         );
 
         const exprEnd = expr.end;
@@ -5687,10 +5704,10 @@ namespace Parser {
                     finishNode(factory.createVariableDeclaration(
                         /*name*/ iden,
                         /*exclamationToken*/ undefined,
-                        /*type*/ undefined,
+                        /*type*/ type,
                         /*initializer*/ expr
-                    ), constStart, exprEnd),
-                ], constStart, exprEnd),
+                    ), iden.pos, exprEnd),
+                ], iden.pos, exprEnd),
                 /*flags*/ NodeFlags.Const,
             ), constStart, exprEnd),
         ), constStart, exprEnd);

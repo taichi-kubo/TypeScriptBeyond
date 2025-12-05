@@ -75,12 +75,12 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
   const r = do (flatMap) {
 >r : Readonly<{ value: number; }>
 >  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->do (flatMap) {    const a = 1;    const b = 2;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : Readonly<{ value: number; }>
->                                                                                                                              : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->do (flatMap) {    const a = 1;    const b = 2;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : () => Readonly<{ value: number; }>
->                                                                                                                              : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->do (flatMap) {    const a = 1;    const b = 2;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : () => Readonly<{ value: number; }>
->                                                                                                                              : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) {    const a = 1;    const b: number = 2;    const f = (x: number) => x + 10;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : Readonly<{ value: number; }>
+>                                                                                                                                                                          : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) {    const a = 1;    const b: number = 2;    const f = (x: number) => x + 10;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : () => Readonly<{ value: number; }>
+>                                                                                                                                                                          : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) {    const a = 1;    const b: number = 2;    const f = (x: number) => x + 10;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : () => Readonly<{ value: number; }>
+>                                                                                                                                                                          : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     const a = 1;
 >a : 1
@@ -88,22 +88,37 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >1 : 1
 >  : ^
 
-    const b = 2;
->b : 2
->  : ^
+    const b: number = 2;
+>b : number
+>  : ^^^^^^
 >2 : 2
 >  : ^
 
+    const f = (x: number) => x + 10;
+>f : (x: number) => number
+>  : ^ ^^      ^^^^^^^^^^^
+>(x: number) => x + 10 : (x: number) => number
+>                      : ^ ^^      ^^^^^^^^^^^
+>x : number
+>  : ^^^^^^
+>x + 10 : number
+>       : ^^^^^^
+>x : number
+>  : ^^^^^^
+>10 : 10
+>   : ^^
 
->do (flatMap) {    const a = 1;    const b = 2;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : Readonly<{ value: number; }>
->                                                                                                                              : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+>do (flatMap) {    const a = 1;    const b: number = 2;    const f = (x: number) => x + 10;    x <- of(1);    const c = 3;    y <- of(2);    const d = 4;    of(x + y);  } : Readonly<{ value: number; }>
+>                                                                                                                                                                          : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 >flatMap : <A, B>(self: Option<A>, f: (a: A) => Option<B>) => Option<B>
 >        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
 >flatMap : <A, B>(self: Option<A>, f: (a: A) => Option<B>) => Option<B>
 >        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
 
     const a = 1;
-    const b = 2;
+    const b: number = 2;
+    const f = (x: number) => x + 10;
     x <- of(1);
 >of(1) : Readonly<{ value: number; }>
 >      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -133,7 +148,8 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
 
     const a = 1;
-    const b = 2;
+    const b: number = 2;
+    const f = (x: number) => x + 10;
     x <- of(1);
     const c = 3;
     y <- of(2);
@@ -170,101 +186,23 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 }
 
 {
-  const r = do (flatMap) {
->r : Readonly<{ value: number; }>
->  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->do (flatMap) {    const a = 1    const b = 2    x <- of(1)    const c = 3    y <- of(2)    const d = 4    of(x + y)  } : Readonly<{ value: number; }>
->                                                                                                                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->do (flatMap) {    const a = 1    const b = 2    x <- of(1)    const c = 3    y <- of(2)    const d = 4    of(x + y)  } : () => Readonly<{ value: number; }>
->                                                                                                                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->do (flatMap) {    const a = 1    const b = 2    x <- of(1)    const c = 3    y <- of(2)    const d = 4    of(x + y)  } : () => Readonly<{ value: number; }>
->                                                                                                                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    const a = 1
->a : 1
->  : ^
->1 : 1
->  : ^
-
-    const b = 2
->b : 2
->  : ^
->2 : 2
->  : ^
-
-
->do (flatMap) {    const a = 1    const b = 2    x <- of(1)    const c = 3    y <- of(2)    const d = 4    of(x + y)  } : Readonly<{ value: number; }>
->                                                                                                                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->flatMap : <A, B>(self: Option<A>, f: (a: A) => Option<B>) => Option<B>
->        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
->flatMap : <A, B>(self: Option<A>, f: (a: A) => Option<B>) => Option<B>
->        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
-
-    const a = 1
-    const b = 2
-    x <- of(1)
->of(1) : Readonly<{ value: number; }>
->      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const f = () => do (flatMap) { of(1) };
+>f : () => Readonly<{ value: number; }>
+>  : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>() => do (flatMap) { of(1) } : () => Readonly<{ value: number; }>
+>                             : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) { of(1) } : Readonly<{ value: number; }>
+>                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) { of(1) } : () => Readonly<{ value: number; }>
+>                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) { of(1) } : () => Readonly<{ value: number; }>
+>                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>do (flatMap) { of(1) } : Readonly<{ value: number; }>
+>                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 >of : <A>(a: A | null) => Option<A>
 >   : ^ ^^ ^^        ^^^^^         
 >1 : 1
 >  : ^
->x <- of(1)    const c = 3    y <- of(2)    const d = 4    of(x + y) : (x: number) => Readonly<{ value: number; }>
->                                                                    : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->x : number
->  : ^^^^^^
-
-    const c = 3
->c : 3
->  : ^
->3 : 3
->  : ^
-
-    y <- of(2)
->y <- of(2)    const d = 4    of(x + y) : Readonly<{ value: number; }>
->                                       : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
->flatMap : <A, B>(self: Option<A>, f: (a: A) => Option<B>) => Option<B>
->        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
->flatMap : <A, B>(self: Option<A>, f: (a: A) => Option<B>) => Option<B>
->        : ^ ^^ ^^    ^^         ^^ ^^                   ^^^^^         
-
-    const a = 1
-    const b = 2
-    x <- of(1)
-    const c = 3
-    y <- of(2)
->of(2) : Readonly<{ value: number; }>
->      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->of : <A>(a: A | null) => Option<A>
->   : ^ ^^ ^^        ^^^^^         
->2 : 2
->  : ^
->y <- of(2)    const d = 4    of(x + y) : (y: number) => Readonly<{ value: number; }>
->                                       : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->y : number
->  : ^^^^^^
-
-    const d = 4
->d : 4
->  : ^
->4 : 4
->  : ^
-
-    of(x + y)
->of(x + y) : Readonly<{ value: number; }>
->          : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->of : <A>(a: A | null) => Option<A>
->   : ^ ^^ ^^        ^^^^^         
->x + y : number
->      : ^^^^^^
->x : number
->  : ^^^^^^
->y : number
->  : ^^^^^^
-
-  };
 }
 
 {

@@ -1,9 +1,9 @@
-MonadComprehension1.ts(50,13): error TS1109: Expression expected.
-MonadComprehension1.ts(50,26): error TS1005: '=>' expected.
-MonadComprehension1.ts(51,1): error TS1005: 'while' expected.
-MonadComprehension1.ts(54,13): error TS1109: Expression expected.
-MonadComprehension1.ts(54,26): error TS1005: '=>' expected.
-MonadComprehension1.ts(55,1): error TS1005: 'while' expected.
+MonadComprehension1.ts(43,13): error TS1109: Expression expected.
+MonadComprehension1.ts(43,26): error TS1005: '=>' expected.
+MonadComprehension1.ts(44,1): error TS1005: 'while' expected.
+MonadComprehension1.ts(47,13): error TS1109: Expression expected.
+MonadComprehension1.ts(47,26): error TS1005: '=>' expected.
+MonadComprehension1.ts(48,1): error TS1005: 'while' expected.
 
 
 ==== MonadComprehension1.ts (6 errors) ====
@@ -22,7 +22,8 @@ MonadComprehension1.ts(55,1): error TS1005: 'while' expected.
     {
       const r = do (flatMap) {
         const a = 1;
-        const b = 2;
+        const b: number = 2;
+        const f = (x: number) => x + 10;
         x <- of(1);
         const c = 3;
         y <- of(2);
@@ -32,15 +33,7 @@ MonadComprehension1.ts(55,1): error TS1005: 'while' expected.
     }
     
     {
-      const r = do (flatMap) {
-        const a = 1
-        const b = 2
-        x <- of(1)
-        const c = 3
-        y <- of(2)
-        const d = 4
-        of(x + y)
-      };
+      const f = () => do (flatMap) { of(1) };
     }
     
     {
