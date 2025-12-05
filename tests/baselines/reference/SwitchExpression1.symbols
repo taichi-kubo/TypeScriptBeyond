@@ -742,3 +742,13 @@
     case _ => "10 or less";
   };
 }
+
+{
+  const f = () => switch (1) { case 1 => "one"; case _ => "unknown"; };
+>f : Symbol(f, Decl(SwitchExpression1.ts, 90, 7))
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 90, 26))
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 90, 26))
+>case 1 => : Symbol(case 1 =>, Decl(SwitchExpression1.ts, 90, 30))
+>_ : Symbol(_, Decl(SwitchExpression1.ts, 90, 53))
+>1 : Symbol(1, Decl(SwitchExpression1.ts, 90, 26))
+}

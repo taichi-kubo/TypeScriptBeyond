@@ -5556,6 +5556,11 @@ namespace Parser {
             return monadComprehension;            
         }
 
+        const switchExpression = tryParseSwitchExpression();
+        if (switchExpression) {
+            return switchExpression;
+        }
+
         if (
             token() !== SyntaxKind.SemicolonToken &&
             token() !== SyntaxKind.FunctionKeyword &&

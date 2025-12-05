@@ -88,3 +88,7 @@
     case _ => "10 or less";
   };
 }
+
+{
+  const f = () => switch (1) { case 1 => "one"; case _ => "unknown"; };
+}

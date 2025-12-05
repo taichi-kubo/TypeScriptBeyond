@@ -90,6 +90,10 @@
   };
 }
 
+{
+  const f = () => switch (1) { case 1 => "one"; case _ => "unknown"; };
+}
+
 //// [SwitchExpression1.js]
 {
     const a = true;
@@ -497,6 +501,23 @@
         {
             const _ = input;
             return "10 or less";
+        }
+        throw new Error("Non-exhaustive pattern match");
+    })();
+}
+{
+    const f = () => (() => {
+        const input = 1;
+        {
+            if ([
+                input === 1
+            ].every(__cond__ => __cond__ === true)) {
+                return "one";
+            }
+        }
+        {
+            const _ = input;
+            return "unknown";
         }
         throw new Error("Non-exhaustive pattern match");
     })();

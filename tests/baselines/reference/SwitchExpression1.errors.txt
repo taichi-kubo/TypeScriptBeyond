@@ -119,3 +119,7 @@ SwitchExpression1.ts(74,36): error TS2339: Property 'b' does not exist on type '
         case _ => "10 or less";
       };
     }
+    
+    {
+      const f = () => switch (1) { case 1 => "one"; case _ => "unknown"; };
+    }
