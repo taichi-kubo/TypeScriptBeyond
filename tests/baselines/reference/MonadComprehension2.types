@@ -72,44 +72,20 @@ class Maybe<A> {
 >do {    const a = 1;    const b = 2;    x <- new Maybe(1);    const c = 3;    y <- new Maybe(2);    const d = 4;    new Maybe(x + y);  } : Maybe<number>
 >                                                                                                                                         : ^^^^^^^^^^^^^
 
-
-> : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
-> : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> : Maybe<number>
-> : ^^^^^^^^^^^^^
-
-  constructor(public readonly value: A | null) {}
-  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
-    return this.value === null ? new Maybe<B>(null) : f(this.value);
-  }
-}
-
-{
-  const r = do {
     const a = 1;
     const b = 2;
     x <- new Maybe(1);
+>new Maybe(1) : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
+>             : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>new Maybe(1) : Maybe<number>
+>             : ^^^^^^^^^^^^^
 >new Maybe(1) : Maybe<number>
 >             : ^^^^^^^^^^^^^
 >Maybe : typeof Maybe
 >      : ^^^^^^^^^^^^
 >1 : 1
 >  : ^
-
-
-> : error
-
-  constructor(public readonly value: A | null) {}
-  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
-    return this.value === null ? new Maybe<B>(null) : f(this.value);
-  }
-}
-
-{
-  const r = do {
-    const a = 1;
-    const b = 2;
-    x <- new Maybe(1);
+><- : error
 >x <- new Maybe(1);    const c = 3;    y <- new Maybe(2);    const d = 4;    new Maybe(x + y) : (x: number) => Maybe<number>
 >                                                                                             : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
 >x : number
@@ -124,49 +100,17 @@ class Maybe<A> {
     y <- new Maybe(2);
 >y <- new Maybe(2);    const d = 4;    new Maybe(x + y) : Maybe<number>
 >                                                       : ^^^^^^^^^^^^^
-
-
-> : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
-> : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> : Maybe<number>
-> : ^^^^^^^^^^^^^
-
-  constructor(public readonly value: A | null) {}
-  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
-    return this.value === null ? new Maybe<B>(null) : f(this.value);
-  }
-}
-
-{
-  const r = do {
-    const a = 1;
-    const b = 2;
-    x <- new Maybe(1);
-    const c = 3;
-    y <- new Maybe(2);
+>new Maybe(2) : <B>(f: (a: number) => Maybe<B>) => Maybe<B>
+>             : ^ ^^ ^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>new Maybe(2) : Maybe<number>
+>             : ^^^^^^^^^^^^^
 >new Maybe(2) : Maybe<number>
 >             : ^^^^^^^^^^^^^
 >Maybe : typeof Maybe
 >      : ^^^^^^^^^^^^
 >2 : 2
 >  : ^
-
-
-> : error
-
-  constructor(public readonly value: A | null) {}
-  flatMap<B>(f: (a: A) => Maybe<B>): Maybe<B> {
-    return this.value === null ? new Maybe<B>(null) : f(this.value);
-  }
-}
-
-{
-  const r = do {
-    const a = 1;
-    const b = 2;
-    x <- new Maybe(1);
-    const c = 3;
-    y <- new Maybe(2);
+><- : error
 >y <- new Maybe(2);    const d = 4;    new Maybe(x + y) : (y: number) => Maybe<number>
 >                                                       : ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^
 >y : number

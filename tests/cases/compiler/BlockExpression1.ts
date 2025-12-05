@@ -1,5 +1,19 @@
 // @target: es2020
 
+&{
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+
+{
+  &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
 {
   const r = &{
     const x = 1;

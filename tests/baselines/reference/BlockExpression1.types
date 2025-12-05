@@ -1,6 +1,68 @@
 //// [tests/cases/compiler/BlockExpression1.ts] ////
 
 === BlockExpression1.ts ===
+&{
+>&{  const x = 1;  const y = 2;  return x + y;} : number
+>                                               : ^^^^^^
+>&{  const x = 1;  const y = 2;  return x + y;} : () => number
+>                                               : ^^^^^^^^^^^^
+>&{  const x = 1;  const y = 2;  return x + y;} : () => number
+>                                               : ^^^^^^^^^^^^
+
+  const x = 1;
+>x : 1
+>  : ^
+>1 : 1
+>  : ^
+
+  const y = 2;
+>y : 2
+>  : ^
+>2 : 2
+>  : ^
+
+  return x + y;
+>x + y : number
+>      : ^^^^^^
+>x : 1
+>  : ^
+>y : 2
+>  : ^
+
+};
+
+{
+  &{
+>&{    const x = 1;    const y = 2;    return x + y;  } : number
+>                                                       : ^^^^^^
+>&{    const x = 1;    const y = 2;    return x + y;  } : () => number
+>                                                       : ^^^^^^^^^^^^
+>&{    const x = 1;    const y = 2;    return x + y;  } : () => number
+>                                                       : ^^^^^^^^^^^^
+
+    const x = 1;
+>x : 1
+>  : ^
+>1 : 1
+>  : ^
+
+    const y = 2;
+>y : 2
+>  : ^
+>2 : 2
+>  : ^
+
+    return x + y;
+>x + y : number
+>      : ^^^^^^
+>x : 1
+>  : ^
+>y : 2
+>  : ^
+
+  };
+}
+
 {
   const r = &{
 >r : number
@@ -153,6 +215,20 @@
 > : true
 > : ^^^^
 
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+
+{
+  &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
   const r = &{
     const x = 1;
     const y = 2;
@@ -231,6 +307,20 @@
 > : true
 > : ^^^^
 
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+
+{
+  &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
+{
   const r = &{
     const x = 1;
     const y = 2;

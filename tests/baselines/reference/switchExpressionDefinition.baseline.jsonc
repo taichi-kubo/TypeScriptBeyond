@@ -1,0 +1,1121 @@
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// const main = () => {
+//   {
+//     const a = true;
+//     switch (a) {
+//       case true => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(a);
+//     };
+//   }
+// --- (line: 9) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// const main = () => {
+//   {
+//     const a = true;
+//     switch (a) {
+//       case true => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(a);
+//     };
+//   }
+// --- (line: 9) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// const main = () => {
+//   {
+//     const a = true;
+//     switch (a) {
+//       case true => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](a);
+//     };
+//   }
+// 
+// --- (line: 10) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// const main = () => {
+//   {
+//     const a = true;
+//     switch (a) {
+//       case true => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(a);
+//     };
+//   }
+// 
+// --- (line: 10) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 9) skipped ---
+//   {
+//     const a = 'foo';
+//     switch (a) {
+//       case 'foo' => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 17) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 9) skipped ---
+//   {
+//     const a = 'foo';
+//     switch (a) {
+//       case 'foo' => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 17) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 10) skipped ---
+//     const a = 'foo';
+//     switch (a) {
+//       case 'foo' => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// 
+// --- (line: 18) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 10) skipped ---
+//     const a = 'foo';
+//     switch (a) {
+//       case 'foo' => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// 
+// --- (line: 18) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 17) skipped ---
+//   {
+//     const a = 42;
+//     switch (a) {
+//       case 42 => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 25) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 17) skipped ---
+//   {
+//     const a = 42;
+//     switch (a) {
+//       case 42 => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 25) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 18) skipped ---
+//     const a = 42;
+//     switch (a) {
+//       case 42 => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// 
+// --- (line: 26) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 18) skipped ---
+//     const a = 42;
+//     switch (a) {
+//       case 42 => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// 
+// --- (line: 26) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 25) skipped ---
+//   {
+//     const a = null;
+//     switch (a) {
+//       case null => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 33) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 25) skipped ---
+//   {
+//     const a = null;
+//     switch (a) {
+//       case null => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 33) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 26) skipped ---
+//     const a = null;
+//     switch (a) {
+//       case null => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// 
+// --- (line: 34) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 26) skipped ---
+//     const a = null;
+//     switch (a) {
+//       case null => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// 
+// --- (line: 34) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 33) skipped ---
+//   {
+//     const a = undefined;
+//     switch (a) {
+//       case undefined => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 41) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 33) skipped ---
+//   {
+//     const a = undefined;
+//     switch (a) {
+//       case undefined => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 41) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 34) skipped ---
+//     const a = undefined;
+//     switch (a) {
+//       case undefined => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// 
+// --- (line: 42) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 34) skipped ---
+//     const a = undefined;
+//     switch (a) {
+//       case undefined => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// 
+// --- (line: 42) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 41) skipped ---
+//   {
+//     const a = [1, 2, 3];
+//     switch (a) {
+//       case [1, 2, 3] => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 49) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 41) skipped ---
+//   {
+//     const a = [1, 2, 3];
+//     switch (a) {
+//       case [1, 2, 3] => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 49) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 42) skipped ---
+//     const a = [1, 2, 3];
+//     switch (a) {
+//       case [1, 2, 3] => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// 
+// --- (line: 50) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 42) skipped ---
+//     const a = [1, 2, 3];
+//     switch (a) {
+//       case [1, 2, 3] => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// 
+// --- (line: 50) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 49) skipped ---
+//   {
+//     const a = { x: 10, y: 20 };
+//     switch (a) {
+//       case { x: 10, y: 20 } => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 57) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 49) skipped ---
+//   {
+//     const a = { x: 10, y: 20 };
+//     switch (a) {
+//       case { x: 10, y: 20 } => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 57) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 50) skipped ---
+//     const a = { x: 10, y: 20 };
+//     switch (a) {
+//       case { x: 10, y: 20 } => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// 
+// --- (line: 58) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 50) skipped ---
+//     const a = { x: 10, y: 20 };
+//     switch (a) {
+//       case { x: 10, y: 20 } => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// 
+// --- (line: 58) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 57) skipped ---
+//   {
+//     const a = { x: 10, y: 20 };
+//     const r = switch (a) {
+//       case { x: 10, y: 20 } => JSON./*GOTO DEF*/[|stringify|](a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 65) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 57) skipped ---
+//   {
+//     const a = { x: 10, y: 20 };
+//     const r = switch (a) {
+//       case { x: 10, y: 20 } => JSON.[|stringify|]/*GOTO DEF*/(a);
+//       case _ => JSON.stringify(_);
+//     };
+//   }
+// --- (line: 65) skipped ---
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 58) skipped ---
+//     const a = { x: 10, y: 20 };
+//     const r = switch (a) {
+//       case { x: 10, y: 20 } => JSON.stringify(a);
+//       case _ => JSON./*GOTO DEF*/[|stringify|](_);
+//     };
+//   }
+// };
+// 
+// main();
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 58) skipped ---
+//     const a = { x: 10, y: 20 };
+//     const r = switch (a) {
+//       case { x: 10, y: 20 } => JSON.stringify(a);
+//       case _ => JSON.[|stringify|]/*GOTO DEF*/(_);
+//     };
+//   }
+// };
+// 
+// main();
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]

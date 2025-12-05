@@ -347,11 +347,8 @@ import {
     updateSourceFile,
     UserPreferences,
     VariableDeclaration,
-    CallExpression,
-    isCallExpression,
-    isArrowFunction,
-    isExpressionStatement,
     ExtendedNodeFlags,
+    isCallExpression,
 } from "./_namespaces/ts.js";
 import * as NavigateTo from "./_namespaces/ts.NavigateTo.js";
 import * as NavigationBar from "./_namespaces/ts.NavigationBar.js";
@@ -516,11 +513,13 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     scanner.setLanguageVariant(languageVariant);
     let pos = node.pos;
     const processNode = (child: Node) => {
+        // Debug.log(`--------------   processNode: currPos=${pos}, child=${Debug.formatSyntaxKind(child.kind)}, child.pos=[${child.pos}, ${child.end}], child.text='${child.getText()}'`);
         addSyntheticNodes(children, pos, child.pos, node);
         children.push(child);
         pos = child.end;
     };
     const processNodes = (nodes: NodeArray<Node>) => {
+        // Debug.log(`--------------   processNodes: currPos=${pos}, children.pos=[${nodes.pos}, ${nodes.end}], children.text='${nodes.map(_ => _.getText()).join(", ")}'`);
         addSyntheticNodes(children, pos, nodes.pos, node);
         children.push(createSyntaxList(nodes, node));
         pos = nodes.end;
@@ -531,24 +530,33 @@ function createChildren(node: Node, sourceFile: SourceFileLike | undefined): rea
     // For that to work, the jsdoc comments should still be the leading trivia of the first child.
     // Restoring the scanner position ensures that.
     pos = node.pos;
-    node.forEachChild(processNode, processNodes);
+    // Debug.log(`-------------- createChildren: parent=${Debug.formatSyntaxKind(node.kind)}, parent.pos=[${node.pos}, ${node.end}], parent.text='${node.getText()}'`);
+    if (isPipeExpression(node) && isCallExpression(node)) {
+        processNodes(node.arguments);
+        processNode(node.expression);
+    } else {
+        node.forEachChild(processNode, processNodes);
+    }
     addSyntheticNodes(children, pos, node.end, node);
     scanner.setText(undefined);
     scanner.setLanguageVariant(LanguageVariant.Standard);
     return children;
 }
 
-function isBindOrPipeExpression(parent: Node): boolean {
-    return (parent.extendedFlags & ExtendedNodeFlags.IsInMonadComprehension) !== 0
-        || (parent.extendedFlags & ExtendedNodeFlags.IsPipe) !== 0;
+function isPipeExpression(parent: Node): boolean {
+    return (parent.extendedFlags & ExtendedNodeFlags.IsPipe) !== 0;
 }
 
 function addSyntheticNodes(nodes: Node[], pos: number, end: number, parent: Node): void {
+    // Debug.log(`--------------     addSyntheticNodes 1: text='${scanner.getTokenText()}' parent=${Debug.formatSyntaxKind(parent.kind)}, parent.pos=[${parent.pos}, ${parent.end}], scanning pos=[${pos}, ${end}]`);
     scanner.resetTokenState(pos);
+    // Debug.log(`--------------     addSyntheticNodes 2: text='${scanner.getTokenText()}' parent=${Debug.formatSyntaxKind(parent.kind)}, parent.pos=[${parent.pos}, ${parent.end}], scanning pos=[${pos}, ${end}]`);
     while (pos < end) {
+        // Debug.log(`--------------       addSyntheticNodes 3: text='${scanner.getTokenText()}' parent=${Debug.formatSyntaxKind(parent.kind)}, parent.pos=[${parent.pos}, ${parent.end}], scanning pos=[${pos}, ${end}]`);
         const token = scanner.scan();
         const textPos = scanner.getTokenEnd();
-        if (!(isBindOrPipeExpression(parent) && textPos >= pos) && textPos <= end) {
+        if (textPos <= end) {
+            // Debug.log(`--------------       addSyntheticNodes 4: textPos=${textPos}, end=${end}`);
             if (token === SyntaxKind.Identifier) {
                 if (hasTabstop(parent)) {
                     continue;

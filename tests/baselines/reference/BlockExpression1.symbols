@@ -1,97 +1,125 @@
 //// [tests/cases/compiler/BlockExpression1.ts] ////
 
 === BlockExpression1.ts ===
-{
-  const r = &{
->r : Symbol(r, Decl(BlockExpression1.ts, 1, 7))
+&{
+  const x = 1;
+>x : Symbol(x, Decl(BlockExpression1.ts, 1, 7))
 
+  const y = 2;
+>y : Symbol(y, Decl(BlockExpression1.ts, 2, 7))
+
+  return x + y;
+>x : Symbol(x, Decl(BlockExpression1.ts, 1, 7))
+>y : Symbol(y, Decl(BlockExpression1.ts, 2, 7))
+
+};
+
+{
+  &{
     const x = 1;
->x : Symbol(x, Decl(BlockExpression1.ts, 2, 9))
+>x : Symbol(x, Decl(BlockExpression1.ts, 8, 9))
 
     const y = 2;
->y : Symbol(y, Decl(BlockExpression1.ts, 3, 9))
+>y : Symbol(y, Decl(BlockExpression1.ts, 9, 9))
 
     return x + y;
->x : Symbol(x, Decl(BlockExpression1.ts, 2, 9))
->y : Symbol(y, Decl(BlockExpression1.ts, 3, 9))
+>x : Symbol(x, Decl(BlockExpression1.ts, 8, 9))
+>y : Symbol(y, Decl(BlockExpression1.ts, 9, 9))
+
+  };
+}
+
+{
+  const r = &{
+>r : Symbol(r, Decl(BlockExpression1.ts, 15, 7))
+
+    const x = 1;
+>x : Symbol(x, Decl(BlockExpression1.ts, 16, 9))
+
+    const y = 2;
+>y : Symbol(y, Decl(BlockExpression1.ts, 17, 9))
+
+    return x + y;
+>x : Symbol(x, Decl(BlockExpression1.ts, 16, 9))
+>y : Symbol(y, Decl(BlockExpression1.ts, 17, 9))
 
   };
 }
 
 {
   const r = async &{
->r : Symbol(r, Decl(BlockExpression1.ts, 9, 7))
+>r : Symbol(r, Decl(BlockExpression1.ts, 23, 7))
 
     const x = await Promise.resolve(1);
->x : Symbol(x, Decl(BlockExpression1.ts, 10, 9))
+>x : Symbol(x, Decl(BlockExpression1.ts, 24, 9))
 >Promise.resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
 >Promise : Symbol(Promise, Decl(lib.es5.d.ts, --, --), Decl(lib.es2015.iterable.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.symbol.wellknown.d.ts, --, --), Decl(lib.es2018.promise.d.ts, --, --))
 >resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
 
     const y = await Promise.resolve(2);
->y : Symbol(y, Decl(BlockExpression1.ts, 11, 9))
+>y : Symbol(y, Decl(BlockExpression1.ts, 25, 9))
 >Promise.resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
 >Promise : Symbol(Promise, Decl(lib.es5.d.ts, --, --), Decl(lib.es2015.iterable.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.symbol.wellknown.d.ts, --, --), Decl(lib.es2018.promise.d.ts, --, --))
 >resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --), Decl(lib.es2015.promise.d.ts, --, --))
 
     return x + y;
->x : Symbol(x, Decl(BlockExpression1.ts, 10, 9))
->y : Symbol(y, Decl(BlockExpression1.ts, 11, 9))
+>x : Symbol(x, Decl(BlockExpression1.ts, 24, 9))
+>y : Symbol(y, Decl(BlockExpression1.ts, 25, 9))
 
   };
 }
 
 {
   const a: string = "";
->a : Symbol(a, Decl(BlockExpression1.ts, 17, 7))
+>a : Symbol(a, Decl(BlockExpression1.ts, 31, 7))
 
   const x = 1;
->x : Symbol(x, Decl(BlockExpression1.ts, 18, 7))
+>x : Symbol(x, Decl(BlockExpression1.ts, 32, 7))
 
   const y = 2;
->y : Symbol(y, Decl(BlockExpression1.ts, 19, 7))
+>y : Symbol(y, Decl(BlockExpression1.ts, 33, 7))
 
   const r = switch (a) {
->r : Symbol(r, Decl(BlockExpression1.ts, 20, 7))
->a : Symbol(a, Decl(BlockExpression1.ts, 20, 20))
->a : Symbol(a, Decl(BlockExpression1.ts, 17, 7))
->a : Symbol(a, Decl(BlockExpression1.ts, 20, 20))
+>r : Symbol(r, Decl(BlockExpression1.ts, 34, 7))
+>a : Symbol(a, Decl(BlockExpression1.ts, 34, 20))
+>a : Symbol(a, Decl(BlockExpression1.ts, 31, 7))
+>a : Symbol(a, Decl(BlockExpression1.ts, 34, 20))
 
     case "+" => &{
->case "+" => : Symbol(case "+" =>, Decl(BlockExpression1.ts, 20, 24))
+>case "+" => : Symbol(case "+" =>, Decl(BlockExpression1.ts, 34, 24))
 
       const z = x + y;
->z : Symbol(z, Decl(BlockExpression1.ts, 22, 11))
->x : Symbol(x, Decl(BlockExpression1.ts, 18, 7))
->y : Symbol(y, Decl(BlockExpression1.ts, 19, 7))
+>z : Symbol(z, Decl(BlockExpression1.ts, 36, 11))
+>x : Symbol(x, Decl(BlockExpression1.ts, 32, 7))
+>y : Symbol(y, Decl(BlockExpression1.ts, 33, 7))
 
       return z;
->z : Symbol(z, Decl(BlockExpression1.ts, 22, 11))
+>z : Symbol(z, Decl(BlockExpression1.ts, 36, 11))
 
 
->a : Symbol(a, Decl(BlockExpression1.ts, 20, 20))
+>a : Symbol(a, Decl(BlockExpression1.ts, 34, 20))
 
     case "+" => &{
       const z = x + y;
       return z;
     };
     case "*" => &{
->case "*" => : Symbol(case "*" =>, Decl(BlockExpression1.ts, 24, 6))
+>case "*" => : Symbol(case "*" =>, Decl(BlockExpression1.ts, 38, 6))
 
       const z = x * y;
->z : Symbol(z, Decl(BlockExpression1.ts, 26, 11))
->x : Symbol(x, Decl(BlockExpression1.ts, 18, 7))
->y : Symbol(y, Decl(BlockExpression1.ts, 19, 7))
+>z : Symbol(z, Decl(BlockExpression1.ts, 40, 11))
+>x : Symbol(x, Decl(BlockExpression1.ts, 32, 7))
+>y : Symbol(y, Decl(BlockExpression1.ts, 33, 7))
 
       return z;
->z : Symbol(z, Decl(BlockExpression1.ts, 26, 11))
+>z : Symbol(z, Decl(BlockExpression1.ts, 40, 11))
 
     };
     case _ => &{
->_ : Symbol(_, Decl(BlockExpression1.ts, 29, 9))
+>_ : Symbol(_, Decl(BlockExpression1.ts, 43, 9))
 
 
->a : Symbol(a, Decl(BlockExpression1.ts, 20, 20))
+>a : Symbol(a, Decl(BlockExpression1.ts, 34, 20))
 
     case "+" => &{
       const z = x + y;

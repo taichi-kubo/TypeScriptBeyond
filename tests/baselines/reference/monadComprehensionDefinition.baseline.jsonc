@@ -1,0 +1,765 @@
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 3) skipped ---
+// 
+// const main = async () => {
+//   do (flatMap) {
+//     const now = new /*GOTO DEF*/[|Date|]();
+//     res <- of(new Date());
+//     x <- of(new Date());
+//     const a = new Date();
+// --- (line: 11) skipped ---
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 3) skipped ---
+// 
+// const main = async () => {
+//   do (flatMap) {
+//     const now = new [|Date|]/*GOTO DEF*/();
+//     res <- of(new Date());
+//     x <- of(new Date());
+//     const a = new Date();
+// --- (line: 11) skipped ---
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 4) skipped ---
+// const main = async () => {
+//   do (flatMap) {
+//     const now = new Date();
+//     res <- of(new /*GOTO DEF*/[|Date|]());
+//     x <- of(new Date());
+//     const a = new Date();
+//     of(JSON.stringify(a));
+// --- (line: 12) skipped ---
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 4) skipped ---
+// const main = async () => {
+//   do (flatMap) {
+//     const now = new Date();
+//     res <- of(new [|Date|]/*GOTO DEF*/());
+//     x <- of(new Date());
+//     const a = new Date();
+//     of(JSON.stringify(a));
+// --- (line: 12) skipped ---
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 5) skipped ---
+//   do (flatMap) {
+//     const now = new Date();
+//     res <- of(new Date());
+//     x <- of(new /*GOTO DEF*/[|Date|]());
+//     const a = new Date();
+//     of(JSON.stringify(a));
+//   };
+// --- (line: 13) skipped ---
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 5) skipped ---
+//   do (flatMap) {
+//     const now = new Date();
+//     res <- of(new Date());
+//     x <- of(new [|Date|]/*GOTO DEF*/());
+//     const a = new Date();
+//     of(JSON.stringify(a));
+//   };
+// --- (line: 13) skipped ---
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 6) skipped ---
+//     const now = new Date();
+//     res <- of(new Date());
+//     x <- of(new Date());
+//     const a = new /*GOTO DEF*/[|Date|]();
+//     of(JSON.stringify(a));
+//   };
+// };
+// 
+// main();
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+// declare var Math: Math;
+// 
+// /** Enables basic storage and retrieval of dates and times. */
+// interface [|{| defId: 0 |}Date|] {
+//     /** Returns a string representation of a date. The format of the string depends on the locale. */
+//     toString(): string;
+//     /** Returns a date as a string value. */
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+// }
+// 
+// interface DateConstructor {
+//     [|{| defId: 3 |}new (): Date;|]
+//     new (value: number | string): Date;
+//     /**
+//      * Creates a new Date.
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     now(): number;
+// }
+// 
+// declare var [|{| defId: 1 |}Date|]: DateConstructor;
+// 
+// interface RegExpMatchArray extends Array<string> {
+//     /**
+// --- (line: --) skipped ---
+
+// --- (line: --) skipped ---
+//     toLocaleString(locales?: string | string[], options?: Intl.NumberFormatOptions): string;
+// }
+// 
+// interface [|{| defId: 2 |}Date|] {
+//     /**
+//      * Converts a date and time to a string by using the current or specified locale.
+//      * @param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 6) skipped ---
+//     const now = new Date();
+//     res <- of(new Date());
+//     x <- of(new Date());
+//     const a = new [|Date|]/*GOTO DEF*/();
+//     of(JSON.stringify(a));
+//   };
+// };
+// 
+// main();
+
+  // === Details ===
+  [
+   {
+    "defId": 0,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 1,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 2,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   },
+   {
+    "defId": 3,
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 7) skipped ---
+//     res <- of(new Date());
+//     x <- of(new Date());
+//     const a = new Date();
+//     of(JSON./*GOTO DEF*/[|stringify|](a));
+//   };
+// };
+// 
+// main();
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]
+
+
+
+// === goToDefinition ===
+// === /home/src/tslibs/TS/Lib/lib.d.ts ===
+// --- (line: --) skipped ---
+//      * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//      * @throws {TypeError} If a circular reference or a BigInt value is found.
+//      */
+//     [|stringify|](value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+//     /**
+//      * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//      * @param value A JavaScript value, usually an object or array, to be converted.
+// --- (line: --) skipped ---
+
+// === /user/username/projects/monad/src/main.ts ===
+// --- (line: 7) skipped ---
+//     res <- of(new Date());
+//     x <- of(new Date());
+//     const a = new Date();
+//     of(JSON.[|stringify|]/*GOTO DEF*/(a));
+//   };
+// };
+// 
+// main();
+
+  // === Details ===
+  [
+   {
+    "containerKind": "",
+    "containerName": "",
+    "kind": "",
+    "name": ""
+   }
+  ]

@@ -69,7 +69,6 @@ import {
     transformJsx,
     transformLegacyDecorators,
     transformModule,
-    transformMonadComprehension,
     transformSystemModule,
     transformTypeScript,
     VariableDeclaration,

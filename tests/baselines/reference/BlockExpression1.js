@@ -1,6 +1,20 @@
 //// [tests/cases/compiler/BlockExpression1.ts] ////
 
 //// [BlockExpression1.ts]
+&{
+  const x = 1;
+  const y = 2;
+  return x + y;
+};
+
+{
+  &{
+    const x = 1;
+    const y = 2;
+    return x + y;
+  };
+}
+
 {
   const r = &{
     const x = 1;
@@ -37,6 +51,18 @@
 }
 
 //// [BlockExpression1.js]
+(() => {
+    const x = 1;
+    const y = 2;
+    return x + y;
+})();
+{
+    (() => {
+        const x = 1;
+        const y = 2;
+        return x + y;
+    })();
+}
 {
     const r = (() => {
         const x = 1;

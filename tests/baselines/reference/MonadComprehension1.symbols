@@ -60,10 +60,10 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >r : Symbol(r, Decl(MonadComprehension1.ts, 13, 7))
 
     const a = 1;
->a : Symbol(a, Decl(MonadComprehension1.ts, 13, 26))
+>a : Symbol(a, Decl(MonadComprehension1.ts, 14, 4))
 
     const b = 2;
->b : Symbol(b, Decl(MonadComprehension1.ts, 14, 16))
+>b : Symbol(b, Decl(MonadComprehension1.ts, 15, 4))
 
 
 >flatMap : Symbol(flatMap, Decl(MonadComprehension1.ts, 9, 5))
@@ -75,7 +75,7 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >x : Symbol(x, Decl(MonadComprehension1.ts, 15, 16))
 
     const c = 3;
->c : Symbol(c, Decl(MonadComprehension1.ts, 16, 15))
+>c : Symbol(c, Decl(MonadComprehension1.ts, 17, 4))
 
 
 >flatMap : Symbol(flatMap, Decl(MonadComprehension1.ts, 9, 5))
@@ -89,7 +89,7 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >y : Symbol(y, Decl(MonadComprehension1.ts, 17, 16))
 
     const d = 4;
->d : Symbol(d, Decl(MonadComprehension1.ts, 18, 15))
+>d : Symbol(d, Decl(MonadComprehension1.ts, 19, 4))
 
     of(x + y);
 >of : Symbol(of, Decl(MonadComprehension1.ts, 4, 5))
@@ -104,10 +104,10 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >r : Symbol(r, Decl(MonadComprehension1.ts, 25, 7))
 
     const a = 1
->a : Symbol(a, Decl(MonadComprehension1.ts, 25, 26))
+>a : Symbol(a, Decl(MonadComprehension1.ts, 26, 4))
 
     const b = 2
->b : Symbol(b, Decl(MonadComprehension1.ts, 26, 15))
+>b : Symbol(b, Decl(MonadComprehension1.ts, 27, 4))
 
 
 >flatMap : Symbol(flatMap, Decl(MonadComprehension1.ts, 9, 5))
@@ -119,7 +119,7 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >x : Symbol(x, Decl(MonadComprehension1.ts, 27, 15))
 
     const c = 3
->c : Symbol(c, Decl(MonadComprehension1.ts, 28, 14))
+>c : Symbol(c, Decl(MonadComprehension1.ts, 29, 4))
 
 
 >flatMap : Symbol(flatMap, Decl(MonadComprehension1.ts, 9, 5))
@@ -133,7 +133,7 @@ const flatMap = <A, B>(self: Option<A>, f: (a: A) => Option<B>): Option<B> =>
 >y : Symbol(y, Decl(MonadComprehension1.ts, 29, 15))
 
     const d = 4
->d : Symbol(d, Decl(MonadComprehension1.ts, 30, 14))
+>d : Symbol(d, Decl(MonadComprehension1.ts, 31, 4))
 
     of(x + y)
 >of : Symbol(of, Decl(MonadComprehension1.ts, 4, 5))
